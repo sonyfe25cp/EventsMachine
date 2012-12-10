@@ -1,5 +1,7 @@
 *.class
-
+gossip-server/target/*
+gossip/target/*
+target/*
 # Package Files #
 *.jar
 *.war

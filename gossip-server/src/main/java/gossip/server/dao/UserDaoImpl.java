@@ -11,6 +11,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import edu.bit.dlde.utils.DLDELogger;
 
+import gossip.server.commons.DBCommons;
 import gossip.server.model.User;
 
 /**
@@ -46,13 +47,7 @@ public class UserDaoImpl implements UserDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("123iop");
-			dataSource = basicDataSource;
-			logger.info("Page:UserDaoImpl,problem:dataSource=NULL");
+			dataSource = DBCommons.getDataSource();
 		}
 	}
 	
