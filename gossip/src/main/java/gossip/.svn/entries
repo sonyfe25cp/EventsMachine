@@ -1,0 +1,126 @@
+10
+
+dir
+1354
+http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip/src/main/java/gossip
+http://dlde.at.bitunion.org/svn/lab
+
+
+
+2012-12-10T08:36:56.100441Z
+1353
+yulong
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+5a654198-3d86-47d7-a9aa-6e7e098925f5
+
+Boot.java
+file
+
+
+
+
+2012-12-10T08:47:26.000000Z
+414fe7a64ab3d129786343514f7cbac1
+2012-10-19T05:46:35.463045Z
+1229
+chenjie
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+471
+
+Handler.java
+file
+
+
+
+
+2012-12-10T08:47:26.000000Z
+cdcdd80f71936ad7f82b6d0f75ce4fcd
+2012-10-19T05:46:35.463045Z
+1229
+chenjie
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+238
+
+crawl
+dir
+
+dao
+dir
+
+event
+dir
+
+index
+dir
+
+parse
+dir
+
+queryExpansion
+dir
+
+sim
+dir
+
+summary
+dir
+
+urlTemp
+dir
+
+utils
+dir
+

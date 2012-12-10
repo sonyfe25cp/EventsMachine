@@ -1,0 +1,36 @@
+package gossip.server.action;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * 控制页面跳转的action
+ * @author shiyulong
+ *
+ */
+@Controller
+public class PageSwitchAction {
+	@RequestMapping(value="/event",method=RequestMethod.GET)
+	public ModelAndView toEvent(@RequestParam("eventId") String eventId){
+		ModelAndView mav = new ModelAndView("event");
+		mav.addObject("eventId", eventId);
+		return mav;
+	}
+	
+	@RequestMapping(value="/newsContent",method=RequestMethod.GET)
+	public ModelAndView toNews(@RequestParam("newsId") String newsId){
+		ModelAndView mav = new ModelAndView("news");
+		mav.addObject("newsId", newsId);
+		return mav;
+	}
+	@RequestMapping(value="/")
+	public ModelAndView toIndex(){
+		ModelAndView mav = new ModelAndView("index");
+		return mav;
+	}
+
+
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+	<rule>
+		<type>news</type>
+		<uri>gn-news-qq</uri>
+		<title>.//*[@id='C-Main-Article-QQ']/div[1]/h1</title>
+		<content>.//*[@id='C-Main-Article-QQ']/div[2]</content>
+		<create_at>.//*[@id='C-Main-Article-QQ']/div[1]/div/div[1]/span[1]</create_at><!--2012年07月07日09:47-->
+		<from_site>.//*[@id='C-Main-Article-QQ']/div[1]/div/div[1]/span[2]/span[1]/a</from_site>
+		<author>.//*[@id='C-Main-Article-QQ']/div[1]/div/div[1]/span[2]/span[3]</author>
+	</rule> 
+</rules>

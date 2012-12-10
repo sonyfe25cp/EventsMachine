@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao
+END
+UserDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lab/!svn/ver/1286/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/UserDao.java
+END
+UserDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/UserDaoImpl.java
+END
+ClickLogDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/lab/!svn/ver/1286/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/ClickLogDao.java
+END
+ClickLogDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/ClickLogDaoImpl.java
+END
+CommentDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/lab/!svn/ver/1286/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/CommentDao.java
+END
+CommentDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/CommentDaoImpl.java
+END

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation=" 
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-autowire="byName">
+
+	<!-- 管理memcached depends-on="eventDAO,logger,messager" -->
+	<bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon"
+		init-method="start" >
+			<property name="eventDAO" ref="eventDAO" />
+			<property name="logger" ref="logger" />
+			<property name="messager" ref="messager" />
+	</bean>
+	
+
+	<!-- relatedEventAction里面要用到EventAction -->
+	<bean id="event" class="gossip.server.action.EventAction" depends-on="logger,memcachedDaemon">
+		<property name="logger" ref="logger" />
+	</bean>
+	
+	<!-- relatedNewsAction里面要用到NewsAction -->
+	<bean id="news" class="gossip.server.action.NewsAction" depends-on="logger,memcachedDaemon">
+		<property name="logger" ref="logger" />
+	</bean>
+	
+	<!-- 用来发信息的socket -->
+	<bean id="messager" class="gossip.index.GossipMessager">
+		<property name="defaultIp" value="127.0.0.1" />
+		<property name="defaultPort" value="7777" />
+	</bean>
+
+	<!-- 自定义的logger -->
+	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger"/>
+	
+
+	<!-- DAO -->
+	<bean id="eventDAO" class="gossip.dao.EventDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="memcachedDaemon" ref="memcachedDaemon"/>
+	</bean>
+	
+	<bean id="hotTermDAO" class="gossip.dao.HotTermDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="newsDAO" class="gossip.dao.NewsDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+		<property name="memcachedDaemon" ref="memcachedDaemon"/>
+	</bean>
+	
+	<bean id="qeDAO" class="gossip.dao.QueryExpansionDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="relatedEventDAO" class="gossip.dao.RelatedEventDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="relatedNewsDAO" class="gossip.dao.RelatedNewsDAO"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 用户Dao -->
+	<bean id="ud" class="gossip.server.dao.UserDaoImpl"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="cd" class="gossip.server.dao.CommentDaoImpl"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="cld" class="gossip.server.dao.ClickLogDaoImpl"
+			init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 配置mysql数据库连接 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<!-- 确定数据源的驱动 -->
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<!-- 确定连接数据库的url -->
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/gossip</value>
+		</property>
+		<!--确定连接数据库的用户名 -->
+		<property name="username">
+			<value>root</value>
+		</property>
+		<!-- 确定连接数据库的密码 -->
+		<property name="password">
+			<value>690514</value>
+		</property>
+	</bean>
+	
+    
+</beans>
+ 

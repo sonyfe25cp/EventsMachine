@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/lab/!svn/ver/1353/gossip-parent/trunk/gossip/src/main/java/gossip/dao
+END
+NewsDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/lab/!svn/ver/1353/gossip-parent/trunk/gossip/src/main/java/gossip/dao/NewsDAO.java
+END
+MemcachedDaemon.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lab/!svn/ver/1352/gossip-parent/trunk/gossip/src/main/java/gossip/dao/MemcachedDaemon.java
+END
+QueryExpansionDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/lab/!svn/ver/1295/gossip-parent/trunk/gossip/src/main/java/gossip/dao/QueryExpansionDAO.java
+END
+MemcachedKeyUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/lab/!svn/ver/1352/gossip-parent/trunk/gossip/src/main/java/gossip/dao/MemcachedKeyUtils.java
+END
+HotTermDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/lab/!svn/ver/1312/gossip-parent/trunk/gossip/src/main/java/gossip/dao/HotTermDAO.java
+END
+EventDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lab/!svn/ver/1353/gossip-parent/trunk/gossip/src/main/java/gossip/dao/EventDAO.java
+END
+IBaseDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/gossip/src/main/java/gossip/dao/IBaseDao.java
+END
+UserDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/lab/!svn/ver/1255/gossip-parent/trunk/gossip/src/main/java/gossip/dao/UserDAO.java
+END
+RelatedNewsDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/lab/!svn/ver/1312/gossip-parent/trunk/gossip/src/main/java/gossip/dao/RelatedNewsDAO.java
+END
+RelatedEventDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/lab/!svn/ver/1312/gossip-parent/trunk/gossip/src/main/java/gossip/dao/RelatedEventDAO.java
+END
+BaseDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/gossip/src/main/java/gossip/dao/BaseDaoImpl.java
+END

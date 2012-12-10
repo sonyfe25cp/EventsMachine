@@ -1,0 +1,5 @@
+isMemcached=0
+expiration=3600
+MemcachedAddr=127.0.0.1:11211
+MemcachedWeight=1
+MemcachedPath=/memcached/memcached -d -m 10 -p 11211 -u root

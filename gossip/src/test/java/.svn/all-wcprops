@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/lab/!svn/ver/1345/gossip-parent/trunk/gossip/src/test/java
+END
+testParseDate.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/lab/!svn/ver/1345/gossip-parent/trunk/gossip/src/test/java/testParseDate.java
+END
+TestReadIndex.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/gossip/src/test/java/TestReadIndex.java
+END
+testChinaNews.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/gossip/src/test/java/testChinaNews.java
+END
+TestParse.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/gossip/src/test/java/TestParse.java
+END

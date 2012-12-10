@@ -1,0 +1,49 @@
+10
+
+dir
+1354
+http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/java/gossip/server
+http://dlde.at.bitunion.org/svn/lab
+delete
+
+
+2012-12-10T08:37:17.770355Z
+1354
+yulong
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+5a654198-3d86-47d7-a9aa-6e7e098925f5
+
+action
+dir
+
+
+
+delete
+
+dao
+dir
+
+
+
+delete
+
+model
+dir
+
+
+
+delete
+

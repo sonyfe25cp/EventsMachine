@@ -1,0 +1,7 @@
+IndexPath=/store/project/gossip/index
+LeftFrontier=0.5
+RightFrontier=0.99
+SimInfoPath=/store/project/gossip/sim-info/
+SimBackupPath=/store/project/gossip/sim-info-bak/
+BackupPath=/store/project/gossip/news-backup/
+NewsPath=/store/project/gossip/news/
