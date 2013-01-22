@@ -15,12 +15,15 @@
     
     <mvc:resources mapping="/img/**" location="/img/" />
     <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/css/admin/**" location="/css/admin" />
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/js/admin/**" location="/js/admin/" />
     <mvc:resources mapping="/eventImg/**" location="/eventImg/" />
 
 	<!-- scan for controllers -->
 	<context:component-scan base-package="gossip.server.action" />
+    <context:component-scan base-package="gossip.server.admin" />
 
 	<!-- InternalResourceViewResolver默认的就是JstlView所以这里就不用配置viewClass了 -->
 	<bean
@@ -30,6 +33,8 @@
 	</bean>
 
 	<!-- Handler Mapping -->
+	
+	
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 		
@@ -37,12 +42,20 @@
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<!-- 配置一下对json数据的转换 -->
 		<property name="messageConverters">
+		    
 			<list>
 				<bean
 					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
 			</list>
 		</property>
 	</bean>
-
+	
+	
+    <!-- 上传拦截，如最大上传值及最小上传值 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes -->
+		<property name="maxUploadSize" value="100000000" />
+	</bean>
 	
 </beans>

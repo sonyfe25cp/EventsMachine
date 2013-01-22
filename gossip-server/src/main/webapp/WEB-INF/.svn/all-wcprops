@@ -1,19 +1,19 @@
 K 25
 svn:wc:ra_dav:version-url
 V 80
-/svn/lab/!svn/ver/1352/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF
+/svn/lab/!svn/ver/1363/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF
 END
 spring3-servlet.xml
 K 25
 svn:wc:ra_dav:version-url
 V 100
-/svn/lab/!svn/ver/1340/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF/spring3-servlet.xml
+/svn/lab/!svn/ver/1363/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF/spring3-servlet.xml
 END
 applicationContext.xml
 K 25
 svn:wc:ra_dav:version-url
 V 103
-/svn/lab/!svn/ver/1352/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF/applicationContext.xml
+/svn/lab/!svn/ver/1363/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF/applicationContext.xml
 END
 web.xml
 K 25

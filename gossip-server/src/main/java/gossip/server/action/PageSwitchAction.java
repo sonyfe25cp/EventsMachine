@@ -19,6 +19,12 @@ public class PageSwitchAction {
 		mav.addObject("eventId", eventId);
 		return mav;
 	}
+	@RequestMapping(value="/eventmodify",method=RequestMethod.GET)
+	public ModelAndView toEventModify(@RequestParam("eventId") String eventId){
+		ModelAndView mav = new ModelAndView("event_modify");
+		mav.addObject("eventId", eventId);
+		return mav;
+	}
 	
 	@RequestMapping(value="/newsContent",method=RequestMethod.GET)
 	public ModelAndView toNews(@RequestParam("newsId") String newsId){
@@ -31,6 +37,14 @@ public class PageSwitchAction {
 		ModelAndView mav = new ModelAndView("index");
 		return mav;
 	}
-
+	//跳转到事件修改页面
+	@RequestMapping(value="/eventManage",method=RequestMethod.GET)
+	public ModelAndView toEventManage(@RequestParam("eventId") String eventId,
+			@RequestParam(value="status",required=false,defaultValue="") String status){
+		ModelAndView mav = new ModelAndView("eventManage");
+		mav.addObject("eventId", eventId);
+		mav.addObject("status", status);
+		return mav;
+	}
 
 }

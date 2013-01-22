@@ -1,18 +1,18 @@
 10
 
 dir
-1354
+1410
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip/src/main/java/gossip/event
 http://dlde.at.bitunion.org/svn/lab
 
 
 
-2012-12-06T07:48:35.109549Z
-1343
-chenjie
+2012-12-11T08:17:50.591103Z
+1356
+linshuang
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -66,33 +66,12 @@ file
 
 
 
-2012-12-10T08:47:26.000000Z
-631654538e14c2b24d925091f8879991
-2012-12-06T07:48:35.109549Z
-1343
-chenjie
+
+ceb01adab03876f7a0f561d070be2145
+2012-12-11T08:17:50.591103Z
+1356
+linshuang
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5201
 
 MockRecommendedHndler.java
 file

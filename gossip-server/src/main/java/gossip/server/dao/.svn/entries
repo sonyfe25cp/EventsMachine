@@ -1,15 +1,15 @@
 10
 
 dir
-1354
+1410
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao
 http://dlde.at.bitunion.org/svn/lab
 
 
 
-2012-11-14T01:17:30.838920Z
-1299
-yulong
+2012-12-10T10:31:00.617890Z
+1355
+chenjie
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2012-12-10T08:47:27.000000Z
-9d433373551659d30cedf1efa15357c8
-2012-11-14T01:17:30.838920Z
-1299
-yulong
+2012-12-10T09:55:10.000000Z
+9d0e8737319227af579701c1a8cd4db9
+2012-12-10T10:31:00.617890Z
+1355
+chenjie
 
 
 
@@ -92,7 +92,7 @@ yulong
 
 
 
-3340
+2985
 
 CommentDao.java
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2012-12-10T08:47:27.000000Z
-82d69dfed590290707ee8e961d77ad25
-2012-11-14T01:17:30.838920Z
-1299
-yulong
+2012-12-10T09:55:06.000000Z
+555142c83c54b3839ea09ce0026594ff
+2012-12-10T10:31:00.617890Z
+1355
+chenjie
 
 
 
@@ -160,7 +160,7 @@ yulong
 
 
 
-3448
+3145
 
 UserDao.java
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2012-12-10T08:47:27.000000Z
-503e621a4dc57e0bb70f750bba55a91e
-2012-11-14T01:17:30.838920Z
-1299
-yulong
+2012-12-10T09:55:17.000000Z
+a11bfec672d3b65c71b2bce2abda3183
+2012-12-10T10:31:00.617890Z
+1355
+chenjie
 
 
 
@@ -228,5 +228,5 @@ yulong
 
 
 
-6390
+6090
 

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/lab/!svn/ver/1365/gossip-parent/trunk
+END
+sql
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/sql
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/.classpath
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/.project
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/.gitignore
+END
+pom.xml
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/pom.xml
+END
+readme
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/lab/!svn/ver/1229/gossip-parent/trunk/readme
+END

@@ -1,18 +1,18 @@
 10
 
 dir
-1354
+1410
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip/src/main/java/gossip/dao
 http://dlde.at.bitunion.org/svn/lab
 
 
 
-2012-12-10T08:36:56.100441Z
-1353
+2012-12-16T13:38:19.485387Z
+1357
 yulong
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -66,33 +66,12 @@ file
 
 
 
-2012-12-10T08:47:26.000000Z
-a519d713cb11ead73e5932cb0bb88f9f
-2012-12-10T08:36:56.100441Z
-1353
+
+d9328687726cd3a933ebb49ac831eb4f
+2012-12-16T13:38:19.485387Z
+1357
 yulong
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-18934
 
 HotTermDAO.java
 file

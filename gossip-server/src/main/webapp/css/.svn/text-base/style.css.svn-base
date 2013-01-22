@@ -1,4 +1,4 @@
-body,input,button{border:none;font:12px/20px  Tahoma, Geneva, sans-serif;color:#666;background-color: #EFEFEF;}
+body{border:none;font:12px/20px  Tahoma, Geneva, sans-serif;color:#666;background-color: #EFEFEF;}
 *::-moz-selection, ::selection {
 color: black;
 background: #6CF;
@@ -161,6 +161,37 @@ line-height: 15px;
 	text-indent: -9999em;
 }
 .relate-events{padding: 10px inherit;}
+#page {
+
+	padding-left:60px;
+}
+
+/*admin*/
+#eventModifyButton{
+	border:none;
+	font:12px/20px  Tahoma, Geneva, sans-serif;
+	color:#0099FF;
+	background-color: #EFEFEF;
+}
+#newsDelete{
+	margin-left:20px;
+	
+	
+}
+#uploadFile{
+	margin-top:5px;
+}
+#imageStatus{
+	margin-top:-23px;
+	margin-left:350px;
+	color:#0099FF;
+}
+#submitImg{
+	margin-top:5px;
+}
+input{
+	
+}
 
 
 /*news*/
@@ -289,4 +320,15 @@ color: white;
 .tb-desc{
 	height: 50px;
 }
-
+#page .pc{
+	border-bottom:#e7ecf0 1 px solid
+	border-left:#e7ecf0 1px solid
+	width:22px
+	height:22px
+	border-top:#e7ecf0 1 px solid
+	cursor:pointer
+	border-right:#e7ecf0 1 px solid
+}
+.disabled{
+	background: ##DD4B39;
+}

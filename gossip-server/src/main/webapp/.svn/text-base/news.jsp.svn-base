@@ -116,22 +116,10 @@
 		
 		<div id="container-inner">
 			<div class="news-title">
-				<h2 style="text-align: center;">西哈努克灵柩启程回国 新华门及外交部降半旗</h2>
-				<p style="text-align: center;"><span>2012年10月17日10:08</span> 
-					<span class="news-source">新闻来源:<a href="http://news.qq.com/a/20121017/000750.htm">腾讯网</a></span>
-				</p>
+				
 			</div>
 			<div class="news-content">
-				<p align="center"><img alt="西哈努克灵柩启程 新华门及外交部降半旗" src="http://img1.gtimg.com/news/pics/hv1/183/78/1171/76164348.jpg"></p>
-				<p align="center"><span style="FONT-SIZE: 12px">10月17日，为哀悼柬埔寨前国王诺罗敦·西哈努克逝世，新华门、天安门广场降半旗致哀。【</span><a target="_blank" _fcksavedurl="http://news.qq.com/a/20121017/000683.htm#p=1" href="http://news.qq.com/a/20121017/000683.htm#p=1"><span style="FONT-SIZE: 12px">查看高清图集</span></a><span style="FONT-SIZE: 12px">】</span></p>
-				<br>
-				<p style="TEXT-INDENT: 2em">据央视记者现场报道，西哈努克灵柩目前已经离开北京医院，经长安街启程前往首都机场。央视记者表示，据了解，长安街、新华门及<!--keyword--><span class="infoMblog"><a class="a-tips-Article-QQ" href="http://t.qq.com/wj_xlt#pref=qqcom.keyword" rel="wj_xlt" reltitle="外交部" target="_blank"><!--/keyword-->外交部<!--keyword--></a></span><!--/keyword-->等地都已经降了半旗。</p>
-				<p style="TEXT-INDENT: 2em"><strong>国务委员戴秉国将护送西哈努克灵柩返回柬埔寨</strong></p>
-				<p style="TEXT-INDENT: 2em">中新网10月17日电 据外交部网站消息，外交部发言人洪磊宣布，国务委员戴秉国将于10月17日护送柬埔寨太皇西哈努克灵柩返回柬埔寨。</p>
-				<p style="TEXT-INDENT: 2em">其后，西哈努克的灵柩将经过金边的俄罗斯大道和独立碑广场，最后运抵金边王宫。</p>
-				<p style="TEXT-INDENT: 2em">金边当地的电视台预计，期间将有至少10万柬埔寨民众夹道迎接西哈努克的灵柩。</p>
-				<p style="TEXT-INDENT: 2em">被誉为柬埔寨宪政之父、独立之父的西哈努克，他的逝世令柬埔寨民众悲痛万分。</p>
-				<p style="TEXT-INDENT: 2em">当地时间16日下午6时许，中新社记者在金边王宫广场看到，广场上已挂起西哈努克的大幅画像。广场上聚集的几千名柬埔寨民众，面色沉重，手捧白色莲花，焚香祈祷西哈努克太皇遗体平安抵达金边。</p>
+				
 			</div>
              <div id="comment">
 	            <p style="font-size:22px;color:#3366FF;">评论区：</P>
@@ -145,10 +133,8 @@
 				<div class="row-wrapper">
 					<h3 class="sub">相关新闻</h3>
 					<div class="relate-news">
-						<a href="#" class="span3">相关新闻1 </a>
-						<a href="#" class="span3">相关新闻2 </a>
-						<a href="#" class="span3">相关新闻3 </a>
-						<a href="#" class="span3">相关新闻4</a>
+						<a href="#" class="span3"> </a>
+
 					</div>
 				</div>
 			</div>

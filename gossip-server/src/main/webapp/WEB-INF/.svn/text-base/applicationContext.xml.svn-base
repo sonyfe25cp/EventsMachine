@@ -123,7 +123,7 @@
 		</property>
 		<!-- 确定连接数据库的密码 -->
 		<property name="password">
-			<value>690514</value>
+			<value>1234</value>
 		</property>
 	</bean>
 	

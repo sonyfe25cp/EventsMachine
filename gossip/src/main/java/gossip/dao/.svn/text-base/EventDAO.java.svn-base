@@ -544,7 +544,7 @@ public class EventDAO {
 		}
 	}
 
-	//下面几个函数是管理员对event的修改操作，包括修改标题、摘要，添加、删除新闻，添加图片等；
+	//下面几个函数是管理员对event的修改操作，包括修改标题、摘要、关键词、地点，添加、删除新闻，添加图片等；
 	final String SQL_UPDATE_TITLE_BY_ID = "update event set title=? where id = ?";
 	/**
 	 * 修改标题
@@ -576,6 +576,39 @@ public class EventDAO {
 		
 		
 	}
+	
+	final String SQL_UPDATE_LOCATION_BY_ID = "update event set started_location=? where id = ?";
+	/**
+	 * 修改标题
+	 * @param id
+	 * @param location
+	 */
+	public void updateLocation(int id,String location){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(SQL_UPDATE_LOCATION_BY_ID);
+			pstmt.setString(1, location);
+			pstmt.setInt(2, id);
+			pstmt.execute(); 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+	
 	final String SQL_UPDATE_SUMMARY_BY_ID = "update event set content_abstract=? where id = ?";
 	/**
 	 * 修改摘要
@@ -635,7 +668,7 @@ public class EventDAO {
 			}
 			for(String news:newsList){
 				if(!pagesList.contains(news))
-					pages+=";"+news;
+					pages+=news+";";
 			}
 			pstmt = conn.prepareStatement(SQL_ADD_NEWS_BY_ID);
 			pstmt.setInt(2, id);
@@ -656,6 +689,59 @@ public class EventDAO {
 		}
 		
 	}
+	
+	final String SQL_SELECT_KEYWORDS_BY_ID = "select keywords from event where id = ?";
+	final String SQL_ADD_KEYWORDS_BY_ID = "update event set keywords=? where id = ?";
+	/**
+	 * 添加新闻
+	 * @param id
+	 * @param keywords
+	 */
+	public void addKeywords(int id,String keywords){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String oldKeywords=null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(SQL_SELECT_KEYWORDS_BY_ID);
+			pstmt.setInt(1, id);
+			pstmt.execute();
+			rs=pstmt.getResultSet();
+			if(rs.next()){
+				oldKeywords=rs.getString("keywords");
+			}
+			ArrayList<String> keywordsList=new ArrayList<String>();
+			String[] oldKeywordsList=oldKeywords.split(";");
+			String[] newKeywordsList=keywords.split(";");
+			for(String key:oldKeywordsList){
+				keywordsList.add(key);
+			}
+			for(String ss:newKeywordsList){
+				if(!keywordsList.contains(ss))
+					oldKeywords+=ss+";";
+			}
+			oldKeywords+=";";
+			pstmt = conn.prepareStatement(SQL_ADD_KEYWORDS_BY_ID);
+			pstmt.setInt(2, id);
+			pstmt.setString(1, oldKeywords);
+			pstmt.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	final String SQL_DELETE_NEWS_BY_ID = "update event set pages=? where id = ?";
 	/**
 	 * 删除不相关新闻
@@ -681,12 +767,13 @@ public class EventDAO {
 			for(String page:allPages){
 				if(!page.equals(newsId)){
 					if(newPages==null)
-						newPages=page;
+						newPages=page+";";
 					else
-						newPages+=";"+page;
+						newPages+=page+";";
 				}
 					
 			}
+			
 
 			pstmt = conn.prepareStatement(SQL_DELETE_NEWS_BY_ID);
 			pstmt.setInt(2, id);
@@ -723,7 +810,7 @@ public class EventDAO {
 //		set.add(e);
 //		dao.updateEvents(set);
 //		dao.updateTitle(1, "陕西榆林20辆超标公车被拍卖");
-		dao.deleteNews(1, "25");
+		dao.addKeywords(1, "韩国：1.0");
 		
 	}
 }

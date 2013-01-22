@@ -1,7 +1,7 @@
 10
 
 dir
-1354
+1365
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/resources
 http://dlde.at.bitunion.org/svn/lab
 
@@ -12,7 +12,7 @@ http://dlde.at.bitunion.org/svn/lab
 linshuang
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 

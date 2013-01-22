@@ -1,0 +1,62 @@
+//江小天用到的数据库表，因为格式没规定，所以自己拟了一些格式
+//relatedEvent表
+create table relatedEvent(
+	eventId1 int not null,
+	eventId2 int not null,
+	relevancyValue double DEFAULT 0
+CONSTRAINT event_key PRIMARY KEY (eventId1, eventId2)
+	);
+
+//relatedNews表
+create table relatedNews(
+	newsId1 int not null,
+	newsId2 int not null,
+	relevancyValue double DEFAULT 0
+CONSTRAINT news_key PRIMARY KEY (newsId1, newsId2)
+	);
+	
+//hotKeywords表：关键词应该是没有重复的吧？
+create table hotKeywords(
+	termName varchar(50) primary key,
+	hotValue double DEFAULT 0
+	);
+	
+//hotPeople表：
+create table hotPeople(
+	termName varchar(50) primary key,
+	hotValue double DEFAULT 0
+	);
+	
+//hotLocations表
+create table hotLocations(
+	termName varchar(50) primary key,
+	hotValue double DEFAULT 0
+	);
+
+//clicklog表
+create table clicklog(
+	username varchar(50) primary key,
+	clickTime Date not null,
+	userQuery varchar(200),
+	id int
+	);
+
+//comment表
+create table userComment(
+	username varchar(50) primary key,
+	commentTime Date not null,
+	id int not null,
+	commentText varchar(1000)
+);
+	
+	
+//by shiyulong
+//查寻扩展表，对于events和news先只存放id，取出后进行表的连接查找title和desc
+create table clicklog(
+	query varchar(50) primary key,
+	eventsId varchar(100),//存放相关的events，这里只存放id，并且以字符串的形式存储，id与id之间用‘，’分割
+	newsId varchar(100),//同eventsId
+	expansionTerm varchar(100)
+	
+	);
+//

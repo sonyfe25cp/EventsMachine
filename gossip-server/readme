@@ -1,0 +1,31 @@
+************************************************************************************
+gossip-parent纯粹是一个放gossip和gossip-server的文件夹，它并不是一个maven意义上的parent。
+个人认为也没有必要将其后两者分为两个module，相反这样使得两者独立开来。
+************************************************************************************
+gossip：
+	后台处理新闻的工程,src/main/resources/sql里面有建表用的sql命令。
+	A.SimilarityCalBoot计算当天的新闻的相似度并保存到sim-info目录
+		SimilarityCalBoot scb = new SimilarityCalBoot();
+		scb.run();//由于种种原因当前是一天跑一次，强烈建议修改索引时的int_date那个域
+	B.EventDetectBoot用来获取各种事件，从sim-info目录读最新的相似读文件，检测事件，将事件入库，
+	然后删除相似度文件。很多对应事件的计算工作被分排各种EventHandler，这里需要后续实现。
+		EventDetectBoot etb = EventDetectBoot.getMockInstance();
+		etb.run();//每一小时跑一次，且只使用title检测事件
+	C.IndexDaemon索引的守护进程。期望实现的功能有2：1能够读取通过socket传递过来的docid来读出文档
+	并返回；2能够自动检测文件夹并建立索引，归档旧文件等等工作(暂无)
+		IndexDaemon indexDaemon = new IndexDaemon();
+		indexDaemon.run();
+	
+************************************************************************************
+gossip-server：
+运行前请打开memcached
+	A.服务器端工程，主要作用就是http接受请求，返回JSON。例如：
+		localhost:8080/gossip-server/events/set?page=0  //请求10个事件，优先读memcached，page指定第几个10，从0开始
+		localhost:8080/gossip-server/events/db?id=0     //请求一个事件，优先读memcached，id对应数据库里的event id
+		localhost:8080/gossip-server/events/rank?id=0   //请求一个事件，优先读memcached，id对应事件的排名
+		localhost:8080/gossip-server/news/detail?id=0  //请求一个新闻，优先读memcached，否则读索引，id对应索引的文档id
+	B.当前使用memcached将数据news：<"news:docid", newsJSON>和event：<"event:dbId", eventJSON>
+	以及事件的排序rank:<"event-rank":<rankNum,dbId>>缓存(独一份，这么弄保持原子性)。"news:docid""event:rank"是
+	String型键，例如：“news:1024”,“event:101”。前者表示新闻且在索引里面的docid为1024；后者表示事件，且该事件在db里面的id值为101。
+	C.当memcached里面没有news时，发送socket到gossip，通过读索引读取文件（这么做的话，以后要是扩展
+	检索功能就可以更加轻松）然后返回并放入memcached。同理，只是event在找不到时读的是db。

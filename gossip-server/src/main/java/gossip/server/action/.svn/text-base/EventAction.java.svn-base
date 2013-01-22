@@ -61,7 +61,7 @@ public class EventAction {
 	 *            page从0开始，没一页含有X个事件。
 	 * @return 返回一个由JSONArray表示的事件集
 	 */
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject getEventList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
@@ -116,7 +116,27 @@ public class EventAction {
 				logger.debug("erro ranking!");
 			}
 		}
-		result.accumulate("total", eventRanking.size());
+		int total=eventRanking.size();
+		int totalPage=total%10==0?total/10:total/10+1;
+		int pageBegin=pageNo-5>0?pageNo-5:1;
+		int pageEnd;
+		if(totalPage<=11)
+			pageEnd=pageNo;
+		else if(pageNo<=6)
+			pageEnd=10;
+		else{
+			pageEnd=pageNo+4;
+			if(pageEnd>=totalPage){
+				pageBegin=totalPage-limit-1;
+				pageEnd=totalPage-1;
+			}
+
+		}
+			
+
+		result.accumulate("total", total);
+		result.accumulate("pageBegin", pageBegin);
+		result.accumulate("pageEnd", pageEnd);
 		result.accumulate("pageNo", pageNo);
 		result.accumulate("limit", limit);
 		result.accumulate("events", jsonArray);
@@ -168,7 +188,7 @@ public class EventAction {
 	 *            对应数据库里面event的id
 	 * @return 返回一个由JSONArray表示的事件集
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject getEventByDBid(@PathVariable int id) {
 		return eventDAO.getEventJSONById(id);

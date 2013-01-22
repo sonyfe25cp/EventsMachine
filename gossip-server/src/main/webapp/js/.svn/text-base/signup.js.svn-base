@@ -260,7 +260,6 @@ function RepasswordCheck() {
 		var email = document.getElementById('email').value;
 		var data = 'username=' + username + '&password=' + password + '&email=' + email;
 		var url = '/gossip-server/register?' + data;
-		alert(url);
 		/*	$.post(
 	"json_example/logontrue.json",
 	data,
@@ -284,7 +283,6 @@ function RepasswordCheck() {
 			anysc: false,
 			data: data,
 			success: function(result) {
-                 alert("22222222222222");
 				var data = result;
 				if(data.status == "true") {
 					alert("注册成功");

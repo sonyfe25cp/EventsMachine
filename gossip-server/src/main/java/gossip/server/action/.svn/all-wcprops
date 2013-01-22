@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 91
-/svn/lab/!svn/ver/1354/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action
+/svn/lab/!svn/ver/1358/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action
 END
 EventAction.java
 K 25
 svn:wc:ra_dav:version-url
 V 108
-/svn/lab/!svn/ver/1352/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/EventAction.java
+/svn/lab/!svn/ver/1358/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/EventAction.java
 END
 HotTermAction.java
 K 25
@@ -25,13 +25,13 @@ NewsAction.java
 K 25
 svn:wc:ra_dav:version-url
 V 107
-/svn/lab/!svn/ver/1354/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/NewsAction.java
+/svn/lab/!svn/ver/1358/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/NewsAction.java
 END
 PageSwitchAction.java
 K 25
 svn:wc:ra_dav:version-url
 V 113
-/svn/lab/!svn/ver/1328/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/PageSwitchAction.java
+/svn/lab/!svn/ver/1358/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/action/PageSwitchAction.java
 END
 RelatedEventAction.java
 K 25

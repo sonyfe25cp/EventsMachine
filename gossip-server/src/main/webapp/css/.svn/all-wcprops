@@ -1,7 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 76
-/svn/lab/!svn/ver/1342/gossip-parent/trunk/gossip-server/src/main/webapp/css
+/svn/lab/!svn/ver/1361/gossip-parent/trunk/gossip-server/src/main/webapp/css
+END
+bootstrap-responsive.css
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/lab/!svn/ver/1298/gossip-parent/trunk/gossip-server/src/main/webapp/css/bootstrap-responsive.css
 END
 bootstrap.css
 K 25
@@ -9,21 +15,15 @@ svn:wc:ra_dav:version-url
 V 90
 /svn/lab/!svn/ver/1335/gossip-parent/trunk/gossip-server/src/main/webapp/css/bootstrap.css
 END
-style.css
-K 25
-svn:wc:ra_dav:version-url
-V 86
-/svn/lab/!svn/ver/1342/gossip-parent/trunk/gossip-server/src/main/webapp/css/style.css
-END
 bootstrap.min.css
 K 25
 svn:wc:ra_dav:version-url
 V 94
 /svn/lab/!svn/ver/1298/gossip-parent/trunk/gossip-server/src/main/webapp/css/bootstrap.min.css
 END
-bootstrap-responsive.css
+style.css
 K 25
 svn:wc:ra_dav:version-url
-V 101
-/svn/lab/!svn/ver/1298/gossip-parent/trunk/gossip-server/src/main/webapp/css/bootstrap-responsive.css
+V 86
+/svn/lab/!svn/ver/1361/gossip-parent/trunk/gossip-server/src/main/webapp/css/style.css
 END

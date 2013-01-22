@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 88
-/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao
+/svn/lab/!svn/ver/1355/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao
 END
 UserDao.java
 K 25
@@ -13,7 +13,7 @@ UserDaoImpl.java
 K 25
 svn:wc:ra_dav:version-url
 V 105
-/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/UserDaoImpl.java
+/svn/lab/!svn/ver/1355/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/UserDaoImpl.java
 END
 ClickLogDao.java
 K 25
@@ -25,7 +25,7 @@ ClickLogDaoImpl.java
 K 25
 svn:wc:ra_dav:version-url
 V 109
-/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/ClickLogDaoImpl.java
+/svn/lab/!svn/ver/1355/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/ClickLogDaoImpl.java
 END
 CommentDao.java
 K 25
@@ -37,5 +37,5 @@ CommentDaoImpl.java
 K 25
 svn:wc:ra_dav:version-url
 V 108
-/svn/lab/!svn/ver/1299/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/CommentDaoImpl.java
+/svn/lab/!svn/ver/1355/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao/CommentDaoImpl.java
 END

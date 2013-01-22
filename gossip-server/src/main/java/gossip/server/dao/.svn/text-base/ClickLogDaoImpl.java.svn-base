@@ -1,8 +1,5 @@
 package gossip.server.dao;
 
-import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.model.ClickLog;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +10,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import edu.bit.dlde.utils.DLDELogger;
+import gossip.server.commons.DBCommons;
+import gossip.server.model.ClickLog;
 
 public class ClickLogDaoImpl implements ClickLogDao {
 	private DataSource dataSource;
@@ -40,13 +39,7 @@ public class ClickLogDaoImpl implements ClickLogDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("1234");
-			dataSource = basicDataSource;
-			logger.info("Page:ClickLogDaoImpl,problem:dataSource=NULL");
+			dataSource = DBCommons.getDataSource();
 		}
 	}
 	

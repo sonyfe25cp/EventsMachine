@@ -1,18 +1,18 @@
 10
 
 dir
-1354
+1410
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/webapp/WEB-INF
 http://dlde.at.bitunion.org/svn/lab
 
 
 
-2012-12-10T08:14:00.396911Z
-1352
-linshuang
+2012-12-16T13:41:50.175013Z
+1363
+yulong
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -32,33 +32,12 @@ file
 
 
 
-2012-12-10T08:47:30.000000Z
-982d7fad3a401218acc299cbbd2724b7
-2012-12-10T08:14:00.396911Z
-1352
-linshuang
+
+a6e1dfcfd3c531fe14ebff251e0d3ece
+2012-12-16T13:41:50.175013Z
+1363
+yulong
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4845
 
 lib
 dir
@@ -69,10 +48,10 @@ file
 
 
 
-2012-12-10T08:47:30.000000Z
-c658cf02e6f7f8e291eb0e7d3dcc60b7
-2012-12-03T12:41:52.969436Z
-1340
+2012-12-28T10:32:57.691058Z
+732fd4eeb0d7a6fd1b021abd02268e6a
+2012-12-16T13:41:50.175013Z
+1363
 yulong
 
 
@@ -95,7 +74,7 @@ yulong
 
 
 
-1939
+2465
 
 web.xml
 file

@@ -72,11 +72,8 @@ public class NewsAction {
 	@RequestMapping(value = "/getnew", method = RequestMethod.GET)
 	@ResponseBody
 	public JSONObject getNewById() {
-		System.out.println("sucess");
 		int id = 1;
 		JSONObject jsonObj = null;
-		System.out.println("hdfashfoasfho");
-
 		return jsonObj;
 	}
 
@@ -131,7 +128,7 @@ public class NewsAction {
 	 *            与事件相关的新闻id组成的字符串，以；间隔
 	 * @return {"news":[{},{}...]}
 	 */
-	@RequestMapping(value = "/event-news", method = RequestMethod.GET)
+	@RequestMapping(value = "/event-news", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject getEventNews(
 			@RequestParam(value = "newsids", required = true) String newsids) {
@@ -142,47 +139,47 @@ public class NewsAction {
 		JSONObject json = null, result = new JSONObject();
 
 		for (int i = 0; i < news_ids.length; i++) {
-			// Object o = newsRanking.get(i + "");
-			// if (o == null)
-			// break;
 			json = newsDAO.getNewsJSONById(Long.parseLong(news_ids[i]));
 			if (json != null) {
-				if (!jsonArray.contains(json))
+				if (!jsonArray.contains(json)){
 					jsonArray.add(json);
+				}
+					
 			} else {// 不存在则提示没有
 				logger.debug("erro!");
 			}
 		}
+		//使用选择排序对新闻按时间逆序排序
+		for(int i=0;i<jsonArray.size();i++){
+			int k=i;
+			for(int j=i+1;j<jsonArray.size();j++){
+				JSONObject jsona=JSONObject.fromObject(jsonArray.get(j));
+				JSONObject jsonb=JSONObject.fromObject(jsonArray.get(k));
+				if(timeToInt(jsona.getString("publish_at"))>timeToInt(jsonb.getString("publish_at"))){
+					k=j;
+				}
+			}
+			if(k!=i){
+				JSONObject jsonc=JSONObject.fromObject(jsonArray.get(i));
+				JSONObject jsonk=JSONObject.fromObject(jsonArray.get(k));
+				jsonArray.set(i, jsonk);
+				jsonArray.set(k, jsonc);
+			}
+		}
+
 		result.accumulate("news", jsonArray);
 		logger.info("Succeed to response news list in format of JSON...");
 
 		return result;
 	}
-
-	// /**
-	// * 获得对应一个事件的一系列新闻摘要(并非全部对应该事件的新闻)
-	// *
-	// * @param eventId
-	// * 事件的id
-	// * @param page
-	// * 第pageNum页显示的新闻，一页显示X个新闻
-	// * @return 返回由JSONArray表示的系列新闻
-	// */
-	// @RequestMapping(value = "/abstracts", method = RequestMethod.GET)
-	// @ResponseBody
-	// public JSONArray getNewsAbstractsByEventId(
-	// @RequestParam(value = "event", required = true) int eventId,
-	// @RequestParam(value = "page", required = false, defaultValue = "0") int
-	// page) {
-	// JSONArray jsonArray = new JSONArray();
-	// JSONObject jsonObj = null;
-	//
-	// /** 起始于page*X，终止于(page + 1) * X - 1 **/
-	// int beginIndex = page * X, endIndex = (page + 1) * X - 1;
-	//
-	//
-	// jsonObj = getNewsDetail(1);
-	//
-	// return jsonArray;
-	// }
+ 
+	//将格式为“2012-05-13”的字符串转化为int型，以方便比较大小
+	int timeToInt(String time){
+		String[] time1=time.split("-");
+		String timeString="";
+		for(int i=0;i<time1.length;i++){
+			timeString+=time1[i];
+		}
+		return Integer.parseInt(timeString);
+	}
 }

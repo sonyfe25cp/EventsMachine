@@ -1,6 +1,7 @@
 package gossip.server.dao;
 
 import edu.bit.dlde.utils.DLDELogger;
+import gossip.server.commons.DBCommons;
 import gossip.server.model.Comment;
 
 import java.sql.Connection;
@@ -47,13 +48,7 @@ public class CommentDaoImpl implements CommentDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("1234");
-			dataSource = basicDataSource;
-			logger.info("Page:CommentDaoImpl,problem:dataSource=NULL");
+			dataSource = DBCommons.getDataSource();
 		}
 	}
 	

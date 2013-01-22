@@ -21,7 +21,7 @@ $(document).ready(function(){
        	var data=result;
        	$('.news-title').empty();
        	var html='				<h2 style="text-align: center;">'+data.title+'</h2>';
-       	html+='				<p style="text-align: center;"><span>'+timeConvert(data.publish_at)+'</span>';
+       	html+='				<p style="text-align: center;"><span>'+data.publish_at+'</span>';
        	html+='					<span class="news-source">新闻来源:'+data.source+'</span>';
        	html+='					<span class="news-source">作者:'+data.author+'</span>';
        	html+='				</p>';
