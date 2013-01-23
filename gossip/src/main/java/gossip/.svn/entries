@@ -1,7 +1,7 @@
 10
 
 dir
-1410
+1413
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip/src/main/java/gossip
 http://dlde.at.bitunion.org/svn/lab
 
@@ -25,6 +25,12 @@ yulong
 
 
 5a654198-3d86-47d7-a9aa-6e7e098925f5
+
+utils
+dir
+
+event
+dir
 
 Boot.java
 file
@@ -60,6 +66,27 @@ has-props
 
 471
 
+dao
+dir
+
+index
+dir
+
+crawl
+dir
+
+sim
+dir
+
+urlTemp
+dir
+
+parse
+dir
+
+queryExpansion
+dir
+
 Handler.java
 file
 
@@ -94,33 +121,6 @@ has-props
 
 238
 
-crawl
-dir
-
-dao
-dir
-
-event
-dir
-
-index
-dir
-
-parse
-dir
-
-queryExpansion
-dir
-
-sim
-dir
-
 summary
-dir
-
-urlTemp
-dir
-
-utils
 dir
 

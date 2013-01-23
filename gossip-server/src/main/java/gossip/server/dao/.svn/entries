@@ -1,7 +1,7 @@
 10
 
 dir
-1410
+1413
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/java/gossip/server/dao
 http://dlde.at.bitunion.org/svn/lab
 
@@ -12,7 +12,7 @@ http://dlde.at.bitunion.org/svn/lab
 chenjie
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -26,14 +26,14 @@ svn:special svn:externals svn:needs-lock
 
 5a654198-3d86-47d7-a9aa-6e7e098925f5
 
-ClickLogDao.java
+UserDao.java
 file
 
 
 
 
 2012-12-10T08:47:27.000000Z
-3488cec9755057449bf06511fea9957e
+d4e72320c722d75ff1f948080525cd91
 2012-10-31T10:01:48.216729Z
 1286
 liyan
@@ -58,16 +58,16 @@ liyan
 
 
 
-250
+1053
 
-ClickLogDaoImpl.java
+UserDaoImpl.java
 file
 
 
 
 
-2012-12-10T09:55:10.000000Z
-9d0e8737319227af579701c1a8cd4db9
+2012-12-10T09:55:17.000000Z
+a11bfec672d3b65c71b2bce2abda3183
 2012-12-10T10:31:00.617890Z
 1355
 chenjie
@@ -92,7 +92,7 @@ chenjie
 
 
 
-2985
+6090
 
 CommentDao.java
 file
@@ -162,14 +162,14 @@ chenjie
 
 3145
 
-UserDao.java
+ClickLogDao.java
 file
 
 
 
 
 2012-12-10T08:47:27.000000Z
-d4e72320c722d75ff1f948080525cd91
+3488cec9755057449bf06511fea9957e
 2012-10-31T10:01:48.216729Z
 1286
 liyan
@@ -194,16 +194,16 @@ liyan
 
 
 
-1053
+250
 
-UserDaoImpl.java
+ClickLogDaoImpl.java
 file
 
 
 
 
-2012-12-10T09:55:17.000000Z
-a11bfec672d3b65c71b2bce2abda3183
+2012-12-10T09:55:10.000000Z
+9d0e8737319227af579701c1a8cd4db9
 2012-12-10T10:31:00.617890Z
 1355
 chenjie
@@ -228,5 +228,5 @@ chenjie
 
 
 
-6090
+2985
 

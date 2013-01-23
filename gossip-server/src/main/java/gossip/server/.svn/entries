@@ -1,7 +1,7 @@
 10
 
 dir
-1410
+1413
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip-server/src/main/java/gossip/server
 http://dlde.at.bitunion.org/svn/lab
 
@@ -12,7 +12,7 @@ http://dlde.at.bitunion.org/svn/lab
 yulong
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -26,7 +26,10 @@ svn:special svn:externals svn:needs-lock
 
 5a654198-3d86-47d7-a9aa-6e7e098925f5
 
-action
+model
+dir
+
+dao
 dir
 
 admin
@@ -35,9 +38,6 @@ dir
 commons
 dir
 
-dao
-dir
-
-model
+action
 dir
 

@@ -1,7 +1,7 @@
 10
 
 dir
-1410
+1413
 http://dlde.at.bitunion.org/svn/lab/gossip-parent/trunk/gossip/src/main/java/gossip/crawl
 http://dlde.at.bitunion.org/svn/lab
 
@@ -93,40 +93,6 @@ has-props
 
 
 811
-
-CrawlerManager.java
-file
-
-
-
-
-2012-12-10T08:47:26.000000Z
-399a4f7f6c01e4d14879ffd72e775fa0
-2012-10-19T05:46:35.463045Z
-1229
-chenjie
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1513
 
 CrawlerModel.java
 file
@@ -229,4 +195,38 @@ has-props
 
 
 608
+
+CrawlerManager.java
+file
+
+
+
+
+2012-12-10T08:47:26.000000Z
+399a4f7f6c01e4d14879ffd72e775fa0
+2012-10-19T05:46:35.463045Z
+1229
+chenjie
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1513
 
