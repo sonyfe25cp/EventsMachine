@@ -1,6 +1,0 @@
-IndexPath=/home/lins/data/gossip/index
-LeftFrontier=0.5
-RightFrontier=0.99
-SimInfoPath=/home/lins/data/gossip/sim-info/
-BackupPath=/home/lins/data/gossip/news-backup/
-NewsPath=/home/lins/data/gossip/news/
