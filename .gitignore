@@ -6,6 +6,9 @@ target/*
 *.jar
 *.war
 *.ear
+*.project
+gossip/.project/
+gossip-server/.project/
 .settings/
 gossip/.settings/
 gossip-server/.settings/
