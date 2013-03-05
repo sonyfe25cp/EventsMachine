@@ -6,3 +6,10 @@ target/*
 *.jar
 *.war
 *.ear
+*.sample
+.settings/
+gossip/.settings/
+gossip-server/.settings/
+.classpath
+gossip/.classpath
+gossip-server/.classpath
