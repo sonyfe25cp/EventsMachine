@@ -15,3 +15,5 @@ gossip-server/.settings/
 .classpath
 gossip/.classpath
 gossip-server/.classpath
+gossip-server/src/main/webapp/WEB-INF/lib/
+gossip-server/src/main/webapp/WEB-INF/classes/
