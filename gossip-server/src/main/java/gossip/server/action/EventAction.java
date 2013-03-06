@@ -1,9 +1,7 @@
 package gossip.server.action;
 
 import java.sql.Date;
-import java.util.concurrent.TimeoutException;
 
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -36,14 +34,14 @@ public class EventAction {
 		this.logger = logger;
 	}
 
-	private EventDAO eventDAO;
+	private EventDAO eventDao;
 
-	public EventDAO getEventDAO() {
-		return eventDAO;
+	public EventDAO getEventDao() {
+		return eventDao;
 	}
 
-	public void setEventDAO(EventDAO eventDAO) {
-		this.eventDAO = eventDAO;
+	public void setEventDao(EventDAO eventDao) {
+		this.eventDao = eventDao;
 	}
 
 	/** 每一页由X个事件组成 **/
@@ -84,7 +82,7 @@ public class EventAction {
 		@SuppressWarnings("deprecation")
 		Date date = new Date(year - 1900, month - 1, day);
 		/** 先初始化某天的所有events，最多尝试5次，否则返回空 **/
-		jsonArry = eventDAO.getEventJSONByDate(date);
+		jsonArry = eventDao.getEventJSONByDate(date);
 		/** 起始于page*limit，终止于(page + 1) * limit - 1 **/
 		int begin = (pageNo - 1) * limit;
 		for (int i = begin; i < begin + limit && i < jsonArry.size(); i++) {
@@ -100,7 +98,7 @@ public class EventAction {
 
 	private JSONObject getEventListSimply(int pageNo, int limit) {
 		JSONArray jsonArray = new JSONArray();
-		JSONObject json = null, eventRanking = eventDAO.getEventRanking(), result = new JSONObject();
+		JSONObject json = null, eventRanking = eventDao.getEventRanking(), result = new JSONObject();
 
 		/** 起始于page*limit，终止于(page + 1) * limit - 1 **/
 		int begin = (pageNo - 1) * limit;
@@ -108,7 +106,7 @@ public class EventAction {
 			Object o = eventRanking.get(i + "");
 			if (o == null)
 				break;
-			json = eventDAO.getEventJSONById((Integer) o);
+			json = eventDao.getEventJSONById((Integer) o);
 			if (json != null) {
 				if (!jsonArray.contains(json))
 					jsonArray.add(json);
@@ -132,8 +130,6 @@ public class EventAction {
 			}
 
 		}
-			
-
 		result.accumulate("total", total);
 		result.accumulate("pageBegin", pageBegin);
 		result.accumulate("pageEnd", pageEnd);
@@ -147,40 +143,6 @@ public class EventAction {
 
 	final int LOCAL_MAX = 30;
 
-	// @RequestMapping(value = "/local", method = RequestMethod.GET)
-	// @ResponseBody
-	// public JSONArray getEventByLocalID(
-	// @RequestParam(value = "id", required = true) int id) {
-	// JSONArray jsonArray = new JSONArray();
-	// JSONObject json = null, rankJsonObj;
-	// try {
-	// rankJsonObj = memcachedDaemon.getMemcachedClient().get(
-	// MemcachedKeyUtils.EVENT_RANKING_KEY);
-	// if (rankJsonObj == null) {
-	// logger.debug("no ranking in memcached!");
-	// memcachedDaemon.fireEventRankingNotFoundEvent();// 这个步骤需要多线程
-	// return jsonArray;// 先返回空，因为更新rank需要的数据库查询可能较多
-	// }
-	// // 从排名第0的event开始，直到找到localid或者max
-	// for (int i = 0; i < LOCAL_MAX; i++) {
-	// Object o = rankJsonObj.get(i + "");
-	// if (o == null)
-	// break;
-	// json = getEventByDBid((Integer) o);
-	// if (json == null || json.getInt("id") == id)
-	// break;
-	// jsonArray.add(json);
-	// }
-	// } catch (TimeoutException e) {
-	// e.printStackTrace();
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// } catch (MemcachedException e) {
-	// e.printStackTrace();
-	// }
-	// return jsonArray;
-	// }
-
 	/**
 	 * 获得event
 	 * 
@@ -191,7 +153,7 @@ public class EventAction {
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject getEventByDBid(@PathVariable int id) {
-		return eventDAO.getEventJSONById(id);
+		return eventDao.getEventJSONById(id);
 	}
 
 	/**
@@ -205,7 +167,7 @@ public class EventAction {
 	@ResponseBody
 	public JSONObject getEventByRankNum(
 			@RequestParam(value = "id", required = true) int rank) {
-		JSONObject eventRanking = eventDAO.getEventRanking();
+		JSONObject eventRanking = eventDao.getEventRanking();
 		int id;
 
 		if (!eventRanking.containsKey(rank + "")) {// 不存在则提示没有
@@ -214,7 +176,7 @@ public class EventAction {
 		}
 		id = (Integer) eventRanking.get(rank + "");
 		
-		return eventDAO.getEventJSONById(id);
+		return eventDao.getEventJSONById(id);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)

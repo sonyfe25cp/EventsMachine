@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,21 +38,22 @@ public class EventDAO {
 	public void setMemcachedDaemon(MemcachedDaemon memcachedDaemon) {
 		this.memcachedDaemon = memcachedDaemon;
 	}
-	
-	public void init(){
-		if(logger ==null)
+
+	public void init() {
+		if (logger == null)
 			logger = new DLDELogger();
-		if(dataSource == null){
+		if (dataSource == null) {
 			BasicDataSource basicDataSource = new BasicDataSource();
 			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
+			basicDataSource
+					.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
 			basicDataSource.setUsername("root");
 			basicDataSource.setPassword("123iop");
 			dataSource = basicDataSource;
 		}
 		logger.info("eventDao init over");
 	}
-	
+
 	private DLDELogger logger;
 
 	public DLDELogger getLogger() {
@@ -67,7 +67,8 @@ public class EventDAO {
 	final String SQL_SELECT_EVENT_BY_ID = "select * from event  where id = ?";
 	final String SQL_SELECT_EVENT_BY_DATE = "select * from event  where create_time = ?";
 	final String SQL_SELECT_EVENT_ORDERED = "select id from event order by recommended desc";
-	final String SQL_SELECT_EVENT_ALL = "select * from event";//从数据库中读出所有的event-by shiyulong
+	final String SQL_SELECT_EVENT_ALL = "select * from event";// 从数据库中读出所有的event-by
+																// shiyulong
 	final String delimiter = ";";
 	private DataSource dataSource;
 
@@ -78,17 +79,15 @@ public class EventDAO {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
-	public JSONArray getEventJSONByDate(Date date){
+
+	public JSONArray getEventJSONByDate(Date date) {
 		JSONArray result = null;
 		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
 			try {
 				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
 					String key = MemcachedKeyUtils.generateKey(
-							MemcachedKeyUtils.EVENTS_BY_DATE,
-							date.getTime());
-					result = memcachedDaemon.getMemcachedClient().get(
-							key, 500);
+							MemcachedKeyUtils.EVENTS_BY_DATE, date.getTime());
+					result = memcachedDaemon.getMemcachedClient().get(key, 500);
 					if (result == null) {
 						logger.info("i found nothing in memcacehd...");
 						// 查索引
@@ -108,13 +107,14 @@ public class EventDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 根据日期从数据库中获得事件
+	 * 
 	 * @param date
 	 * @return
 	 */
-	private JSONArray getEventJSONByDateFromDB(Date date){
+	private JSONArray getEventJSONByDateFromDB(Date date) {
 		JSONObject jsonObj;
 		JSONArray jsonArry = new JSONArray();
 		Connection conn = null;
@@ -136,9 +136,10 @@ public class EventDAO {
 					jsonObj.put("started_at", rs.getDate("create_time")
 							.getTime());
 					jsonObj.put("keywords", rs.getString("keywords"));
-					jsonObj.put("started_location", rs.getString("started_location"));
+					jsonObj.put("started_location",
+							rs.getString("started_location"));
 					jsonObj.put("news", rs.getString("pages"));
-					
+
 					jsonArry.add(jsonObj);
 					logger.info("i found the event in database.");
 				}
@@ -157,13 +158,14 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return jsonArry;
-		
+
 	}
 
 	/**
 	 * 获得JSONObject格式的Event
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -172,10 +174,9 @@ public class EventDAO {
 		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
 			try {
 				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					String key = MemcachedKeyUtils.generateKey(MemcachedKeyUtils.EVENT,
-							id);
-					result = memcachedDaemon.getMemcachedClient().get(
-							key, 500);
+					String key = MemcachedKeyUtils.generateKey(
+							MemcachedKeyUtils.EVENT, id);
+					result = memcachedDaemon.getMemcachedClient().get(key, 500);
 					if (result == null) {
 						logger.info("i found nothing in memcacehd...");
 						// 查索引
@@ -195,9 +196,10 @@ public class EventDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 从数据库获得JSONObject格式的Event
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -221,7 +223,8 @@ public class EventDAO {
 					jsonObj.put("started_at", rs.getDate("create_time")
 							.getTime());
 					jsonObj.put("keywords", rs.getString("keywords"));
-					jsonObj.put("started_location", rs.getString("started_location"));
+					jsonObj.put("started_location",
+							rs.getString("started_location"));
 					jsonObj.put("news", rs.getString("pages"));
 					logger.info("i found the event in database.");
 				}
@@ -243,7 +246,6 @@ public class EventDAO {
 		return jsonObj;
 	}
 
-	
 	/**
 	 * 
 	 * @param id
@@ -301,26 +303,29 @@ public class EventDAO {
 		}
 		return event;
 	}
-	
-	//从数据库中读出所有的event，以供查询扩展使用-by shiyulong
-	
+
+	// 从数据库中读出所有的event，以供查询扩展使用-by shiyulong
+
 	/**
 	 * @return ArrayList<Event>,该功能实现从数据库中读出所有事件以及对应的所有相关信息，并放在一张列表中返回。
-	 * 返回形式如：{id:1,title:"微软发布win8平板surface"，recommended：0.8，keyWords:{win8:0.75,surface:0.6},pages:{1,2,3,4},
-	 * createTime:2012-12-23 00:00:00,desc:"微软CEO10月23号在上海发布新一代操作系统windows8，并发布了其第一款采用新系统的平板电脑surface"}
+	 *         返回形式如：{id
+	 *         :1,title:"微软发布win8平板surface"，recommended：0.8，keyWords:{win8
+	 *         :0.75,surface:0.6},pages:{1,2,3,4}, createTime:2012-12-23
+	 *         00:00:00,desc:
+	 *         "微软CEO10月23号在上海发布新一代操作系统windows8，并发布了其第一款采用新系统的平板电脑surface"}
 	 */
 	public ArrayList<Event> getAllEvent() {
 		ArrayList<Event> allEvent = new ArrayList<Event>();
 		init();
 		Connection conn = null;
-		Statement stmt=null ;
+		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			conn = dataSource.getConnection();
-			stmt= conn.createStatement();
+			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_EVENT_ALL);
 			while (rs.next()) {
-				Event event=new Event();
+				Event event = new Event();
 				event.setCreateTime(rs.getDate("create_time").getTime());
 				String[] tmpStrs;
 				tmpStrs = rs.getString("keywords").split(delimiter);
@@ -360,12 +365,8 @@ public class EventDAO {
 		}
 		return allEvent;
 	}
-	
-	//以jsonArray格式返回所有event
-	
-	
 
-	
+	// 以jsonArray格式返回所有event
 
 	public JSONObject getEventRanking() {
 		JSONObject result = null;
@@ -373,8 +374,7 @@ public class EventDAO {
 			try {
 				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
 					String key = "event-rank";
-					result = memcachedDaemon.getMemcachedClient().get(
-							key, 500);
+					result = memcachedDaemon.getMemcachedClient().get(key, 500);
 					if (result == null) {
 						logger.info("i found nothing in memcacehd...");
 						// 查索引
@@ -394,9 +394,10 @@ public class EventDAO {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 从数据库里面读出按照recommeded排序的event，并且将id和排序号放入jsonObj
+	 * 
 	 * @return <ranking, event-id>...
 	 */
 	public JSONObject getEventRankingFromDB() {
@@ -438,14 +439,14 @@ public class EventDAO {
 	/**
 	 * 将数据入库或者更新，被入库的数据自动添加id
 	 */
-	public void saveORupdateEvents(HashSet<Event> events){
+	public void saveORupdateEvents(HashSet<Event> events) {
 		/** 根据id是否为-1将所有数据分为两块一个为要更新的，一个为要插入的 **/
 		HashSet<Event> toUpdate = new HashSet<Event>();
 		HashSet<Event> toInsert = new HashSet<Event>();
 		Iterator<Event> it = events.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Event e = it.next();
-			if(e.id==-1)
+			if (e.id == -1)
 				toInsert.add(e);
 			else
 				toUpdate.add(e);
@@ -453,27 +454,28 @@ public class EventDAO {
 		updateEvents(toUpdate);
 		insertEvents(toInsert);
 	}
-	
+
 	final String SQL_INSERT_EVENT = "insert into event(title,recommended,img,keywords,pages,create_time,started_location,content_abstract) values(?,?,?,?,?,?,?,?)";
 
 	/**
 	 * 将event插入
 	 */
 	public void insertEvents(HashSet<Event> events) {
-		if(events==null||events.isEmpty())
+		if (events == null || events.isEmpty())
 			return;
-		
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(SQL_INSERT_EVENT,Statement.RETURN_GENERATED_KEYS);
+			pstmt = conn.prepareStatement(SQL_INSERT_EVENT,
+					Statement.RETURN_GENERATED_KEYS);
 			Iterator<Event> it = events.iterator();
 			Event e;
 			while (it.hasNext()) {
 				e = it.next();
-				try{
+				try {
 					pstmt.setString(1, e.getUTF8Title());
 					pstmt.setDouble(2, e.recommended);
 					pstmt.setString(3, e.getImg());
@@ -484,11 +486,11 @@ public class EventDAO {
 					pstmt.setString(8, e.getDesc());
 					pstmt.executeUpdate();
 					rs = pstmt.getGeneratedKeys();
-					if(rs.next()) {
-						e.id= rs.getInt(1);
+					if (rs.next()) {
+						e.id = rs.getInt(1);
 					}
-				}catch(SQLException sql){
-					logger.error(e.getUTF8Title()+ " error");
+				} catch (SQLException sql) {
+					logger.error(e.getUTF8Title() + " error");
 					sql.printStackTrace();
 					continue;
 				}
@@ -508,15 +510,16 @@ public class EventDAO {
 			}
 		}
 	}
-	
+
 	final String SQL_EVENT_UPDATE = "update event set ";
+
 	/**
 	 * 更新数据库里面的event
 	 */
-	public void updateEvents(HashSet<Event> events){
-		if(events==null||events.isEmpty())
+	public void updateEvents(HashSet<Event> events) {
+		if (events == null || events.isEmpty())
 			return;
-		
+
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -525,7 +528,7 @@ public class EventDAO {
 			stmt = conn.createStatement();
 			Iterator<Event> it = events.iterator();
 			while (it.hasNext()) {
-				String sql = SQL_EVENT_UPDATE+it.next().toSQLString();
+				String sql = SQL_EVENT_UPDATE + it.next().toSQLString();
 				stmt.execute(sql);
 			}
 		} catch (SQLException e) {
@@ -544,14 +547,16 @@ public class EventDAO {
 		}
 	}
 
-	//下面几个函数是管理员对event的修改操作，包括修改标题、摘要、关键词、地点，添加、删除新闻，添加图片等；
+	// 下面几个函数是管理员对event的修改操作，包括修改标题、摘要、关键词、地点，添加、删除新闻，添加图片等；
 	final String SQL_UPDATE_TITLE_BY_ID = "update event set title=? where id = ?";
+
 	/**
 	 * 修改标题
+	 * 
 	 * @param id
 	 * @param title
 	 */
-	public void updateTitle(int id,String title){
+	public void updateTitle(int id, String title) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -559,8 +564,8 @@ public class EventDAO {
 			pstmt = conn.prepareStatement(SQL_UPDATE_TITLE_BY_ID);
 			pstmt.setString(1, title);
 			pstmt.setInt(2, id);
-			pstmt.execute(); 
-			
+			pstmt.execute();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -573,17 +578,18 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 	}
-	
+
 	final String SQL_UPDATE_LOCATION_BY_ID = "update event set started_location=? where id = ?";
+
 	/**
 	 * 修改标题
+	 * 
 	 * @param id
 	 * @param location
 	 */
-	public void updateLocation(int id,String location){
+	public void updateLocation(int id, String location) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -591,8 +597,8 @@ public class EventDAO {
 			pstmt = conn.prepareStatement(SQL_UPDATE_LOCATION_BY_ID);
 			pstmt.setString(1, location);
 			pstmt.setInt(2, id);
-			pstmt.execute(); 
-			
+			pstmt.execute();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -605,17 +611,18 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 	}
-	
+
 	final String SQL_UPDATE_SUMMARY_BY_ID = "update event set content_abstract=? where id = ?";
+
 	/**
 	 * 修改摘要
+	 * 
 	 * @param id
 	 * @param summary
 	 */
-	public void updateSummary(int id,String summary){
+	public void updateSummary(int id, String summary) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -623,8 +630,8 @@ public class EventDAO {
 			pstmt = conn.prepareStatement(SQL_UPDATE_SUMMARY_BY_ID);
 			pstmt.setString(1, summary);
 			pstmt.setInt(2, id);
-			pstmt.execute(); 
-			
+			pstmt.execute();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -637,44 +644,47 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
+
 	final String SQL_SELECT_NEWS_BY_ID = "select pages from event where id = ?";
 	final String SQL_ADD_NEWS_BY_ID = "update event set pages=? where id = ?";
+
 	/**
 	 * 添加新闻
+	 * 
 	 * @param id
 	 * @param newsId
 	 */
-	public void addNews(int id,String newsId){
+	public void addNews(int id, String newsId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String pages=null;
+		String pages = null;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
-			rs=pstmt.getResultSet();
-			if(rs.next()){
-				 pages=rs.getString("pages");
+			rs = pstmt.getResultSet();
+			if (rs.next()) {
+				pages = rs.getString("pages");
 			}
-			ArrayList<String> pagesList=new ArrayList<String>();
-			String[] allPages=pages.split(";");
-			String[] newsList=newsId.split(";");
-			for(String page:allPages){
+			ArrayList<String> pagesList = new ArrayList<String>();
+			String[] allPages = pages.split(";");
+			String[] newsList = newsId.split(";");
+			for (String page : allPages) {
 				pagesList.add(page);
 			}
-			for(String news:newsList){
-				if(!pagesList.contains(news))
-					pages+=news+";";
+			for (String news : newsList) {
+				if (!pagesList.contains(news))
+					pages += news + ";";
 			}
 			pstmt = conn.prepareStatement(SQL_ADD_NEWS_BY_ID);
 			pstmt.setInt(2, id);
 			pstmt.setString(1, pages);
 			pstmt.execute();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -687,46 +697,48 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	final String SQL_SELECT_KEYWORDS_BY_ID = "select keywords from event where id = ?";
 	final String SQL_ADD_KEYWORDS_BY_ID = "update event set keywords=? where id = ?";
+
 	/**
 	 * 添加新闻
+	 * 
 	 * @param id
 	 * @param keywords
 	 */
-	public void addKeywords(int id,String keywords){
+	public void addKeywords(int id, String keywords) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String oldKeywords=null;
+		String oldKeywords = null;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_KEYWORDS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
-			rs=pstmt.getResultSet();
-			if(rs.next()){
-				oldKeywords=rs.getString("keywords");
+			rs = pstmt.getResultSet();
+			if (rs.next()) {
+				oldKeywords = rs.getString("keywords");
 			}
-			ArrayList<String> keywordsList=new ArrayList<String>();
-			String[] oldKeywordsList=oldKeywords.split(";");
-			String[] newKeywordsList=keywords.split(";");
-			for(String key:oldKeywordsList){
+			ArrayList<String> keywordsList = new ArrayList<String>();
+			String[] oldKeywordsList = oldKeywords.split(";");
+			String[] newKeywordsList = keywords.split(";");
+			for (String key : oldKeywordsList) {
 				keywordsList.add(key);
 			}
-			for(String ss:newKeywordsList){
-				if(!keywordsList.contains(ss))
-					oldKeywords+=ss+";";
+			for (String ss : newKeywordsList) {
+				if (!keywordsList.contains(ss))
+					oldKeywords += ss + ";";
 			}
-			oldKeywords+=";";
+			oldKeywords += ";";
 			pstmt = conn.prepareStatement(SQL_ADD_KEYWORDS_BY_ID);
 			pstmt.setInt(2, id);
 			pstmt.setString(1, oldKeywords);
 			pstmt.execute();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -739,47 +751,48 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	final String SQL_DELETE_NEWS_BY_ID = "update event set pages=? where id = ?";
+
 	/**
 	 * 删除不相关新闻
+	 * 
 	 * @param id
 	 * @param newsId
 	 */
-	public void deleteNews(int id,String newsId){
+	public void deleteNews(int id, String newsId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String pages=null;
+		String pages = null;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
-			rs=pstmt.getResultSet();
-			if(rs.next()){
-				 pages=rs.getString("pages");
+			rs = pstmt.getResultSet();
+			if (rs.next()) {
+				pages = rs.getString("pages");
 			}
-			String newPages=null;
-			String[] allPages=pages.split(";");
-			for(String page:allPages){
-				if(!page.equals(newsId)){
-					if(newPages==null)
-						newPages=page+";";
+			String newPages = null;
+			String[] allPages = pages.split(";");
+			for (String page : allPages) {
+				if (!page.equals(newsId)) {
+					if (newPages == null)
+						newPages = page + ";";
 					else
-						newPages+=page+";";
+						newPages += page + ";";
 				}
-					
+
 			}
-			
 
 			pstmt = conn.prepareStatement(SQL_DELETE_NEWS_BY_ID);
 			pstmt.setInt(2, id);
 			pstmt.setString(1, newPages);
 			pstmt.execute();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -792,25 +805,22 @@ public class EventDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
-	
-	
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		EventDAO dao = new EventDAO();
 		dao.init();
-//		Event e = new Event();
-//		e.setCreateTime(Calendar.getInstance().getTime().getTime());
-//		e.setTitle("q231");
-//		e.setRecommended(1.0);
-//		e.setId(10);
-//		HashSet<Event> set = new HashSet<Event>();
-//		set.add(e);
-//		dao.updateEvents(set);
-//		dao.updateTitle(1, "陕西榆林20辆超标公车被拍卖");
+		// Event e = new Event();
+		// e.setCreateTime(Calendar.getInstance().getTime().getTime());
+		// e.setTitle("q231");
+		// e.setRecommended(1.0);
+		// e.setId(10);
+		// HashSet<Event> set = new HashSet<Event>();
+		// set.add(e);
+		// dao.updateEvents(set);
+		// dao.updateTitle(1, "陕西榆林20辆超标公车被拍卖");
 		dao.addKeywords(1, "韩国：1.0");
-		
+
 	}
 }

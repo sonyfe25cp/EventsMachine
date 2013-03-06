@@ -43,15 +43,15 @@ public class MemcachedDaemon extends Thread {
 		this.memcachedClient = memcachedClient;
 	}
 
-	public EventDAO eventDAO;
-
-	public EventDAO getEventDAO() {
-		return eventDAO;
-	}
-
-	public void setEventDAO(EventDAO eventDAO) {
-		this.eventDAO = eventDAO;
-	}
+//	public EventDAO eventDAO;
+//
+//	public EventDAO getEventDAO() {
+//		return eventDAO;
+//	}
+//
+//	public void setEventDAO(EventDAO eventDAO) {
+//		this.eventDAO = eventDAO;
+//	}
 
 	/** 主要用来读索引 **/
 	private GossipMessager messager;
@@ -154,23 +154,23 @@ public class MemcachedDaemon extends Thread {
 	 * 当对应id的event不存在与memcached里面时： 阻塞地读取数据库，然后添加进memcached
 	 * @deprecated
 	 */
-	public void fireEventsNotFoundEvent(int id) {
-		if (isMemcached == 0)
-			return;
-		JSONObject event = eventDAO.getEventJSONById(id);
-
-		if (event.isEmpty())
-			return;
-
-		/** 将响应结果放入memcached **/
-		try {
-			String key = MemcachedKeyUtils.generateKey(MemcachedKeyUtils.EVENT,
-					id);
-			memcachedClient.add(key, expiration, event);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void fireEventsNotFoundEvent(int id) {
+//		if (isMemcached == 0)
+//			return;
+//		JSONObject event = eventDAO.getEventJSONById(id);
+//
+//		if (event.isEmpty())
+//			return;
+//
+//		/** 将响应结果放入memcached **/
+//		try {
+//			String key = MemcachedKeyUtils.generateKey(MemcachedKeyUtils.EVENT,
+//					id);
+//			memcachedClient.add(key, expiration, event);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * 通过socket链接到indexer，获得新闻对应的排列
@@ -206,42 +206,42 @@ public class MemcachedDaemon extends Thread {
 	 * memcached里面的rank过期不见了
 	 * @deprecated
 	 */
-	public void fireEventRankingNotFoundEvent() {
-		if (isMemcached == 0)
-			return;
-		JSONObject jsonObj = eventDAO.getEventRanking();
-		if (jsonObj != null && !jsonObj.isEmpty()) {
-			try {
-				memcachedClient.add(MemcachedKeyUtils.EVENT_RANKING_KEY,
-						expiration * 24, jsonObj);
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (MemcachedException e) {
-				e.printStackTrace();
-			}
-			logger.debug("i've put ranking into memcached.");
-		}
-	}
+//	public void fireEventRankingNotFoundEvent() {
+//		if (isMemcached == 0)
+//			return;
+//		JSONObject jsonObj = eventDAO.getEventRanking();
+//		if (jsonObj != null && !jsonObj.isEmpty()) {
+//			try {
+//				memcachedClient.add(MemcachedKeyUtils.EVENT_RANKING_KEY,
+//						expiration * 24, jsonObj);
+//			} catch (TimeoutException e) {
+//				e.printStackTrace();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			} catch (MemcachedException e) {
+//				e.printStackTrace();
+//			}
+//			logger.debug("i've put ranking into memcached.");
+//		}
+//	}
 
-	public void fireEventsByDateNotFoundEvent(Date date) {
-		if (isMemcached == 0)
-			return;
-		JSONArray jsonArry = eventDAO.getEventJSONByDate(date);
-		if (jsonArry != null && !jsonArry.isEmpty()) {
-			try {
-				memcachedClient.add(MemcachedKeyUtils.generateKey(
-						MemcachedKeyUtils.EVENTS_BY_DATE, date.getTime()),
-						expiration * 24, jsonArry);
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (MemcachedException e) {
-				e.printStackTrace();
-			}
-			logger.debug("i've put ranking into memcached.");
-		}
-	}
+//	public void fireEventsByDateNotFoundEvent(Date date) {
+//		if (isMemcached == 0)
+//			return;
+//		JSONArray jsonArry = eventDAO.getEventJSONByDate(date);
+//		if (jsonArry != null && !jsonArry.isEmpty()) {
+//			try {
+//				memcachedClient.add(MemcachedKeyUtils.generateKey(
+//						MemcachedKeyUtils.EVENTS_BY_DATE, date.getTime()),
+//						expiration * 24, jsonArry);
+//			} catch (TimeoutException e) {
+//				e.printStackTrace();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			} catch (MemcachedException e) {
+//				e.printStackTrace();
+//			}
+//			logger.debug("i've put ranking into memcached.");
+//		}
+//	}
 }

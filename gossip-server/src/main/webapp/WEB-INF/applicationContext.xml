@@ -19,93 +19,6 @@
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-autowire="byName">
 
-	<!-- 管理memcached depends-on="eventDAO,logger,messager" -->
-	<bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon"
-		init-method="start" >
-			<property name="eventDAO" ref="eventDAO" />
-			<property name="logger" ref="logger" />
-			<property name="messager" ref="messager" />
-	</bean>
-	
-
-	<!-- relatedEventAction里面要用到EventAction -->
-	<bean id="event" class="gossip.server.action.EventAction" depends-on="logger,memcachedDaemon">
-		<property name="logger" ref="logger" />
-	</bean>
-	
-	<!-- relatedNewsAction里面要用到NewsAction -->
-	<bean id="news" class="gossip.server.action.NewsAction" depends-on="logger,memcachedDaemon">
-		<property name="logger" ref="logger" />
-	</bean>
-	
-	<!-- 用来发信息的socket -->
-	<bean id="messager" class="gossip.index.GossipMessager">
-		<property name="defaultIp" value="127.0.0.1" />
-		<property name="defaultPort" value="7777" />
-	</bean>
-
-	<!-- 自定义的logger -->
-	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger"/>
-	
-
-	<!-- DAO -->
-	<bean id="eventDAO" class="gossip.dao.EventDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-		<property name="memcachedDaemon" ref="memcachedDaemon"/>
-	</bean>
-	
-	<bean id="hotTermDAO" class="gossip.dao.HotTermDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<bean id="newsDAO" class="gossip.dao.NewsDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-		<property name="memcachedDaemon" ref="memcachedDaemon"/>
-	</bean>
-	
-	<bean id="qeDAO" class="gossip.dao.QueryExpansionDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean id="relatedEventDAO" class="gossip.dao.RelatedEventDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean id="relatedNewsDAO" class="gossip.dao.RelatedNewsDAO"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<!-- 用户Dao -->
-	<bean id="ud" class="gossip.server.dao.UserDaoImpl"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<bean id="cd" class="gossip.server.dao.CommentDaoImpl"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<bean id="cld" class="gossip.server.dao.ClickLogDaoImpl"
-			init-method="init" depends-on="logger,dataSource">
-		<property name="logger" ref="logger"/>
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
 	<!-- 配置mysql数据库连接 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -126,7 +39,93 @@
 			<value>123iop</value>
 		</property>
 	</bean>
+
+	<!-- 自定义的logger -->
+	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger" />
 	
-    
+	
+	<bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon"
+		init-method="start">
+		<property name="logger" ref="logger" />
+		<property name="messager" ref="messager" />
+	</bean>
+
+	<!-- 用来发信息的socket -->
+	<bean id="messager" class="gossip.index.GossipMessager">
+		<property name="defaultIp" value="127.0.0.1" />
+		<property name="defaultPort" value="7777" />
+	</bean>
+
+	<!-- DAO -->
+	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="hotTermDAO" class="gossip.dao.HotTermDAO" init-method="init"
+		depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="newsDAO" class="gossip.dao.NewsDAO" init-method="init"
+		depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="memcachedDaemon" ref="memcachedDaemon" />
+	</bean>
+
+	<bean id="qeDAO" class="gossip.dao.QueryExpansionDAO" init-method="init"
+		depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="relatedEventDAO" class="gossip.dao.RelatedEventDAO"
+		init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="relatedNewsDAO" class="gossip.dao.RelatedNewsDAO"
+		init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 用户Dao -->
+	<bean id="ud" class="gossip.server.dao.UserDaoImpl" init-method="init"
+		depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="cd" class="gossip.server.dao.CommentDaoImpl"
+		init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="cld" class="gossip.server.dao.ClickLogDaoImpl"
+		init-method="init" depends-on="logger,dataSource">
+		<property name="logger" ref="logger" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+
+
+
+	<!-- relatedEventAction里面要用到EventAction -->
+	<bean id="event" class="gossip.server.action.EventAction" depends-on="logger,eventDao">
+		<property name="logger" ref="logger" />
+	</bean>
+
+	<!-- relatedNewsAction里面要用到NewsAction -->
+	<bean id="news" class="gossip.server.action.NewsAction"
+		depends-on="logger,newsDAO">
+		<property name="logger" ref="logger" />
+	</bean>
+
 </beans>
  
