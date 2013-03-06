@@ -15,6 +15,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import edu.bit.dlde.utils.DLDELogger;
+import gossip.utils.DatabaseUtils;
 
 /**
  * @author jiangxiaotian
@@ -42,14 +43,7 @@ public class UserDAO {
 		if(logger ==null)
 			logger = new DLDELogger();
 		if(dataSource == null){
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("123iop");
-			dataSource = basicDataSource;
-			System.out.println("Page:RelatedNewsDAO,problem:dataSource=NULL");
-			logger.info("Page:RelatedNewsDAO,problem:dataSource=NULL");
+			dataSource = DatabaseUtils.getInstance();
 		}
 	}
 	

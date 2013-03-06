@@ -12,6 +12,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import net.sf.json.JSONArray;
 
 import edu.bit.dlde.utils.DLDELogger;
+import gossip.utils.DatabaseUtils;
 
 /**
  * 
@@ -34,14 +35,7 @@ public class HotTermDAO {
 		if(logger ==null)
 			logger = new DLDELogger();
 		if(dataSource == null){
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("123iop");
-			dataSource = basicDataSource;
-			System.out.println("Page:RelatedEventDAO,problem:dataSource=NULL");
-			logger.info("Page:RelatedEventDAO,problem:dataSource=NULL");
+			dataSource = DatabaseUtils.getInstance();
 		}
 	}
 	

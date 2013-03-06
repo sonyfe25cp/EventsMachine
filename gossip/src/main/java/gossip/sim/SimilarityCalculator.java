@@ -89,6 +89,7 @@ public class SimilarityCalculator {
 			for (int i = 0; i < sdocs.length; i++) {
 				int docNumber = sdocs[i].doc;
 				TermFreqVector vector = ir.getTermFreqVector(docNumber, field);
+				is.doc(docNumber).get("id");//---------
 				docVector = new DocVector(docNumber, vector);
 				docVectorsA.add(docVector);
 				docVectorsB.add(docVector);

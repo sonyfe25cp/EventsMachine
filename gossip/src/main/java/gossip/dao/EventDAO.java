@@ -22,6 +22,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.event.Event;
+import gossip.utils.DatabaseUtils;
 
 /**
  * 
@@ -43,13 +44,7 @@ public class EventDAO {
 		if (logger == null)
 			logger = new DLDELogger();
 		if (dataSource == null) {
-			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource
-					.setUrl("jdbc:mysql://localhost:3306/gossip?useUnicode=true");
-			basicDataSource.setUsername("root");
-			basicDataSource.setPassword("123iop");
-			dataSource = basicDataSource;
+			dataSource = DatabaseUtils.getInstance();
 		}
 		logger.info("eventDao init over");
 	}
