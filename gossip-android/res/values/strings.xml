@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">流言</string>
+    <string name="logo">不一样的事件，不一样的世界</string>
+	<string name="net_unavailable">网络部可用，请打开GPRS或者连接WIFI。</string>
+	<string name="server_unavailable">GOSSIP服务器嗝屁了！</string>
+	<string name="click_to_see_source">点击查看原文</string>
+	<string name="menu_refresh">刷新</string>
+	<string name="menu_search">搜索</string>
+	<string name="menu_revert">回退</string>
+	<string name="update_info1">我们为您找到了</string>
+	<string name="update_info2">个事件</string>
+</resources>

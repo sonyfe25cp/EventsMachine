@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<!--      <item android:id="@+id/menu_save" -->
+<!--           android:title="@string/menu_save" -->
+<!--           android:showAsAction="ifRoom|withText" /> -->
+     <item android:id="@+id/menu_search"
+          android:title="@string/menu_search"
+          android:icon="@drawable/ic_menu_search"
+          android:showAsAction="ifRoom|collapseActionView"
+          android:actionViewClass="android.widget.SearchView" />
+	<item android:id="@+id/menu_refresh"
+          android:title="@string/menu_refresh"
+          android:icon="@drawable/ic_menu_refresh"
+          android:showAsAction="ifRoom|collapseActionView" />
+    <item android:id="@+id/menu_loading"
+          android:showAsAction="always"
+          android:actionViewClass="android.widget.ProgressBar" />
+</menu>
