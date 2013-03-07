@@ -3,16 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.bit.dlde</groupId>
 	<artifactId>gossip-parent</artifactId>
-	<version>${parent.version}</version>
+	<version>1.0</version>
 	<packaging>pom</packaging>
 	<name>gossip parent</name>
 	<modules>
 		<module>gossip</module>
 		<module>gossip-server</module>
 	</modules>
-	<properties>
-		<parent.version>1.0</parent.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>edu.bit.dlde</groupId>
