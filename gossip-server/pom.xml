@@ -10,7 +10,10 @@
 	<packaging>war</packaging>
 	<name>gossip server</name>
 	<description>module of server for gossip which focuses on responsing JSON</description>
-
+	<properties>
+		<!-- simple spring memcached必须要求此版本的spring及以上 -->
+		<spring.version>3.0.7.RELEASE</spring.version>
+	</properties>
 	<dependencies>
 		<!-- 添加对gossip模块的依赖，主要作用是对里面各种数据结构的依赖 -->
 		<dependency>
@@ -86,10 +89,6 @@
 		</dependency>
 	</dependencies>
 
-	<properties>
-		<!-- simple spring memcached必须要求此版本的spring及以上 -->
-		<spring.version>3.0.7.RELEASE</spring.version>
-	</properties>
 	<!-- 配置发布和清理的路径 -->
 	<build>
 		<finalName>${artifactId}-${version}</finalName>

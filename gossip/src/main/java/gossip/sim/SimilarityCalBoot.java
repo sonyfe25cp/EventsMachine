@@ -26,7 +26,7 @@ public class SimilarityCalBoot extends Boot {
 	}
 	
 	public void process() {
-		if(date == 0){
+		if(date == 0){ //全部计算
 			Calendar cal = Calendar.getInstance();
 			int day = cal.get(Calendar.DAY_OF_MONTH);
 			int month = cal.get(Calendar.MONTH) + 1;

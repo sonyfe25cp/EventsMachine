@@ -36,7 +36,7 @@
 		</property>
 		<!-- 确定连接数据库的密码 -->
 		<property name="password">
-			<value></value>
+			<value>123iop</value>
 		</property>
 	</bean>
 
