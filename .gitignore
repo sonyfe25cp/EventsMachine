@@ -1,6 +1,9 @@
 *.class
 gossip-server/target/*
 gossip/target/*
+bin/
+gossip/bin/
+gossip-server/bin/
 target/*
 # Package Files #
 *.jar

@@ -15,3 +15,4 @@ gossip-server/.settings/
 .classpath
 gossip/.classpath
 gossip-server/.classpath
+/bin
