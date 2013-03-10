@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import net.sf.json.JSONArray;
-
-import org.apache.commons.dbcp.BasicDataSource;
-
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.utils.DatabaseUtils;
 

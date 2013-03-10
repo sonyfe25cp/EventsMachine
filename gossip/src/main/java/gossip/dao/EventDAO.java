@@ -17,9 +17,6 @@ import javax.sql.DataSource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-import org.apache.commons.dbcp.BasicDataSource;
-
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.event.Event;
 import gossip.utils.DatabaseUtils;

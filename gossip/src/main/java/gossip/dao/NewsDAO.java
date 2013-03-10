@@ -8,14 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.concurrent.TimeoutException;
 
 import javax.sql.DataSource;
 
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.sf.json.JSONObject;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;

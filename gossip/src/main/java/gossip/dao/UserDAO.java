@@ -4,16 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.utils.DatabaseUtils;
 

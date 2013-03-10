@@ -6,15 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.event.Event;
 import gossip.queryExpansion.Expansion;

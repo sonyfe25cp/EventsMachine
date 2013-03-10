@@ -7,10 +7,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
 import net.sf.json.JSONArray;
-
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.utils.DatabaseUtils;
 

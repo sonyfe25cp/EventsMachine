@@ -5,3 +5,7 @@ SimInfoPath=/store/project/gossip/sim-info/
 SimBackupPath=/store/project/gossip/sim-info-bak/
 BackupPath=/store/project/gossip/news-backup/
 NewsPath=/store/project/gossip/news/
+dbIp=127.0.0.1
+dbPort=3306
+dbUser=root
+dbPassword=123iop
