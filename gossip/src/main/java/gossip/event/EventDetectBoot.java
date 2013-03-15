@@ -62,7 +62,7 @@ public class EventDetectBoot extends Boot {
 		log.info("begin to detect events of " + date);
 		/** 初始化 **/
 		EventDAO dao = new EventDAO();
-		dao.init();
+		
 		/** 根据一些老的事件获得更新后的事件 **/
 		HashSet<Event> events = detectEvents(date);
 		/** 只有当old被更新时才进行如下操作 **/
@@ -77,11 +77,6 @@ public class EventDetectBoot extends Boot {
 			}
 			/** 数据入库 **/
 			dao.saveORupdateEvents(events);
-			/** 放入memcached，暂无 **/
-			// Iterator<Event> it = old.iterator();
-			// while (it.hasNext()) {
-			//
-			// }
 		}
 	}
 

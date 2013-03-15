@@ -37,6 +37,10 @@ public class EventDAO {
 		this.memcachedDaemon = memcachedDaemon;
 	}
 
+	public EventDAO(){
+		init();
+	}
+	
 	public void init() {
 		if (logger == null)
 			logger = new DLDELogger();

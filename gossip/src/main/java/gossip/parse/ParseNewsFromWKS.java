@@ -18,7 +18,10 @@ import edu.bit.dlde.extractor.CombinedPreciseExtractor;
 import edu.bit.dlde.model.DLDEWebPage;
 import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
+import gossip.dao.NewsDAO;
+import gossip.model.News;
 import gossip.utils.DateException;
+import gossip.utils.TypeFactory;
 
 /**
  * 配置文件在 /data/gossip/site/qq/*.xml 定时将抓取的qq新闻移到指定目录
@@ -33,16 +36,14 @@ public class ParseNewsFromWKS {
 	 * 
 	 * Jul 12, 2012
 	 */
-	public static List<DLDEWebPage> parse() {
+	public void parse() {
 
-		String folderPath = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("NewsPath");
-		String bakPath = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("BackupPath");
+		String folderPath = DLDEConfiguration.getInstance("gossip.properties").getValue("NewsPath");
+		String bakPath = DLDEConfiguration.getInstance("gossip.properties").getValue("BackupPath");
 		File folder = new File(folderPath);
-		List<DLDEWebPage> pages = new ArrayList<DLDEWebPage>();
 		DLDEWebPage webpage = null;
 		for (File file : folder.listFiles()) {
+			List<DLDEWebPage> pages = new ArrayList<DLDEWebPage>();
 			String filename = file.getName();
 			System.out.println(filename);
 			PageStoreReader psr = new PageStoreReader(file);
@@ -68,15 +69,23 @@ public class ParseNewsFromWKS {
 				if(webpage!=null){
 					pages.add(webpage);
 				}
-
 			}
+			/*
+			 * 插入数据
+			 */
+			DBThreadNews dbtn = new DBThreadNews(pages);
+			dbtn.run();
+//			new Thread(dbtn).start();
+			/*
+			 * 移走数据
+			 */
 			if (!new File(bakPath).exists()) {
 				new File(bakPath).mkdirs();
 			}
 			file.renameTo(new File(bakPath + filename));
 		}
-		return pages;
 	}
+	
 	
 	/**
 	 * 根据.pages的文件名得到日期
@@ -157,4 +166,24 @@ public class ParseNewsFromWKS {
 		// System.out.println(str);
 	}
 
+}
+class DBThreadNews implements Runnable{
+	private List<News> newsList;
+	public DBThreadNews(List<DLDEWebPage> webpages){
+		
+		newsList = new ArrayList<News>(webpages.size());
+		News news = null;
+		for(DLDEWebPage page : webpages){
+			news = TypeFactory.transfromWebPage(page);
+			newsList.add(news);
+		}
+	}
+
+	@Override
+	public void run() {
+		NewsDAO dao = new NewsDAO();
+		dao.insertNews(newsList);
+		dao.close();
+	}
+	
 }

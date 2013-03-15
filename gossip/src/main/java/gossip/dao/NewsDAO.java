@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -20,7 +21,7 @@ import org.apache.lucene.store.FSDirectory;
 import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.index.GossipMessager;
-import gossip.queryExpansion.News;
+import gossip.model.News;
 import gossip.utils.DatabaseUtils;
 
 /**
@@ -36,8 +37,12 @@ public class NewsDAO {
 	final String SQL_SELECT_NEWS_ALL = "select * from news";
 	final String SQL_SELECT_NEWS_BY_ID = "select * from news  where id = ?";
 	final String SQL_SELECT_NEWS_BY_TITLE = "select * from news  where title = ?";
-	final String SQL_INSERT_NEWS = "insert into news(id,title,body,url,author,description) values(?,?,?,?,?,?)";
-
+	final String SQL_INSERT_NEWS = "insert into news(title,body,url,author,description) values(?,?,?,?,?)";
+	Connection conn = null;
+	public NewsDAO(){
+		init();
+	}
+	
 	public DLDELogger getLogger() {
 		return logger;
 	}
@@ -81,6 +86,12 @@ public class NewsDAO {
 		if (dataSource == null) {
 			dataSource = DatabaseUtils.getInstance();
 		}
+			try {
+				if (conn == null)
+					conn = dataSource.getConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 
 	/**
@@ -240,11 +251,9 @@ public class NewsDAO {
 	public News getNewsById(int id) {
 		init();
 		News news = new News();
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -267,8 +276,6 @@ public class NewsDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -283,11 +290,9 @@ public class NewsDAO {
 	 */
 	public News getNewsByTitle(String title) {
 		News news = null;
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_TITLE);
 			pstmt.setString(1, title);
 			if (pstmt.execute()) {
@@ -312,8 +317,6 @@ public class NewsDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -329,11 +332,9 @@ public class NewsDAO {
 	public ArrayList<News> getAllNewsFromDB() {
 		ArrayList<News> allNews = new ArrayList<News>();
 		init();
-		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_NEWS_ALL);
 			while (rs.next()) {
@@ -363,47 +364,59 @@ public class NewsDAO {
 	}
 
 	// insert into news(title,body,url,author,description) values(?,?,?,?,?)";
-	public void insertNews(ArrayList<News> newsList) {
+	public void insertNews(List<News> newsList) {
 		if (newsList.isEmpty() || newsList == null) {
 			return;
 		}
-		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(SQL_INSERT_NEWS,
-					Statement.RETURN_GENERATED_KEYS);
+			pstmt = conn.prepareStatement(SQL_INSERT_NEWS);
 			for (News news : newsList) {
+				if(news == null)
+					continue;
 				//System.out.println("11111111111111111");
 				News newsByTitle = null;
 				// 插入之前先根据title执行查询操作，如果查询结果为空，说明数据库中还没有这条新闻，可以插入，否则说明数据库中已经有了，不能重复插入
 				newsByTitle = getNewsByTitle(news.getTitle());
 				if (newsByTitle == null) {
-					pstmt.setInt(1, news.getId());
-					pstmt.setString(2, news.getTitle());
-					pstmt.setString(3, news.getBody());
-					pstmt.setString(4, news.getUrl());
-					pstmt.setString(5, news.getAuthor());
-					pstmt.setString(6, news.getDescription());
-					pstmt.executeUpdate();
-					rs = pstmt.getGeneratedKeys();
+					System.out.println("insert "+news.getTitle());
+					pstmt.setString(1, news.getTitle());
+					pstmt.setString(2, news.getBody());
+					pstmt.setString(3, news.getUrl());
+					pstmt.setString(4, news.getAuthor());
+					pstmt.setString(5, news.getDescription());
+					pstmt.execute();
 				}// if
 			}// for
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 
+	}
+
+	/**
+	 * 返回状态为NEW的
+	 * @return
+	 */
+	public List<News> getFreshNews() {
+		return null;
+	}
+	
+	
+	public void close(){
+		if(conn != null){
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

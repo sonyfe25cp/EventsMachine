@@ -17,10 +17,10 @@ import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.Version;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-import edu.bit.dlde.model.DLDEWebPage;
 import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
-import gossip.parse.ParseNewsFromWKS;
+import gossip.dao.NewsDAO;
+import gossip.model.News;
 
 /**
  * 临时建索引方案
@@ -48,60 +48,11 @@ public class Indexer {
 
 			iw = new IndexWriter(dir, conf);
 
-			List<DLDEWebPage> list = ParseNewsFromWKS.parse();
+			NewsDAO newsDao = new NewsDAO();
+			List<News> list = newsDao.getFreshNews();
 			int count = 0;
-			Document doc = null;
-			for (DLDEWebPage page : list) {
-				doc = new Document();
-				Field uniqueField = new Field("id", count + "", Store.YES,
-						Index.NOT_ANALYZED);
-				if (page.getTitle() == null) {
-					System.out.println("url:" + page.getUrl()+ "  ------------------------- no title");
-					continue;
-				}
-
-				Field titleField = new Field("title", page.getTitle(),
-						Store.YES, Index.ANALYZED, TermVector.YES);
-				if (page.getBody() == null) {
-					System.out.println("url:" + page.getUrl() + "  ------------------------- no body");
-					continue;
-				}
-				Field contentField = new Field("body", page.getBody(),
-						Store.YES, Index.ANALYZED, TermVector.YES);
-				Field authorField = new Field("author",
-						page.getAuthor() == null ? "" : page.getAuthor(),
-						Store.YES, Index.NOT_ANALYZED);
-				Field urlField = new Field("url", page.getUrl(), Store.YES,
-						Index.NOT_ANALYZED);
-				String date = page.getDate();
-				if (date == null) {
-					System.out.println("url:" + page.getUrl() + "  ------------------------- no date");
-					continue;
-				}
-				Field dateField = new Field("date", page.getDate(), Store.YES,
-						Index.NOT_ANALYZED);// 显示用
-				Field siteField = new Field("site",
-						page.getFrom_site() == null ? "" : page.getFrom_site(),
-						Store.YES, Index.ANALYZED);
-
-				NumericField crawlAt = new NumericField("crawl_at",
-						Field.Store.YES, true).setIntValue(0);// 便于范围查找
-
-				Field dateIntField = new Field("date_int", page.getCrawl_at(),
-						Store.YES, Index.NOT_ANALYZED);// 便于查找某一天
-				crawlAt.setIntValue(Integer.parseInt(page.getCrawl_at()));
-
-				doc.add(uniqueField);
-				doc.add(titleField);
-				doc.add(contentField);
-				doc.add(authorField);
-				doc.add(urlField);
-				doc.add(dateField);
-				doc.add(siteField);
-				doc.add(crawlAt);
-				doc.add(dateIntField);
-
-				iw.addDocument(doc);
+			for (News news : list) {
+				iw.addDocument(news.toDocument());
 				count++;
 				if (count % 100 == 0)
 					iw.commit();
