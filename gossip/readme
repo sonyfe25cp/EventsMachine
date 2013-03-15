@@ -12,3 +12,8 @@ gossip：
 	并返回；2能够自动检测文件夹并建立索引，归档旧文件等等工作(暂无)
 		IndexDaemon indexDaemon = new IndexDaemon();
 		indexDaemon.run();
+流程：
+1. Parser定时去解析文件夹的文件，并入库。
+2. Indexer去数据库找到新的数据，然后索引之。
+3. Similarity去计算事件的相似度。
+4. EventDetectBoot去计算新的事件。
