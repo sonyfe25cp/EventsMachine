@@ -1,8 +1,12 @@
 package gossip.utils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
-import com.jolbox.bonecp.BoneCPDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import edu.bit.dlde.utils.DLDEConfiguration;
 
@@ -10,40 +14,41 @@ public class DatabaseUtils {
 
 	private static DataSource dataSource;
 
+	static String driver = DLDEConfiguration.getInstance("gossip.properties")
+			.getValue("driver");
+	static String dbUser = DLDEConfiguration.getInstance("gossip.properties")
+			.getValue("dbUser");
+	static String dbPassword = DLDEConfiguration.getInstance("gossip.properties")
+			.getValue("dbPassword");
+	static String dbUrl = DLDEConfiguration.getInstance("gossip.properties")
+			.getValue("dbUrl");
 	public static DataSource getInstance() {
-		String driver = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("driver");
-//		String dbIp = DLDEConfiguration.getInstance("gossip.properties")
-//				.getValue("dbIp");
-//		String dbPort = DLDEConfiguration.getInstance("gossip.properties")
-//				.getValue("dbPort");
-		String dbUser = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("dbUser");
-		String dbPassword = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("dbPassword");
-		String dbUrl = DLDEConfiguration.getInstance("gossip.properties")
-				.getValue("dbUrl");
 		if (dataSource == null) {
-			int max = 20;
-			int min = 5;
-			int increment = 2;
-			try {
-				Class.forName(driver);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			BoneCPDataSource datasource = new BoneCPDataSource();
-
-			datasource.setJdbcUrl(dbUrl);
-			datasource.setUsername(dbUser);
-			datasource.setPassword(dbPassword);
-			datasource.setMaxConnectionsPerPartition(max);
-			datasource.setMinConnectionsPerPartition(min);
-			datasource.setAcquireIncrement(increment);
-
-			dataSource = datasource;
+			BasicDataSource ds = new BasicDataSource();
+			ds.setDriverClassName(driver);
+			ds.setUrl(dbUrl);
+			ds.setUsername(dbUser);
+			ds.setPassword(dbPassword);
+			ds.setInitialSize(50);
+			ds.setMaxActive(100);
+			ds.setMaxIdle(30);
+			ds.setMaxWait(10000);
+			dataSource = ds;
 		}
 		return dataSource;
 	}
-
+	
+	public static Connection getConnection(){
+		Connection conn = null;
+		try {
+			Class.forName(driver);
+			conn =DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+			
+//			conn = dataSource.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
+	
 }

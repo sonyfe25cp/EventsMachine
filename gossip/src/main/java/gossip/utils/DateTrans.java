@@ -36,17 +36,18 @@ public class DateTrans {
 		int day = Integer.parseInt(ymd.substring(6, 8));
 		int newYear = year;
 		int newMonth = month;
-		int newDay = day - 1;
+		int newDay = day;
 		if (day == 1) {
-			switch (month) {
+			if(month == 1){
+				newMonth = 12;
+				newYear = year - 1;
+			}else{
+				newMonth = month -1 ;
+			}
+			switch (newMonth) {
 			case 1:
 				newDay = 31;
-				if(month == 1){
-					newMonth = 12;
-				}else{
-					newMonth = month - 1;
-				}
-				newYear = year - 1;
+				
 				break;
 			case 2:
 				newDay = 30;
@@ -82,6 +83,8 @@ public class DateTrans {
 				newDay = 31;
 				break;
 			}
+		}else{
+			newDay = day - 1;
 		}
 		return YYMMDDToInt(newYear, newMonth, newDay);
 	}

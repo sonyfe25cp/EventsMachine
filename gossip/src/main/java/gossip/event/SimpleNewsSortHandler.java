@@ -49,7 +49,7 @@ public class SimpleNewsSortHandler implements Handler {
 				// 排序
 				for(int i =0 ;i < docs.length ;i++){
 					for(int j = i+1; j <docs.length; j++){
-						if(Integer.parseInt(docs[i].get("date_int"))<Integer.parseInt(docs[j].get("date_int"))){
+						if(Integer.parseInt(docs[i].get("crawlat"))<Integer.parseInt(docs[j].get("crawlat"))){
 							Document tmp = docs[i];
 							docs[i] = docs[j];
 							docs[j] = tmp;

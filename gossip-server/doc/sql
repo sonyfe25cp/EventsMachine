@@ -36,13 +36,17 @@ create table gossip.comment(id int auto_increment primary key,
 
 //新闻表	
 CREATE  TABLE gossip.news (
-  id INT NOT NULL ,
+  id INT auto_increment primary key ,
   title VARCHAR(999) NULL ,
   body TEXT NULL ,
   url VARCHAR(100) NULL ,
   author VARCHAR(45) NULL ,
   description TEXT NULL ,
-  PRIMARY KEY (id) );
+  date varchar(45) null,
+  fromsite varchar(100) null,
+  crawlat varchar(45) null,
+  status varchar(45) null
+  );
   
  //查询扩展表 
  CREATE  TABLE gossip.expansion (

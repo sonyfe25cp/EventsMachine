@@ -47,7 +47,7 @@ public class SimilarityCalBoot extends Boot {
 		try {
 			/** 当前是对body和title域均计算一遍相似读 **/
 			for (String field : fields) {
-				List<SimilarDocPair> sdpList = calculator.getSimilarDocPairs(date, field, 10);// 后退10天求相似度
+				List<SimilarDocPair> sdpList = calculator.getSimilarDocPairs(date, 30, field);// 后退15天求相似度
 				if (sdpList == null)
 					continue;
 				sdpList = calculator.refineSimList(sdpList);
@@ -80,7 +80,7 @@ public class SimilarityCalBoot extends Boot {
 				System.exit(0);
 			}
 		}
-		SimilarityCalBoot scb = new SimilarityCalBoot(0);
+		SimilarityCalBoot scb = new SimilarityCalBoot(20120630);
 		scb.run();
 	}
 

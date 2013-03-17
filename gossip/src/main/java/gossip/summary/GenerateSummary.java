@@ -1,6 +1,5 @@
 package gossip.summary;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,10 +38,13 @@ public class GenerateSummary {
 		Map<Integer,String[][]>  keymap=new HashMap<Integer,String[][]>();//文档，keywordWeight
 		Map<Integer,String[][]> senmap=new HashMap<Integer,String[][]>();//文档，topNSen
 		for(int i=0;i<pages.size();i++){
-//			System.out.println(pages.get(i));
-			summap.put(pages.get(i), summary(pages.get(i)));
-			keymap.put(pages.get(i), keywordWeight);
-			senmap.put(pages.get(i), topNSen);
+			int id = pages.get(i);
+			if(id != 0){
+				System.out.println("id :  "+id);
+				summap.put(pages.get(i), summary(pages.get(i)));
+				keymap.put(pages.get(i), keywordWeight);
+				senmap.put(pages.get(i), topNSen);
+			}
 		}
 		return summarization(keymap,senmap);
 	}
@@ -50,11 +52,11 @@ public class GenerateSummary {
 	/**
 	 * 单文档摘要
 	 * 
-	 * @param docId	文档ID
+	 * @param id	文档在数据库的ID
 	 * @return	返回单个文档的摘要
 	 */
-	public String summary(int docId) {
-		SegParaSentence sps = new SegParaSentence(docId);
+	public String summary(int id) {
+		SegParaSentence sps = new SegParaSentence(id);
 		ChooseKeywords ckw=new ChooseKeywords(sps);
 		// 存放分句信息数组, 格式：段号 句号 句子起始位置 句子结束位置
 		int[][] sentences = sps.getSentencesInfo();
@@ -156,7 +158,7 @@ public class GenerateSummary {
 				}
 			}
 		}
-		System.out.println(sb.toString());
+//		System.out.println(sb.toString());
 		return sb.toString();
 	}
 

@@ -4,14 +4,12 @@ import gossip.dao.EventDAO;
 import gossip.dao.NewsDAO;
 import gossip.dao.QueryExpansionDAO;
 import gossip.event.Event;
+import gossip.model.News;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -24,7 +22,6 @@ import org.apache.lucene.index.TermFreqVector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
-
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 /**

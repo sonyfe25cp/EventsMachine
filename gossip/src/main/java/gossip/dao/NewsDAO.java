@@ -1,26 +1,20 @@
 package gossip.dao;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import net.sf.json.JSONObject;
-
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-
 import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.index.GossipMessager;
-import gossip.queryExpansion.News;
+import gossip.model.News;
 import gossip.utils.DatabaseUtils;
 
 /**
@@ -36,7 +30,11 @@ public class NewsDAO {
 	final String SQL_SELECT_NEWS_ALL = "select * from news";
 	final String SQL_SELECT_NEWS_BY_ID = "select * from news  where id = ?";
 	final String SQL_SELECT_NEWS_BY_TITLE = "select * from news  where title = ?";
-	final String SQL_INSERT_NEWS = "insert into news(id,title,body,url,author,description) values(?,?,?,?,?,?)";
+
+	Connection conn = null;
+
+	public NewsDAO() {
+	}
 
 	public DLDELogger getLogger() {
 		return logger;
@@ -52,16 +50,6 @@ public class NewsDAO {
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
-	}
-
-	MemcachedDaemon memcachedDaemon;
-
-	public MemcachedDaemon getMemcachedDaemon() {
-		return memcachedDaemon;
-	}
-
-	public void setMemcachedDaemon(MemcachedDaemon memcachedDaemon) {
-		this.memcachedDaemon = memcachedDaemon;
 	}
 
 	/** 主要用来读索引 **/
@@ -81,76 +69,20 @@ public class NewsDAO {
 		if (dataSource == null) {
 			dataSource = DatabaseUtils.getInstance();
 		}
-	}
-
-	/**
-	 * @deprecated
-	 * @return ArrayList<News>
-	 *         此方法为从索引中读取news的信息,这里值用到了id,title,body,author和url属性
-	 *         返回形式如：{id:1,author:"***",body:"……",url:"……"，description:"……"}
-	 */
-	/* 此方法为从索引中读取news的信息,这里值用到了id,title,body,author和url属性 */
-	private ArrayList<News> allNewsFromIndex() {
-		init();
-		ArrayList<News> allNews = new ArrayList<News>();
 		try {
-			Directory dir = FSDirectory.open(new File(indexPath));
-			IndexReader reader = IndexReader.open(dir);
-			for (int i = 0; i < reader.numDocs(); i++) {
-				System.out.println(i + "------------------------------");
-				News news = new News();
-				String id = reader.document(i).getField("id").stringValue();
-				System.out.println(id);
-				news.setId(Integer.parseInt(id));
-				String title = reader.document(i).getField("title")
-						.stringValue();
-				System.out.println(title);
-				news.setTitle(title);
-				String body = reader.document(i).getField("body").stringValue();
-				System.out.println(body);
-				news.setBody(body);
-				String author = reader.document(i).getField("author")
-						.stringValue();
-				System.out.println(author);
-				news.setAuthor(author);
-				// String
-				// description=reader.document(i).getField("description").stringValue();
-				// news.setDescription(description);
-				allNews.add(news);
-			}
-
-		} catch (IOException e) {
+			if (conn == null)
+				conn = dataSource.getConnection();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return allNews;
+	}
+	public void init(Connection conn){
+		this.conn = conn;
 	}
 
 	public JSONObject getNewsJSONById(long id) {
 		JSONObject result = null;
-		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
-			try {
-				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					result = memcachedDaemon.getMemcachedClient().get(
-							"news:" + id, 500);
-					if (result == null) {
-						logger.info("i found nothing in memcacehd...");
-						// 查索引
-						result = getNewsJSONByIdFromIndex(id);
-						// 添加
-						if (result != null) {
-							String key = MemcachedKeyUtils.generateKey(
-									MemcachedKeyUtils.NEWS, id);
-							memcachedDaemon.getMemcachedClient().add(key,
-									MemcachedDaemon.expiration, result);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {// 当memcached是关着的时候
-			result = getNewsJSONByIdFromIndex(id);
-		}
+		result = getNewsJSONByIdFromIndex(id);
 		return result;
 	}
 
@@ -183,33 +115,7 @@ public class NewsDAO {
 	 */
 	public JSONObject getNewsRankingJSON(int begin, int limit) {
 		JSONObject result = null;
-		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
-			try {
-				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					result = memcachedDaemon.getMemcachedClient().get(
-							MemcachedKeyUtils.generateKey(
-									MemcachedKeyUtils.NEWS_RANKING, begin,
-									limit), 500);
-					if (result == null) {
-						logger.info("i found nothing in memcacehd...");
-						// 查索引
-						result = getNewsRankingJSONFromIndex(begin, limit);
-						// 添加
-						if (result != null) {
-							String key = MemcachedKeyUtils.generateKey(
-									MemcachedKeyUtils.NEWS_RANKING, begin,
-									limit);
-							memcachedDaemon.getMemcachedClient().add(key,
-									MemcachedDaemon.expiration, result);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {// 当memcached是关着的时候
-			result = getNewsRankingJSONFromIndex(begin, limit);
-		}
+		result = getNewsRankingJSONFromIndex(begin, limit);
 		return result;
 	}
 
@@ -240,11 +146,9 @@ public class NewsDAO {
 	public News getNewsById(int id) {
 		init();
 		News news = new News();
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -267,8 +171,6 @@ public class NewsDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -283,11 +185,9 @@ public class NewsDAO {
 	 */
 	public News getNewsByTitle(String title) {
 		News news = null;
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_TITLE);
 			pstmt.setString(1, title);
 			if (pstmt.execute()) {
@@ -312,8 +212,6 @@ public class NewsDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -329,11 +227,9 @@ public class NewsDAO {
 	public ArrayList<News> getAllNewsFromDB() {
 		ArrayList<News> allNews = new ArrayList<News>();
 		init();
-		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_NEWS_ALL);
 			while (rs.next()) {
@@ -362,40 +258,196 @@ public class NewsDAO {
 		return allNews;
 	}
 
-	// insert into news(title,body,url,author,description) values(?,?,?,?,?)";
-	public void insertNews(ArrayList<News> newsList) {
-		if (newsList.isEmpty() || newsList == null) {
-			return;
+	/*
+	 * 批量更新新闻状态
+	 */
+	final String SQL_UPDATE_STATUS_BATCH = "update news set status = ? where id = ?";
+	public void batchUpdateNews(List<News> newsList, String status) {
+		PreparedStatement pstmt = null;
+		try {
+			conn.setAutoCommit(false);
+			for (News news : newsList) {
+				pstmt = conn.prepareStatement(SQL_UPDATE_STATUS_BATCH);
+				pstmt.setString(1, status);
+				pstmt.setInt(2, news.getId());
+				pstmt.addBatch();
+			}
+			pstmt.executeBatch();
+			conn.commit();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		Connection conn = null;
+	}
+	/**
+	 * true is exist
+	 * false is not exist
+	 * @param title
+	 * @return
+	 */
+	public boolean isExist(String title) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(SQL_INSERT_NEWS,
-					Statement.RETURN_GENERATED_KEYS);
-			for (News news : newsList) {
-				//System.out.println("11111111111111111");
-				News newsByTitle = null;
-				// 插入之前先根据title执行查询操作，如果查询结果为空，说明数据库中还没有这条新闻，可以插入，否则说明数据库中已经有了，不能重复插入
-				newsByTitle = getNewsByTitle(news.getTitle());
-				if (newsByTitle == null) {
-					pstmt.setInt(1, news.getId());
-					pstmt.setString(2, news.getTitle());
-					pstmt.setString(3, news.getBody());
-					pstmt.setString(4, news.getUrl());
-					pstmt.setString(5, news.getAuthor());
-					pstmt.setString(6, news.getDescription());
-					pstmt.executeUpdate();
-					rs = pstmt.getGeneratedKeys();
-				}// if
-			}// for
+			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_TITLE);
+			pstmt.setString(1, title);
+			if (pstmt.execute()) {
+				rs = pstmt.getResultSet();
+				if(rs.next()){
+					return true;
+				}else{
+					return false;
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				if (rs != null)
 					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+
+	final String SQL_INSERT_NEWS = "insert into news(title,body,url,author,description,date,fromsite,crawlat,status) values(?,?,?,?,?,?,?,?,?)";
+	public void insertNews(List<News> newsList) {
+		if (newsList.isEmpty() || newsList == null) {
+			return;
+		}
+		PreparedStatement pstmt = null;
+		try {
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(SQL_INSERT_NEWS);
+			for (News news : newsList) {
+				if (news == null || news.getTitle() == null
+						|| news.getBody() == null)
+					continue;
+//				boolean existFlag = isExist(news.getTitle());
+//				if (!existFlag) {
+					System.out.println("insert " + news.getTitle());
+					pstmt.setString(1, news.getTitle());
+					pstmt.setString(2, news.getBody());
+					pstmt.setString(3, news.getUrl());
+					pstmt.setString(4, news.getAuthor());
+					pstmt.setString(5, news.getDescription());
+					pstmt.setString(6, news.getDate());
+					pstmt.setString(7, news.getFromSite());
+					pstmt.setString(8, news.getCrawlAt());
+					pstmt.setString(9, news.getStatus());
+					pstmt.addBatch();
+//				}// if
+			}// for
+			pstmt.executeBatch();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
+	 * 返回状态为NEW的
+	 * 
+	 * @return
+	 */
+	final String SQL_FRESH_NEWS = "select * from news where status = 'new'";
+
+	public List<News> getFreshNews() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<News> newsList = new ArrayList<News>();
+		try {
+			pstmt = conn.prepareStatement(SQL_FRESH_NEWS);
+			pstmt.execute();
+			rs = pstmt.getResultSet();
+			News news = null;
+			while (rs.next()) {
+				news = new News();
+				news.setId(rs.getInt("id"));
+				news.setTitle(rs.getString("title"));
+				news.setAuthor(rs.getString("author"));
+				news.setBody(rs.getString("body"));
+				news.setUrl(rs.getString("url"));
+				news.setDescription(rs.getString("description"));
+				news.setDate(rs.getString("date"));
+				news.setCrawlAt(rs.getString("crawlat"));
+				news.setFromSite(rs.getString("fromsite"));
+				news.setStatus(rs.getString("status"));
+				newsList.add(news);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (Exception e) {
+
+		}
+		return newsList;
+	}
+
+	public void close() {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	final String SQL_DELETE_NEWS_BY_ID = "update event set pages=? where id = ?";
+
+	/**
+	 * 删除不相关新闻
+	 * 
+	 * @param id
+	 * @param newsId
+	 */
+	public void deleteNews(int id, String newsId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String pages = null;
+		try {
+			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
+			pstmt.setInt(1, id);
+			pstmt.execute();
+			rs = pstmt.getResultSet();
+			if (rs.next()) {
+				pages = rs.getString("pages");
+			}
+			String newPages = null;
+			String[] allPages = pages.split(";");
+			for (String page : allPages) {
+				if (!page.equals(newsId)) {
+					if (newPages == null)
+						newPages = page + ";";
+					else
+						newPages += page + ";";
+				}
+
+			}
+
+			pstmt = conn.prepareStatement(SQL_DELETE_NEWS_BY_ID);
+			pstmt.setInt(2, id);
+			pstmt.setString(1, newPages);
+			pstmt.execute();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
 				if (pstmt != null)
 					pstmt.close();
 				if (conn != null)
@@ -404,6 +456,5 @@ public class NewsDAO {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }

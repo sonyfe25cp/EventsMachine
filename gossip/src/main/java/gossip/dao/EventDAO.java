@@ -1,6 +1,5 @@
 package gossip.dao;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,38 +12,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.event.Event;
-import gossip.utils.DatabaseUtils;
 
 /**
  * 
  * @author lins 2012-8-16
  */
-public class EventDAO {
-	/** memcachedDaemon的对象 **/
-	private MemcachedDaemon memcachedDaemon;
-
-	public MemcachedDaemon getMemcachedDaemon() {
-		return memcachedDaemon;
-	}
-
-	public void setMemcachedDaemon(MemcachedDaemon memcachedDaemon) {
-		this.memcachedDaemon = memcachedDaemon;
-	}
-
-	public void init() {
-		if (logger == null)
-			logger = new DLDELogger();
-		if (dataSource == null) {
-			dataSource = DatabaseUtils.getInstance();
-		}
-		logger.info("eventDao init over");
-	}
+public class EventDAO extends BaseDaoImpl {
 
 	private DLDELogger logger;
 
@@ -56,47 +33,19 @@ public class EventDAO {
 		this.logger = logger;
 	}
 
+	public EventDAO() {
+		super();
+	}
+
 	final String SQL_SELECT_EVENT_BY_ID = "select * from event  where id = ?";
 	final String SQL_SELECT_EVENT_BY_DATE = "select * from event  where create_time = ?";
 	final String SQL_SELECT_EVENT_ORDERED = "select id from event order by recommended desc";
 	final String SQL_SELECT_EVENT_ALL = "select * from event";// 从数据库中读出所有的event-by
 																// shiyulong
 	final String delimiter = ";";
-	private DataSource dataSource;
-
-	public DataSource getDataSource() {
-		return dataSource;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	public JSONArray getEventJSONByDate(Date date) {
-		JSONArray result = null;
-		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
-			try {
-				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					String key = MemcachedKeyUtils.generateKey(
-							MemcachedKeyUtils.EVENTS_BY_DATE, date.getTime());
-					result = memcachedDaemon.getMemcachedClient().get(key, 500);
-					if (result == null) {
-						logger.info("i found nothing in memcacehd...");
-						// 查索引
-						result = getEventJSONByDateFromDB(date);
-						// 添加
-						if (result != null) {
-							memcachedDaemon.getMemcachedClient().add(key,
-									MemcachedDaemon.expiration, result);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {// 当memcached是关着的时候
-			result = getEventJSONByDateFromDB(date);
-		}
+		JSONArray result = getEventJSONByDateFromDB(date);
 		return result;
 	}
 
@@ -109,11 +58,9 @@ public class EventDAO {
 	private JSONArray getEventJSONByDateFromDB(Date date) {
 		JSONObject jsonObj;
 		JSONArray jsonArry = new JSONArray();
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_DATE);
 			pstmt.setDate(1, date);
 			if (pstmt.execute()) {
@@ -144,8 +91,6 @@ public class EventDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -162,30 +107,7 @@ public class EventDAO {
 	 * @return
 	 */
 	public JSONObject getEventJSONById(int id) {
-		JSONObject result = null;
-		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
-			try {
-				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					String key = MemcachedKeyUtils.generateKey(
-							MemcachedKeyUtils.EVENT, id);
-					result = memcachedDaemon.getMemcachedClient().get(key, 500);
-					if (result == null) {
-						logger.info("i found nothing in memcacehd...");
-						// 查索引
-						result = getEventJSONByIdFromDB(id);
-						// 添加
-						if (result != null) {
-							memcachedDaemon.getMemcachedClient().add(key,
-									MemcachedDaemon.expiration, result);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {// 当memcached是关着的时候
-			result = getEventJSONByIdFromDB(id);
-		}
+		JSONObject result = getEventJSONByIdFromDB(id);
 		return result;
 	}
 
@@ -197,11 +119,9 @@ public class EventDAO {
 	 */
 	private JSONObject getEventJSONByIdFromDB(int id) {
 		JSONObject jsonObj = new JSONObject();
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -246,11 +166,9 @@ public class EventDAO {
 	public Event getEventById(int id) {
 		init();
 		Event event = new Event();
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -287,8 +205,6 @@ public class EventDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -309,11 +225,9 @@ public class EventDAO {
 	public ArrayList<Event> getAllEvent() {
 		ArrayList<Event> allEvent = new ArrayList<Event>();
 		init();
-		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_EVENT_ALL);
 			while (rs.next()) {
@@ -349,8 +263,6 @@ public class EventDAO {
 					rs.close();
 				if (stmt != null)
 					stmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -361,29 +273,7 @@ public class EventDAO {
 	// 以jsonArray格式返回所有event
 
 	public JSONObject getEventRanking() {
-		JSONObject result = null;
-		if (memcachedDaemon.isOn()) {// 当memcached是开着的时候
-			try {
-				for (int i = 0; i < 5; i++) {// 最多尝试5次读memcached
-					String key = "event-rank";
-					result = memcachedDaemon.getMemcachedClient().get(key, 500);
-					if (result == null) {
-						logger.info("i found nothing in memcacehd...");
-						// 查索引
-						result = getEventRankingFromDB();
-						// 添加
-						if (result != null) {
-							memcachedDaemon.getMemcachedClient().add(key,
-									MemcachedDaemon.expiration * 24, result);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {// 当memcached是关着的时候
-			result = getEventRankingFromDB();
-		}
+		JSONObject result = getEventRankingFromDB();
 		return result;
 	}
 
@@ -395,11 +285,9 @@ public class EventDAO {
 	public JSONObject getEventRankingFromDB() {
 		JSONObject jsonObj = new JSONObject();
 
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_ORDERED);
 			if (pstmt.execute()) {
 				rs = pstmt.getResultSet();
@@ -418,8 +306,6 @@ public class EventDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -456,11 +342,9 @@ public class EventDAO {
 		if (events == null || events.isEmpty())
 			return;
 
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_INSERT_EVENT,
 					Statement.RETURN_GENERATED_KEYS);
 			Iterator<Event> it = events.iterator();
@@ -495,8 +379,6 @@ public class EventDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -512,11 +394,9 @@ public class EventDAO {
 		if (events == null || events.isEmpty())
 			return;
 
-		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			Iterator<Event> it = events.iterator();
 			while (it.hasNext()) {
@@ -531,8 +411,6 @@ public class EventDAO {
 					rs.close();
 				if (stmt != null)
 					stmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -549,10 +427,8 @@ public class EventDAO {
 	 * @param title
 	 */
 	public void updateTitle(int id, String title) {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_TITLE_BY_ID);
 			pstmt.setString(1, title);
 			pstmt.setInt(2, id);
@@ -564,8 +440,6 @@ public class EventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -582,10 +456,8 @@ public class EventDAO {
 	 * @param location
 	 */
 	public void updateLocation(int id, String location) {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_LOCATION_BY_ID);
 			pstmt.setString(1, location);
 			pstmt.setInt(2, id);
@@ -597,8 +469,6 @@ public class EventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -615,10 +485,8 @@ public class EventDAO {
 	 * @param summary
 	 */
 	public void updateSummary(int id, String summary) {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_SUMMARY_BY_ID);
 			pstmt.setString(1, summary);
 			pstmt.setInt(2, id);
@@ -649,12 +517,10 @@ public class EventDAO {
 	 * @param newsId
 	 */
 	public void addNews(int id, String newsId) {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String pages = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
@@ -702,12 +568,10 @@ public class EventDAO {
 	 * @param keywords
 	 */
 	public void addKeywords(int id, String keywords) {
-		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String oldKeywords = null;
 		try {
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_KEYWORDS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
@@ -729,60 +593,6 @@ public class EventDAO {
 			pstmt = conn.prepareStatement(SQL_ADD_KEYWORDS_BY_ID);
 			pstmt.setInt(2, id);
 			pstmt.setString(1, oldKeywords);
-			pstmt.execute();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	final String SQL_DELETE_NEWS_BY_ID = "update event set pages=? where id = ?";
-
-	/**
-	 * 删除不相关新闻
-	 * 
-	 * @param id
-	 * @param newsId
-	 */
-	public void deleteNews(int id, String newsId) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String pages = null;
-		try {
-			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
-			pstmt.setInt(1, id);
-			pstmt.execute();
-			rs = pstmt.getResultSet();
-			if (rs.next()) {
-				pages = rs.getString("pages");
-			}
-			String newPages = null;
-			String[] allPages = pages.split(";");
-			for (String page : allPages) {
-				if (!page.equals(newsId)) {
-					if (newPages == null)
-						newPages = page + ";";
-					else
-						newPages += page + ";";
-				}
-
-			}
-
-			pstmt = conn.prepareStatement(SQL_DELETE_NEWS_BY_ID);
-			pstmt.setInt(2, id);
-			pstmt.setString(1, newPages);
 			pstmt.execute();
 
 		} catch (SQLException e) {
