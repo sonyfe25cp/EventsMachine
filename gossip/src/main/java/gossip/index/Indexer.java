@@ -2,14 +2,9 @@ package gossip.index;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.Field.TermVector;
-import org.apache.lucene.document.NumericField;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -21,6 +16,7 @@ import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.NewsDAO;
 import gossip.model.News;
+import gossip.utils.DatabaseUtils;
 
 /**
  * 临时建索引方案
@@ -48,7 +44,9 @@ public class Indexer {
 
 			iw = new IndexWriter(dir, conf);
 
+			Connection conn = DatabaseUtils.getInstance().getConnection();
 			NewsDAO newsDao = new NewsDAO();
+			newsDao.init(conn);
 			List<News> list = newsDao.getFreshNews();
 			int count = 0;
 			for (News news : list) {
@@ -59,6 +57,8 @@ public class Indexer {
 			}
 			iw.commit();
 			iw.close();
+			newsDao.batchUpdateNews(list, News.INDEX);
+			newsDao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

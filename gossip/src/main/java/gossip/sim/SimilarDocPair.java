@@ -19,6 +19,12 @@ public class SimilarDocPair implements Comparable<Object> {
 		this.doc2 = doc2;
 		this.similarity = similarity;
 	}
+	public SimilarDocPair(String doc1, String doc2, double similarity) {
+		super();
+		this.doc1 = Integer.parseInt(doc1);
+		this.doc2 = Integer.parseInt(doc2);
+		this.similarity = similarity;
+	}
 
 	public String toString() {
 		return doc1 + " " + doc2 + " " + similarity;

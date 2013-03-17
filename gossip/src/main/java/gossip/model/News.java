@@ -17,30 +17,51 @@ public class News {
 	private int id;//id
 	private String title;//标题
 	private String body;//正文
-	private String description="";//摘要
-	private String author="";
 	private String url;
+	private String author="";
+	private String description="";//摘要
 	private String date="";
 	private String fromSite="";
 	private String crawlAt="";
-	private NewsStatus status=NewsStatus.NEW;
+	private String status=NEW;
 	
+	public final static String NEW = "new";
+	public final static String INDEX = "index";
+	public final static String DELETE = "delete";
+	public final static String UPDATE = "update";
+	
+	public static News fromDocument(Document doc){
+		News news = new News();
+		
+		String title = doc.get("title");
+		news.setTitle(title);
+		
+		String crawlat = doc.get("crawlat");
+		news.setCrawlAt(crawlat);
+		
+		return news;
+	}
+	
+	public String toString(){
+		return "title:"+title+"\n"+"crawlat:"+crawlAt+"\n";
+	}
 	
 	public Document toDocument(){
 		Document doc = new Document();
-		Field uniqueField = new Field("id", id + "", Store.YES, Index.NOT_ANALYZED);
 		if (title == null || body == null || url == null || date == null) {
 			return null;
 		}
 
+		Field uniqueField = new Field("id", id + "", Store.YES, Index.NOT_ANALYZED);
 		Field titleField = new Field("title", title, Store.YES, Index.ANALYZED, TermVector.YES);
 		Field contentField = new Field("body", body, Store.YES, Index.ANALYZED, TermVector.YES);
 		Field authorField = new Field("author",author == null ? "" : author, Store.YES, Index.NOT_ANALYZED);
 		Field urlField = new Field("url", url, Store.YES, Index.NOT_ANALYZED);
 		Field dateField = new Field("date", date, Store.YES, Index.NOT_ANALYZED);// 显示用
 		Field siteField = new Field("site",	fromSite == null ? "" : fromSite, Store.YES, Index.ANALYZED);
-		NumericField crawlAtField = new NumericField("crawlAt",	Field.Store.YES, true).setIntValue(0);// 便于范围查找
-		crawlAtField.setIntValue(transTodayToInt());
+		NumericField crawlAtField = new NumericField("crawlat",	Field.Store.YES, true).setIntValue(0);// 便于范围查找
+		crawlAtField.setIntValue(Integer.parseInt(crawlAt));
+		Field statusField = new Field("status", status, Store.NO, Index.NOT_ANALYZED);
 		doc.add(uniqueField);
 		doc.add(titleField);
 		doc.add(contentField);
@@ -49,14 +70,15 @@ public class News {
 		doc.add(dateField);
 		doc.add(siteField);
 		doc.add(crawlAtField);
+		doc.add(statusField);
 		return doc;
 	}
 	
-	private int transTodayToInt(){
-		Date date = Calendar.getInstance().getTime();
-		String time = DateTimeUtil.getFormatDay(date);
-		return Integer.parseInt(time);
-	}
+//	private int transTodayToInt(){
+//		Date date = Calendar.getInstance().getTime();
+//		String time = DateTimeUtil.getFormatDay(date);
+//		return Integer.parseInt(time);
+//	}
 	
 	public int getId() {
 		return id;
@@ -123,11 +145,11 @@ public class News {
 		this.crawlAt = crawlAt;
 	}
 
-	public NewsStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
-
-	public void setStatus(NewsStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
+
 }

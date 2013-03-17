@@ -9,7 +9,6 @@ public class TypeFactory {
 		if(webpage == null || webpage.getTitle() == null || webpage.getTitle().length()==0){
 			return null;
 		}
-		
 		News news = new News();
 		news.setTitle(webpage.getTitle());
 		news.setBody(webpage.getBody());

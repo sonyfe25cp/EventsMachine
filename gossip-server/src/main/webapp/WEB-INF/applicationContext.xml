@@ -43,13 +43,14 @@
 	<!-- 自定义的logger -->
 	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger" />
 	
-	
+	<!-- 
 	<bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon"
 		init-method="start">
 		<property name="logger" ref="logger" />
 		<property name="messager" ref="messager" />
 	</bean>
-
+ -->
+ 
 	<!-- 用来发信息的socket -->
 	<bean id="messager" class="gossip.index.GossipMessager">
 		<property name="defaultIp" value="127.0.0.1" />
@@ -57,7 +58,7 @@
 	</bean>
 
 	<!-- DAO -->
-	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource">
+	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource" destroy-method="close">
 		<property name="logger" ref="logger" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -72,7 +73,6 @@
 		depends-on="logger,dataSource">
 		<property name="logger" ref="logger" />
 		<property name="dataSource" ref="dataSource" />
-		<property name="memcachedDaemon" ref="memcachedDaemon" />
 	</bean>
 
 	<bean id="qeDAO" class="gossip.dao.QueryExpansionDAO" init-method="init"

@@ -11,6 +11,11 @@ import java.util.Iterator;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.MMapDirectory;
 
 /**
@@ -26,9 +31,11 @@ public class SimpleTitleHandler implements Handler {
 		// 打开索引
 		MMapDirectory dir = null;
 		IndexReader ir = null;
+		IndexSearcher is = null;
 		try {
 			dir = new MMapDirectory(new File(indexPath));
 			ir = IndexReader.open(dir, true);
+			is = new IndexSearcher(ir);
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
@@ -38,8 +45,15 @@ public class SimpleTitleHandler implements Handler {
 			Event e = it.next();
 			if (ir != null)
 				try {
-					int docId = e.getPages().get(0);// 使用第一文章的标题作为标题
-					Document doc = ir.document(docId);
+					int id = e.getPages().get(0);// 使用第一文章的标题作为标题
+					TermQuery query = new TermQuery(new Term("id",id+""));
+					TopDocs tdocs = is.search(query, 2);
+					ScoreDoc[] sdocs = tdocs.scoreDocs;
+					Document doc = null;
+					for(ScoreDoc sdoc : sdocs){
+						doc = is.doc(sdoc.doc);
+						
+					}
 					if (doc != null)
 						e.setTitle(doc.get("title"));
 					else
@@ -55,6 +69,8 @@ public class SimpleTitleHandler implements Handler {
 				e.setTitle("无标题");
 		}
 		try {
+			if(is!=null)
+				is.close();
 			if (ir != null)
 				ir.close();
 			if (dir != null)

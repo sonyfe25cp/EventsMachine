@@ -11,5 +11,4 @@ public class AutoParser {
 		ParseNewsFromWKS pfw = new ParseNewsFromWKS();
 		pfw.parse();
 	}
-
 }

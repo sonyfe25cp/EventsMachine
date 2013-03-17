@@ -13,18 +13,16 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermFreqVector;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.MMapDirectory;
 
 import edu.bit.dlde.math.VectorCompute;
 import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
-import gossip.utils.DateException;
 import gossip.utils.DateTrans;
 
 /**
@@ -52,23 +50,12 @@ public class SimilarityCalculator {
 	 * @return 相似文档对列表
 	 */
 	public List<SimilarDocPair> getSimilarDocPairs(String field) {
-		return getSimilarDocPairs(0, field, 10);
+		return getSimilarDocPairs(0, 10, field);
 	}
 
-	/**
-	 * 查date那天,field那个域的文档，然后计算他们的相似度
-	 * 
-	 * @param date
-	 *            int表示的date具体计算方式为year * 12 * 31 + month * 31 + day
-	 * @param field
-	 *            域，也就是body，title等等
-	 * @param back 回溯back天
-	 * @return 降序排列的SimilarDocPair列表，该列表并未进行删除不在相似度范围内的文本对
-	 */
-	public List<SimilarDocPair> getSimilarDocPairs(int date, String field,int back) {
+	public List<SimilarDocPair> getSimilarDocPairs(int date, int range, String field){
 		if (field == null)
 			return null;
-
 		List<SimilarDocPair> sdplist = new ArrayList<SimilarDocPair>();
 		try {
 			/** 读索引 **/
@@ -80,53 +67,31 @@ public class SimilarityCalculator {
 			logger.info("maxDoc:"+is.maxDoc());
 			
 			/** 将读出来的东西放进List<DocVector>，设总共N个;同时向前追溯back天 **/
-			docs = is.search(new TermQuery(new Term("date_int", date + "")),is.maxDoc());
+			int endDate = kdaysbefore(date,range);
+			NumericRangeQuery nrq= NumericRangeQuery.newIntRange("crawlat", endDate,date, true, true);
+			docs = is.search(nrq,is.maxDoc());
 			ScoreDoc[] sdocs = docs.scoreDocs;
-			logger.info("date at - "+date+" sdocs.size: "+sdocs.length);
-			List<DocVector> docVectorsA = new ArrayList<DocVector>(sdocs.length);
-			List<DocVector> docVectorsB = new ArrayList<DocVector>();
+			logger.info(field + "field "+"date at - "+date+"to "+endDate +", sdocs.size: "+sdocs.length);
+			List<DocVector> vectors = new ArrayList<DocVector>(sdocs.length);
 			DocVector docVector = null;
 			for (int i = 0; i < sdocs.length; i++) {
 				int docNumber = sdocs[i].doc;
 				TermFreqVector vector = ir.getTermFreqVector(docNumber, field);
-				is.doc(docNumber).get("id");//---------
-				docVector = new DocVector(docNumber, vector);
-				docVectorsA.add(docVector);
-				docVectorsB.add(docVector);
+				String id = is.doc(docNumber).get("id");//---------
+				docVector = new DocVector(id, vector);
+				vectors.add(docVector);
 			}
-			int newDate = DateTrans.theDayBeforeYYMMDD(date);
-			for(int tmp = 0 ; tmp<back ; tmp++){
-				docs = is.search(
-						new TermQuery(new Term("date_int", newDate + "")),
-						is.maxDoc());
-				sdocs = docs.scoreDocs;
-				logger.info("date at "+newDate+" sdocs.size: "+sdocs.length);
-				for (int i = 0; i < sdocs.length; i++) {
-					int docNumber = sdocs[i].doc;
-					TermFreqVector vector = ir.getTermFreqVector(docNumber, field);
-					docVector = new DocVector(docNumber, vector);
-					docVectorsB.add(docVector);
-				}
-				try{
-					newDate = DateTrans.theDayBeforeYYMMDD(newDate);
-				}catch (DateException e) {
-					break;
-				}
-			}
-
-			/** 计算N*M次相似读，并将结果放入List<SimilarDocPair> **/
 			TermFreqVector v1;
 			TermFreqVector v2;
-			int doc1, doc2;
 			double similarity;
-			for (int i = 0; i < docVectorsA.size(); i++) {
-				v1 = docVectorsA.get(i).getVector();
-				doc1 = docVectorsA.get(i).getDocId();
-				for (int j = i + 1; j < docVectorsB.size(); j++) {
-					v2 = docVectorsB.get(j).getVector();
-					doc2 = docVectorsB.get(j).getDocId();
+			for (int i = 0; i < vectors.size() ; i ++) {
+				int id1 = vectors.get(i).getDocId();
+				v1 = vectors.get(i).getVector();
+				for (int j = i + 1; j < vectors.size(); j++) {
+					v2 = vectors.get(j).getVector();
+					int id2 = vectors.get(j).getDocId();
 					similarity = calculateSimilarity(v1, v2);
-					sdplist.add(new SimilarDocPair(doc1, doc2, similarity));
+					sdplist.add(new SimilarDocPair(id1, id2, similarity));
 				}
 			}
 			/** 根据相似度降序排列 **/
@@ -140,6 +105,100 @@ public class SimilarityCalculator {
 		}
 		return sdplist;
 	}
+	
+	private int kdaysbefore(int date,int range){
+		int day = date;
+		for(int i = 0 ; i < range ; i ++){
+			day = DateTrans.theDayBeforeYYMMDD(day);
+		}
+		return day;
+	}
+	
+	/**
+	 * 查date那天,field那个域的文档，然后计算他们的相似度
+	 * 
+	 * @param date
+	 *            int表示的date具体计算方式为year * 12 * 31 + month * 31 + day
+	 * @param field
+	 *            域，也就是body，title等等
+	 * @param back 回溯back天
+	 * @return 降序排列的SimilarDocPair列表，该列表并未进行删除不在相似度范围内的文本对
+	 */
+//	public List<SimilarDocPair> getSimilarDocPairs(int date, String field,int back) {
+//		if (field == null)
+//			return null;
+//
+//		List<SimilarDocPair> sdplist = new ArrayList<SimilarDocPair>();
+//		try {
+//			/** 读索引 **/
+//			MMapDirectory dir = new MMapDirectory(new File(indexPath));
+//			IndexReader ir = IndexReader.open(dir, true);
+//			IndexSearcher is = new IndexSearcher(ir);
+//			TopDocs docs = null;
+//
+//			logger.info("maxDoc:"+is.maxDoc());
+//			
+//			/** 将读出来的东西放进List<DocVector>，设总共N个;同时向前追溯back天 **/
+//			docs = is.search(new TermQuery(new Term("crawlat", date + "")),is.maxDoc());
+//			ScoreDoc[] sdocs = docs.scoreDocs;
+//			logger.info("date at - "+date+" sdocs.size: "+sdocs.length);
+//			List<DocVector> docVectorsA = new ArrayList<DocVector>(sdocs.length);
+//			List<DocVector> docVectorsB = new ArrayList<DocVector>();
+//			DocVector docVector = null;
+//			for (int i = 0; i < sdocs.length; i++) {
+//				int docNumber = sdocs[i].doc;
+//				TermFreqVector vector = ir.getTermFreqVector(docNumber, field);
+//				is.doc(docNumber).get("id");//---------
+//				docVector = new DocVector(docNumber, vector);
+//				docVectorsA.add(docVector);
+//				docVectorsB.add(docVector);
+//			}
+//			int newDate = DateTrans.theDayBeforeYYMMDD(date);
+//			for(int tmp = 0 ; tmp<back ; tmp++){
+//				docs = is.search(
+//						new TermQuery(new Term("date_int", newDate + "")),
+//						is.maxDoc());
+//				sdocs = docs.scoreDocs;
+//				logger.info("date at "+newDate+" sdocs.size: "+sdocs.length);
+//				for (int i = 0; i < sdocs.length; i++) {
+//					int docNumber = sdocs[i].doc;
+//					TermFreqVector vector = ir.getTermFreqVector(docNumber, field);
+//					docVector = new DocVector(docNumber, vector);
+//					docVectorsB.add(docVector);
+//				}
+//				try{
+//					newDate = DateTrans.theDayBeforeYYMMDD(newDate);
+//				}catch (DateException e) {
+//					break;
+//				}
+//			}
+//
+//			/** 计算N*M次相似读，并将结果放入List<SimilarDocPair> **/
+//			TermFreqVector v1;
+//			TermFreqVector v2;
+//			int doc1, doc2;
+//			double similarity;
+//			for (int i = 0; i < docVectorsA.size(); i++) {
+//				v1 = docVectorsA.get(i).getVector();
+//				doc1 = docVectorsA.get(i).getDocId();
+//				for (int j = i + 1; j < docVectorsB.size(); j++) {
+//					v2 = docVectorsB.get(j).getVector();
+//					doc2 = docVectorsB.get(j).getDocId();
+//					similarity = calculateSimilarity(v1, v2);
+//					sdplist.add(new SimilarDocPair(doc1, doc2, similarity));
+//				}
+//			}
+//			/** 根据相似度降序排列 **/
+//			Collections.sort(sdplist);
+//
+//			is.close();
+//			ir.close();
+//			dir.close();
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return sdplist;
+//	}
 
 	/**
 	 * 根据rightFrontier和leftFrontier对SimilarDocPair列表进行重铸。
@@ -337,6 +396,12 @@ public class SimilarityCalculator {
 		private int docId;
 		private TermFreqVector vector;
 
+		public DocVector(String docId, TermFreqVector vector){
+			super();
+			this.docId = Integer.parseInt(docId);
+			this.vector = vector;
+		}
+		
 		public DocVector(int docId, TermFreqVector vector) {
 			super();
 			this.docId = docId;
