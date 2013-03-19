@@ -58,7 +58,7 @@
 	</bean>
 
 	<!-- DAO -->
-	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource" destroy-method="close">
+	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource">
 		<property name="logger" ref="logger" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>

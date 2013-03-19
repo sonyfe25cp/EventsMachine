@@ -28,7 +28,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
 	<!-- 默认所对应的配置文件是WEB-INF下的{servlet-name}-servlet.xml，这里便是：spring3-servlet.xml -->
 	<servlet>
 		<servlet-name>spring3</servlet-name>

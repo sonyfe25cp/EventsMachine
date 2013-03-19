@@ -98,7 +98,9 @@ public class EventAction {
 
 	private JSONObject getEventListSimply(int pageNo, int limit) {
 		JSONArray jsonArray = new JSONArray();
-		JSONObject json = null, eventRanking = eventDao.getEventRanking(), result = new JSONObject();
+		JSONObject json = null;
+		JSONObject eventRanking = eventDao.getEventRanking();
+		JSONObject result = new JSONObject();
 
 		/** 起始于page*limit，终止于(page + 1) * limit - 1 **/
 		int begin = (pageNo - 1) * limit;

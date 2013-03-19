@@ -1,13 +1,13 @@
 package gossip.server.admin;
 
 import gossip.dao.EventDAO;
+import gossip.dao.NewsDAO;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/eventModify")
 public class EventModifyAction {
 	private EventDAO eventDAO;
+	private NewsDAO newsDAO;
 	
 
 	public EventDAO getEventDAO() {
@@ -59,7 +60,7 @@ public class EventModifyAction {
 			@RequestParam(value = "newsId", required = false) String newsId){
 		String[] newsIdList=newsId.split(";");
 		for(String news:newsIdList){
-			eventDAO.deleteNews(eventId, news);
+			newsDAO.deleteNews(eventId, news);
 		}
 		
 		String status="";
@@ -85,6 +86,12 @@ public class EventModifyAction {
 		json.put("status", status);
 		return json;
 
+	}
+	public NewsDAO getNewsDAO() {
+		return newsDAO;
+	}
+	public void setNewsDAO(NewsDAO newsDAO) {
+		this.newsDAO = newsDAO;
 	}
 
 }
