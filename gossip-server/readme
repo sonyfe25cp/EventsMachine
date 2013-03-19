@@ -22,3 +22,14 @@ gossip-server：
 5. 运行gossip项目下gossip.sim包里面的SimilarityCalculator
 6. 将gossip-server的包放到应用服务器下，启动服务器
 	
+
+	
+8. 启动tomcat
+
+8.1. 通过命令行启动
+
+  ```bash
+  mvn tomcat7:run
+  ```
+8.2. 在eclipse中启动。打开Run -> Run Configurations...，新建一个Maven Build，将goals设为tomcat7:run，点击Run。
+9. 打开浏览器，访问[http://localhost:8080](http://localhost:8080)
