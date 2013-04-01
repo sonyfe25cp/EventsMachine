@@ -42,15 +42,11 @@
 
 	<!-- 自定义的logger -->
 	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger" />
-	
-	<!-- 
-	<bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon"
-		init-method="start">
-		<property name="logger" ref="logger" />
-		<property name="messager" ref="messager" />
-	</bean>
- -->
- 
+
+	<!-- <bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon" init-method="start"> 
+		<property name="logger" ref="logger" /> <property name="messager" ref="messager" 
+		/> </bean> -->
+
 	<!-- 用来发信息的socket -->
 	<bean id="messager" class="gossip.index.GossipMessager">
 		<property name="defaultIp" value="127.0.0.1" />
@@ -58,7 +54,8 @@
 	</bean>
 
 	<!-- DAO -->
-	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource">
+	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init"
+		depends-on="logger,dataSource">
 		<property name="logger" ref="logger" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -116,16 +113,15 @@
 
 
 
-	<!-- relatedEventAction里面要用到EventAction -->
-	<bean id="event" class="gossip.server.action.EventAction" depends-on="logger,eventDao">
-		<property name="logger" ref="logger" />
-	</bean>
-
-	<!-- relatedNewsAction里面要用到NewsAction -->
+	<!-- relatedEventAction里面要用到EventAction <bean id="event" class="gossip.server.action.EventAction" 
+		depends-on="logger,eventDao"> <property name="logger" ref="logger" /> </bean> 
+		-->
+		<!-- relatedNewsAction里面要用到NewsAction -->
+	<!-- 
 	<bean id="news" class="gossip.server.action.NewsAction"
 		depends-on="logger,newsDAO">
 		<property name="logger" ref="logger" />
 	</bean>
-
+	-->
 </beans>
  

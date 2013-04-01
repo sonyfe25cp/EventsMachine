@@ -14,6 +14,13 @@
 		<!-- simple spring memcached必须要求此版本的spring及以上 -->
 		<spring.version>3.0.7.RELEASE</spring.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>java.net</id>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- 添加对gossip模块的依赖，主要作用是对里面各种数据结构的依赖 -->
 		<dependency>
@@ -85,6 +92,10 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 		<!-- jstl commons-io, commons-lang, commons-logging, apache.commons.io 
 			是spring必须的！ -->
 		<dependency>
@@ -113,37 +124,23 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>people.apache.snapshots</id>
-			<url>http://repository.apache.org/content/groups/snapshots-group/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<name>Apache Snapshots</name>
-			<url>http://repository.apache.org/content/groups/snapshots-group/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+	<!-- <repositories> <repository> <id>people.apache.snapshots</id> <url>http://repository.apache.org/content/groups/snapshots-group/</url> 
+		<releases> <enabled>false</enabled> </releases> <snapshots> <enabled>true</enabled> 
+		</snapshots> </repository> </repositories> <pluginRepositories> <pluginRepository> 
+		<id>apache.snapshots</id> <name>Apache Snapshots</name> <url>http://repository.apache.org/content/groups/snapshots-group/</url> 
+		<releases> <enabled>false</enabled> </releases> <snapshots> <enabled>true</enabled> 
+		</snapshots> </pluginRepository> </pluginRepositories> -->
 	<!-- 配置发布和清理的路径 -->
 	<build>
 		<finalName>${artifactId}-${version}</finalName>

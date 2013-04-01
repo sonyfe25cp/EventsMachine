@@ -33,3 +33,9 @@ gossip-server：
   ```
 8.2. 在eclipse中启动。打开Run -> Run Configurations...，新建一个Maven Build，将goals设为tomcat7:run，点击Run。
 9. 打开浏览器，访问[http://localhost:8080](http://localhost:8080)
+
+
+10.jar安装
+mvn install:install-file -DgroupId=com.sun.jmx -DartifactId=jmxri -Dversion=1.2.1 -Dpackaging=jar -Dfile=jmxri-1.2.1.jar
+mvn install:install-file -DgroupId=com.sun.jdmk -DartifactId=jmxtools -Dversion=1.2.1 -Dpackaging=jar -Dfile=jmxtools.jar
+mvn install:install-file -DgroupId=javax.jms -DartifactId=jms -Dversion=1.1 -Dpackaging=jar -Dfile=javax.jms.jar
