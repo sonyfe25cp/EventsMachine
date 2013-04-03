@@ -1,8 +1,6 @@
 package gossip.summary;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 选取关键字

@@ -1,5 +1,6 @@
 package gossip.dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,16 +13,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.event.Event;
+import gossip.utils.DatabaseUtils;
 
-/**
- * 
- * @author lins 2012-8-16
- */
-public class EventDAO extends BaseDaoImpl {
+public class EventDAO {
 
 	private DLDELogger logger;
 
@@ -33,8 +33,22 @@ public class EventDAO extends BaseDaoImpl {
 		this.logger = logger;
 	}
 
-	public EventDAO() {
-		super();
+	public void init() {
+		if (logger == null)
+			logger = new DLDELogger();
+		if (dataSource == null) {
+			dataSource = DatabaseUtils.getInstance();
+		}
+	}
+
+	private DataSource dataSource;
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	final String SQL_SELECT_EVENT_BY_ID = "select * from event  where id = ?";
@@ -58,9 +72,11 @@ public class EventDAO extends BaseDaoImpl {
 	private JSONArray getEventJSONByDateFromDB(Date date) {
 		JSONObject jsonObj;
 		JSONArray jsonArry = new JSONArray();
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_DATE);
 			pstmt.setDate(1, date);
 			if (pstmt.execute()) {
@@ -91,6 +107,8 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null)
+					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -121,7 +139,9 @@ public class EventDAO extends BaseDaoImpl {
 		JSONObject jsonObj = new JSONObject();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -141,14 +161,21 @@ public class EventDAO extends BaseDaoImpl {
 					logger.info("i found the event in database.");
 				}
 			}
+			rs.close();
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
+				if (rs != null) {
 					rs.close();
-				if (pstmt != null)
+				}
+				if (pstmt != null) {
 					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -162,11 +189,12 @@ public class EventDAO extends BaseDaoImpl {
 	 * @return
 	 */
 	public Event getEventById(int id) {
-		init();
 		Event event = new Event();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
@@ -203,6 +231,9 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -222,10 +253,11 @@ public class EventDAO extends BaseDaoImpl {
 	 */
 	public ArrayList<Event> getAllEvent() {
 		ArrayList<Event> allEvent = new ArrayList<Event>();
-		init();
 		Statement stmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_EVENT_ALL);
 			while (rs.next()) {
@@ -261,6 +293,9 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (stmt != null)
 					stmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -285,7 +320,9 @@ public class EventDAO extends BaseDaoImpl {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_EVENT_ORDERED);
 			if (pstmt.execute()) {
 				rs = pstmt.getResultSet();
@@ -304,6 +341,9 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -342,7 +382,9 @@ public class EventDAO extends BaseDaoImpl {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_INSERT_EVENT,
 					Statement.RETURN_GENERATED_KEYS);
 			Iterator<Event> it = events.iterator();
@@ -377,6 +419,9 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -394,7 +439,9 @@ public class EventDAO extends BaseDaoImpl {
 
 		Statement stmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			Iterator<Event> it = events.iterator();
 			while (it.hasNext()) {
@@ -409,6 +456,9 @@ public class EventDAO extends BaseDaoImpl {
 					rs.close();
 				if (stmt != null)
 					stmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -426,7 +476,9 @@ public class EventDAO extends BaseDaoImpl {
 	 */
 	public void updateTitle(int id, String title) {
 		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_TITLE_BY_ID);
 			pstmt.setString(1, title);
 			pstmt.setInt(2, id);
@@ -438,6 +490,9 @@ public class EventDAO extends BaseDaoImpl {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -455,7 +510,9 @@ public class EventDAO extends BaseDaoImpl {
 	 */
 	public void updateLocation(int id, String location) {
 		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_LOCATION_BY_ID);
 			pstmt.setString(1, location);
 			pstmt.setInt(2, id);
@@ -467,6 +524,9 @@ public class EventDAO extends BaseDaoImpl {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -484,7 +544,9 @@ public class EventDAO extends BaseDaoImpl {
 	 */
 	public void updateSummary(int id, String summary) {
 		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_UPDATE_SUMMARY_BY_ID);
 			pstmt.setString(1, summary);
 			pstmt.setInt(2, id);
@@ -496,6 +558,9 @@ public class EventDAO extends BaseDaoImpl {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -516,7 +581,9 @@ public class EventDAO extends BaseDaoImpl {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String pages = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
@@ -545,6 +612,9 @@ public class EventDAO extends BaseDaoImpl {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -565,7 +635,9 @@ public class EventDAO extends BaseDaoImpl {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String oldKeywords = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_KEYWORDS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
@@ -595,6 +667,9 @@ public class EventDAO extends BaseDaoImpl {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -604,7 +679,6 @@ public class EventDAO extends BaseDaoImpl {
 
 	public static void main(String[] args) {
 		EventDAO dao = new EventDAO();
-		dao.init();
 		// Event e = new Event();
 		// e.setCreateTime(Calendar.getInstance().getTime().getTime());
 		// e.setTitle("q231");

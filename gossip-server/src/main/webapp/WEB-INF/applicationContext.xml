@@ -24,28 +24,27 @@
 		destroy-method="close">
 		<!-- 确定数据源的驱动 -->
 		<property name="driverClassName">
-			<value>com.mysql.jdbc.Driver</value>
+			<value>${driver}</value>
 		</property>
 		<!-- 确定连接数据库的url -->
 		<property name="url">
-			<value>jdbc:mysql://127.0.0.1:3306/gossip</value>
+			<value>${dbUrl}</value>
 		</property>
 		<!--确定连接数据库的用户名 -->
 		<property name="username">
-			<value>root</value>
+			<value>${dbUser}</value>
 		</property>
 		<!-- 确定连接数据库的密码 -->
 		<property name="password">
-			<value>123iop</value>
+			<value>${dbPassword}</value>
 		</property>
 	</bean>
 
+<context:property-placeholder location="classpath*:gossip-server.properties" />
+
+
 	<!-- 自定义的logger -->
 	<bean id="logger" class="edu.bit.dlde.utils.DLDELogger" />
-
-	<!-- <bean id="memcachedDaemon" class="gossip.dao.MemcachedDaemon" init-method="start"> 
-		<property name="logger" ref="logger" /> <property name="messager" ref="messager" 
-		/> </bean> -->
 
 	<!-- 用来发信息的socket -->
 	<bean id="messager" class="gossip.index.GossipMessager">
@@ -54,8 +53,7 @@
 	</bean>
 
 	<!-- DAO -->
-	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init"
-		depends-on="logger,dataSource">
+	<bean id="eventDao" class="gossip.dao.EventDAO" init-method="init" depends-on="logger,dataSource">
 		<property name="logger" ref="logger" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -109,19 +107,5 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-
-
-
-
-	<!-- relatedEventAction里面要用到EventAction <bean id="event" class="gossip.server.action.EventAction" 
-		depends-on="logger,eventDao"> <property name="logger" ref="logger" /> </bean> 
-		-->
-		<!-- relatedNewsAction里面要用到NewsAction -->
-	<!-- 
-	<bean id="news" class="gossip.server.action.NewsAction"
-		depends-on="logger,newsDAO">
-		<property name="logger" ref="logger" />
-	</bean>
-	-->
 </beans>
  

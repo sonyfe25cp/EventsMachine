@@ -1,9 +1,5 @@
 package gossip.server.dao;
 
-import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.commons.DBCommons;
-import gossip.server.model.Comment;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +10,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import edu.bit.dlde.utils.DLDELogger;
+import gossip.server.model.Comment;
+import gossip.utils.DatabaseUtils;
 
 /**
  * Mysql数据库的CommentDao实现类
@@ -48,7 +46,7 @@ public class CommentDaoImpl implements CommentDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			dataSource = DBCommons.getDataSource();
+			dataSource = DatabaseUtils.getInstance();
 		}
 	}
 	

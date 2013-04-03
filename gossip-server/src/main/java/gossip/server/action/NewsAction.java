@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.NewsDAO;
+import gossip.model.News;
 
 /**
  * 访问新闻的action。
@@ -56,8 +57,9 @@ public class NewsAction {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONObject getNewsById(@PathVariable long id) {
-		return newsDAO.getNewsJSONById(id);
+	public JSONObject getNewsById(@PathVariable int id) {
+		News news =  newsDAO.getNewsById(id);
+		return JSONObject.fromObject(news.toJson());
 	}
 
 	@RequestMapping(value = "/getnew", method = RequestMethod.GET)
@@ -76,7 +78,7 @@ public class NewsAction {
 	 * @return {"total":55,//总共的新闻总数 "pageNo":5,//当前是第几页 "limit":15,//每頁15個
 	 *         "news":[{},{},{}..]
 	 */
-	@RequestMapping(value = "/n", method = RequestMethod.GET)
+	@RequestMapping(value = "/n")
 	@ResponseBody
 	public JSONObject getNewsList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
@@ -119,7 +121,7 @@ public class NewsAction {
 	 *            与事件相关的新闻id组成的字符串，以；间隔
 	 * @return {"news":[{},{}...]}
 	 */
-	@RequestMapping(value = "/event-news", method = RequestMethod.POST)
+	@RequestMapping(value = "/event-news")
 	@ResponseBody
 	public JSONObject getEventNews(
 			@RequestParam(value = "newsids", required = true) String newsids) {
@@ -130,7 +132,12 @@ public class NewsAction {
 		JSONObject json = null, result = new JSONObject();
 
 		for (int i = 0; i < news_ids.length; i++) {
-			json = newsDAO.getNewsJSONById(Long.parseLong(news_ids[i]));
+//			json = newsDAO.getNewsJSONById(Long.parseLong(news_ids[i]));
+			News news = newsDAO.getNewsById(Integer.parseInt(news_ids[i]));
+			String  json_str =  news.toJson();
+			
+			json = JSONObject.fromObject(json_str);
+			
 			if (json != null) {
 				if (!jsonArray.contains(json)){
 					jsonArray.add(json);

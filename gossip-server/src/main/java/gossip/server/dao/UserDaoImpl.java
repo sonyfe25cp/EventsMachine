@@ -5,14 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
 import edu.bit.dlde.utils.DLDELogger;
-
-import gossip.server.commons.DBCommons;
 import gossip.server.model.User;
+import gossip.utils.DatabaseUtils;
 
 /**
  * Mysql数据库的UserDao实现类
@@ -47,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			dataSource = DBCommons.getDataSource();
+			dataSource = DatabaseUtils.getInstance();
 		}
 	}
 	

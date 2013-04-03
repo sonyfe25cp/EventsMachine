@@ -32,7 +32,7 @@ public class Event implements Serializable {
 	public Map<String, Double> keyWords = new HashMap<String, Double>(); // 关键词-权重
 	public List<Integer> pages = new LinkedList<Integer>();// 页面id,已经排过序的
 	public long createTime;
-	public String desc;//事件描述
+	public String desc;// 事件描述
 	public String img;
 	public String startedLocation;
 
@@ -58,7 +58,7 @@ public class Event implements Serializable {
 	 * 往尾部添加新闻
 	 */
 	public void addPage(int page) {
-		if (!pages.contains(pages)) 
+		if (!pages.contains(pages))
 			pages.add(page);
 	}
 
@@ -147,6 +147,16 @@ public class Event implements Serializable {
 		return JSONObject.fromObject(this);
 	}
 
+//	public String toJson(){
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("{");
+//		
+//		sb.append("");
+//		
+//		sb.append("}");
+//		
+//	}
+	
 	/**
 	 * 从JSONObject转换为Event方便网络传输。 不能使用JSONObject的方法，会出错
 	 */
@@ -191,21 +201,21 @@ public class Event implements Serializable {
 
 	public String toSQLString() {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-		return String.format(
-				"title=\"%s\",recommended=%f,keywords=%s,pages=%s,create_time=\"%s\" where id=%d",
-				title, recommended, getKeyWordsStr(), getPagesStr(),
-				df.format(new Date(createTime)), id);
+		return String
+				.format("title=\"%s\",recommended=%f,keywords=%s,pages=%s,create_time=\"%s\" where id=%d",
+						title, recommended, getKeyWordsStr(), getPagesStr(),
+						df.format(new Date(createTime)), id);
 	}
 
-	public String getUTF8Title(){
+	public String getUTF8Title() {
 		try {
-			return new String(title.getBytes(),"utf-8");
+			return new String(title.getBytes(), "utf-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 			return title;
 		}
 	}
-	
+
 	public String getKeyWordsStr() {
 		StringBuilder sb = new StringBuilder();
 
@@ -215,31 +225,31 @@ public class Event implements Serializable {
 		double[] values = new double[5];
 		while (it.hasNext()) {
 			e = it.next();
-			double v= e.getValue();
-			int idx = biggerThan(v,values);
-			if(idx!=-1){
-				key[idx] =e.getKey();
-				values[idx]  = v;
+			double v = e.getValue();
+			int idx = biggerThan(v, values);
+			if (idx != -1) {
+				key[idx] = e.getKey();
+				values[idx] = v;
 			}
-//			sb.append(e.getKey()).append(":").append(e.getValue()).append(";");
+			// sb.append(e.getKey()).append(":").append(e.getValue()).append(";");
 		}
-		for(int i = 0;i<key.length&&i<keyWords.size();i++){
+		for (int i = 0; i < key.length && i < keyWords.size(); i++) {
 			sb.append(key[i]).append(":").append(values[i]).append(";");
 		}
-		//sb.append("\"");
+		// sb.append("\"");
 
 		try {
-			return new String(sb.toString().getBytes(),"utf-8");
+			return new String(sb.toString().getBytes(), "utf-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 			return sb.toString();
 		}
 	}
-	
-	private int biggerThan(double a, double[] b){
-		int i =0;
-		for(double tmp:b){
-			if(a>tmp)
+
+	private int biggerThan(double a, double[] b) {
+		int i = 0;
+		for (double tmp : b) {
+			if (a > tmp)
 				return i;
 			i++;
 		}
@@ -255,7 +265,7 @@ public class Event implements Serializable {
 			i = it.next();
 			sb.append(i).append(";");
 		}
-		//sb.append();
+		// sb.append();
 
 		return sb.toString();
 	}

@@ -83,6 +83,9 @@ public class RelatedNewsDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -134,6 +137,9 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -141,46 +147,6 @@ public class RelatedNewsDAO {
 		return isSucceed;
 	}
 	
-//	/**
-//	 * 插入所有相关度值
-//	 * @param newsIds newsIds代表所有新闻的Id
-//	 * @param relevancyValues relevancyValues代表相关度矩阵,
-//	 * 			relevancyValues[i][j]代表newsIds[i]与newsIds[j]所指新闻之间的相关度
-//	 * @return 是否插入成功
-//	 */
-//	public Boolean insertRelevancyAll(int[] newsIds, double[][] relevancyValues){
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		Boolean isSucceed = true;
-//		try {
-//			conn = dataSource.getConnection();
-//			pstmt = conn.prepareStatement(SQL_insertRelevancy);
-//			for(int i=0;i<relevancyValues.length;i++)
-//				for(int j=0;j<relevancyValues[i].length;j++)
-//				{
-//					pstmt.setInt(1, newsIds[i]);
-//					pstmt.setInt(2, newsIds[j]);
-//					pstmt.setDouble(3, relevancyValues[i][j]);
-//					pstmt.addBatch();
-//				}
-//			int[] resultArray = pstmt.executeBatch();
-//			for(int i=0;i<resultArray.length;i++)
-//				if(resultArray[i]!=1)
-//					isSucceed = false;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (pstmt != null)
-//					pstmt.close();
-//				if (conn != null)
-//					
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return isSucceed;
-//	}
 	
 	/**
 	 * 更新相关度值,每个(newsId1[n],newsId2[n],relevancyValue[n])对应一条update数据
@@ -226,54 +192,15 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return isSucceed;
 	}
-	
-//	/**
-//	 * 更新所有相关度值
-//	 * @param newsIds newsIds代表所有新闻的Id
-//	 * @param relevancyValues relevancyValues代表相关度矩阵,
-//	 * 			relevancyValues[i][j]代表newsIds[i]与newsIds[j]所指新闻之间的相关度
-//	 * 			每行中relevancyValues[][j]的如果相关度值不明，则写=-1，添加时会过滤掉。
-//	 * @return 是否更新成功
-//	 */
-//	public Boolean updateRelevancyAll(int[] newsIds, double[][] relevancyValues){
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		Boolean isSucceed = true;
-//		try {
-//			conn = dataSource.getConnection();
-//			pstmt = conn.prepareStatement(SQL_updateRelevancy);
-//			for(int i=0;i<relevancyValues.length;i++)
-//				for(int j=0;j<relevancyValues[i].length;j++)
-//					if(relevancyValues[i][j]!=-1){
-//						pstmt.setDouble(1, relevancyValues[i][j]);
-//						pstmt.setInt(2, newsIds[i]);
-//						pstmt.setInt(3, newsIds[j]);
-//						pstmt.addBatch();
-//					}
-//			int[] resultArray = pstmt.executeBatch();
-//			for(int i=0;i<resultArray.length;i++)
-//				if(resultArray[i]!=1)
-//					isSucceed = false;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (pstmt != null)
-//					pstmt.close();
-//				if (conn != null)
-//					
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return isSucceed;
-//	}
 	
 	/**
 	 * 删除单一相关度
@@ -304,6 +231,9 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -332,6 +262,9 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -357,6 +290,9 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -377,18 +313,4 @@ public class RelatedNewsDAO {
 		this.dataSource = dataSource;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		RelatedNewsDAO dao = new RelatedNewsDAO();
-		dao.init();
-		//测试完成:“dao.getRelatedNewsIds(3);
-		//测试完成:dao.updateRelevancy(a, b, c);
-		//测试完成:dao.insertRelevancy(a, b, c);
-		//测试完成:dao.deleteRelevancySingle(7, 1);
-		//测试完成:dao.deleteRelevancy
-		//测试完成:dao.deleteRelevancyAll()
-		//完毕
-		
-	}
-
 }

@@ -5,7 +5,7 @@ $(document).ready(function() {
     classCode: "0001"
      }; // 这里要直接使用JOSN对象    
     $.ajax({
-    type: "POST",
+    type: "GET",
     contentType: "application/json; charset=utf-8",
     //url: "json_example/events.json",
     url:"/gossip-server/events?pageNo=1",

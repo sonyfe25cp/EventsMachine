@@ -75,6 +75,9 @@ public class RelatedEventDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -126,6 +129,9 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -133,46 +139,6 @@ public class RelatedEventDAO {
 		return isSucceed;
 	}
 	
-//	/**
-//	 * 插入所有相关度值
-//	 * @param EventIds EventIds代表所有事件的Id
-//	 * @param relevancyValues relevancyValues代表相关度矩阵,
-//	 * 			relevancyValues[i][j]代表EventIds[i]与EventIds[j]所指事件之间的相关度
-//	 * @return 是否插入成功
-//	 */
-//	public Boolean insertRelevancyAll(int[] EventIds, double[][] relevancyValues){
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		Boolean isSucceed = true;
-//		try {
-//			conn = dataSource.getConnection();
-//			for(int i=0;i<EventIds.length;i++)
-//				for(int j=0;j<EventIds.length;j++)
-//				{
-//					pstmt = conn.prepareStatement(SQL_insertRelevancy);
-//					pstmt.setInt(1, EventIds[i]);
-//					pstmt.setInt(2, EventIds[j]);
-//					pstmt.setDouble(3, relevancyValues[i][j]);
-//					pstmt.addBatch();
-//				}
-//			int[] resultArray = pstmt.executeBatch();
-//			for(int i=0;i<resultArray.length;i++)
-//				if(resultArray[i]!=1)
-//					isSucceed = false;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (pstmt != null)
-//					pstmt.close();
-//				if (conn != null)
-//					
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return isSucceed;
-//	}
 	
 	/**
 	 * 更新相关度值,每个(eventId1[n],eventId2[n],relevancyValue[n])对应一条update数据
@@ -218,6 +184,9 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -225,46 +194,6 @@ public class RelatedEventDAO {
 		return isSucceed;
 	}
 	
-//	/**
-//	 * 更新所有相关度值
-//	 * @param EventIds EventIds代表所有事件的Id
-//	 * @param relevancyValues relevancyValues代表相关度矩阵,
-//	 * 			relevancyValues[i][j]代表EventIds[i]与EventIds[j]所指事件之间的相关度
-//	 * @return 是否更新成功
-//	 */
-//	public Boolean updateRelevancyAll(int[] EventIds, double[][] relevancyValues){
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		Boolean isSucceed = true;
-//		try {
-//			conn = dataSource.getConnection();
-//			for(int i=0;i<EventIds.length;i++)
-//				for(int j=0;j<EventIds.length;j++)
-//				{
-//					pstmt = conn.prepareStatement(SQL_updateRelevancy);
-//					pstmt.setDouble(1, relevancyValues[i][j]);
-//					pstmt.setInt(2, EventIds[i]);
-//					pstmt.setInt(3, EventIds[j]);
-//					pstmt.addBatch();
-//				}
-//			int[] resultArray = pstmt.executeBatch();
-//			for(int i=0;i<resultArray.length;i++)
-//				if(resultArray[i]!=1)
-//					isSucceed = false;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (pstmt != null)
-//					pstmt.close();
-//				if (conn != null)
-//					
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return isSucceed;
-//	}
 	
 	/**
 	 * 删除单一相关度
@@ -295,6 +224,9 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -323,6 +255,9 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -348,6 +283,9 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -368,19 +306,5 @@ public class RelatedEventDAO {
 		this.dataSource = dataSource;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub		
-		//测试完成：dao.getRelatedEventIds(5)
-		//测试完成：dao.insertRelevancy(a, b, d)
-		//测试完成：dao.updateRelevancy(a, b, d)
-		//测试完成：三种delete
-		//完毕
-		RelatedEventDAO dao = new RelatedEventDAO();
-		dao.init();
-		int[] a = {1,7,8};
-		int[] b = {3,5,4};
-		double[] d = {0.32,0.712,0.82};
-		System.out.println(dao.deleteRelevancyAll());
-	}
 
 }

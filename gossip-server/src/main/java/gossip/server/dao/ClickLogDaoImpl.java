@@ -11,8 +11,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.commons.DBCommons;
 import gossip.server.model.ClickLog;
+import gossip.utils.DatabaseUtils;
 
 public class ClickLogDaoImpl implements ClickLogDao {
 	private DataSource dataSource;
@@ -39,7 +39,7 @@ public class ClickLogDaoImpl implements ClickLogDao {
 			logger = new DLDELogger();
 		}
 		if(dataSource == null){
-			dataSource = DBCommons.getDataSource();
+			dataSource = DatabaseUtils.getInstance();
 		}
 	}
 	

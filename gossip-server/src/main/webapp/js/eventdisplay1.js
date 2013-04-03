@@ -7,7 +7,7 @@ $(document).ready(function() {
 	url="/gossip-server/events/"+eventid;
 	
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		contentType: "application/json; charset=utf-8",
 		url:url,
 		dataType: "json",
@@ -17,9 +17,9 @@ $(document).ready(function() {
 			$('#container-inner .event-title').empty();
 			var html;
 			if(data['img']==""||data['img']==null)
-				html = '							<div class="span4"><img src="' + 'eventImg/none.jpg' + '" alt=""></div>';
+				html = '<div class="span4"><img src="' + 'eventImg/none.jpg' + '" alt=""></div>';
 			else
-				html = '							<div class="span4"><img src="' + data['img'] + '" alt=""></div>';
+				html = '<div class="span4"><img src="' + data['img'] + '" alt=""></div>';
 			
 			html += '<div class="span8 event-brief">';
 			html += '<h2>' + data['title'] + '</h2>';
@@ -29,7 +29,7 @@ $(document).ready(function() {
 			//显示事件新闻
 			var newsids = data.news;
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				contentType: "application/json; charset=utf-8",
 				url:"/gossip-server/news/event-news?newsids="+newsids,
 				dataType: "json",
@@ -62,70 +62,12 @@ $(document).ready(function() {
 		}//success2
 	});//ajax2
 	
-//	$.getJSON(url, function(data) {
-//		$('#container-inner .event-title').empty();
-//		var html;
-//		if(data['img']==""||data['img']==null)
-//			html = '							<div class="span4"><img src="' + 'eventImg/none.jpg' + '" alt=""></div>';
-//		else
-//			html = '							<div class="span4"><img src="' + data['img'] + '" alt=""></div>';
-//		
-//		html += '<div class="span8 event-brief">';
-//		html += '<h2>' + data['title'] + '</h2>';
-//		html += '<p>' + data['desc'] + '</p>';
-//		html += '</div>';
-//		$('#container-inner .event-title').append(html);
-//		//显示事件新闻
-//		var newsids = data.news;
-//		$.ajax({
-//			type: "POST",
-//			contentType: "application/json; charset=utf-8",
-//			url:"/gossip-server/news/event-news?newsids="+newsids,
-//			dataType: "json",
-//			anysc: true,
-//			//data: datt,
-//			success: function(result) {
-//				array=result.news;
-//				var date = "";
-//				var numRows = array.length;
-//				var numPerPage = 10;
-//				var numPage = Math.ceil(numRows / numPerPage);
-//				
-//				var html = '<li class="disabled"><a href="javascript:void(0)">首页</a></li>';
-//				html+= '<li class="disabled"><a href="javascript:void(0)">«</a></li>';
-//				for(var ib = 0; ib < numPage; ib++) {
-//					if(ib==0)
-//						html += '<li><a href="javascript:void(0)" >' + (ib + 1) + '</a></li>';
-//					else
-//						html += '<li><a href="#" onclick="toPage('+(ib+1)+','+array+')">' + (ib + 1) + '</a></li>';
-//					
-//				}
-//				 html += '<li id="next_page" class="disabled"><a href="javascript:void(0)">»</a></li>';
-//			     html += '<li id="final_page" class="disabled"><a href="javascript:void(0)">末页</a></li>';
-//				$('#page ul').append(html);
-//				date =ppp(1, numPerPage, array, date);
-//				$('#page ul li').eq(2).addClass('disabled');
-////				for(var pagea = 1; pagea < numPage + 1; pagea++) {
-////					$('#page li').eq(pagea+1).bind('click', {
-////						'newPage': pagea
-////					}, function(event) {
-////						var currentPageNum = event.data['newPage'];
-////						var pageb = currentPageNum;
-////						date =ppp(pageb, numPerPage, array, date);
-////						$('#page ul li').eq(pageb+1).addClass('disabled');
-////					});//bind
-////				}//for
-//
-//			}
-//		});//ajax
-//	});//getJSON
 	
 	//相关事件的显示
 	var url1="/gossip-server/related-events?id="+eveid[1]+"&pageNo=1&limit=15";
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		//url: "json_example/revents.json",
 		url:url1,
 		dataType: "json",
 		anysc: false,
@@ -135,7 +77,7 @@ $(document).ready(function() {
 			$('#relate').empty();
 			var html = "";
 			for(var ir = 0; ir < datad.length; ir++) {
-				html += '												<a href="/gossip-server/events?id=' + datad[ir].id + '" class="span3">' + datad[ir].title + ' </a>';
+				html += '<a href="/gossip-server/events?id=' + datad[ir].id + '" class="span3">' + datad[ir].title + ' </a>';
 			}
 
 			$('#relate').append(html);
@@ -237,7 +179,7 @@ var newdis = function(dateb, datb) {
 	var htmlc = '<li class="article">';
 	htmlc += '<div class="article-content">';
 	htmlc += '<h2><a href="/gossip-server/newsContent?newsId=' + datb.id + '" title="">' + datb.title + '</a></h2>';
-	htmlc += '<p><a href="/gossip-server/newsContent?newsId='+datb.id+'">' + datb.desc + '</a></p></div>';
+	htmlc += '<p><a href="/gossip-server/newsContent?newsId='+datb.id+'">' + datb.body.substring(0,300)+" ... " + '</a></p></div>';//datb.desc -> datb.body  by chenjie
 	htmlc += '<span class="s">来源:' + datb.source + '</span>';
 	htmlc += '<span class="s">作者:' + datb.author + '</span>';
 	htmlc += '</li>';

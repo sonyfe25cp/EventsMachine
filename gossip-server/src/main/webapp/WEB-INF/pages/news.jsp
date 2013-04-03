@@ -108,7 +108,7 @@
 				
 			</div>	
 			<ul class="breadcrumb pull-left">
-				  <li><a href="./index.jsp">首页</a> <span class="divider">&gt;</span></li>
+				  <li><a href="/gossip-server/">首页</a> <span class="divider">&gt;</span></li>
 				  <li class="active">新闻详情</li>
 			</ul>
 

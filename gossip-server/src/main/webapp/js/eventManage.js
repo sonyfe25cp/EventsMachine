@@ -10,7 +10,7 @@ $(document).ready(function() {
 	url="/gossip-server/events/"+eventid;
 	
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		contentType: "application/json; charset=utf-8",
 		url:url,
 		anysc: true,
@@ -25,7 +25,7 @@ $(document).ready(function() {
 			$('#newslist').empty();
 			var html='<p style="font-size:14px">选择要删除的新闻</p>';
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				contentType: "application/json; charset=utf-8",
 				url:"/gossip-server/news/event-news?newsids="+newsId,
 				dataType: "json",
@@ -44,35 +44,6 @@ $(document).ready(function() {
 		}
 	});//ajax
 	
-//	$.getJSON(url, function(data) {
-//
-//		$('#eventTitle').val(data['title']);
-//		$('#eventContent').val(data['desc']);
-//		$('#eventKeywords').val(data['keywords']);
-//		$('#addnews').val(data['news']);
-//		var newsId=data['news'];
-//		$('#newslist').empty();
-//		var html='<p style="font-size:14px">选择要删除的新闻</p>';
-//		$.ajax({
-//			type: "POST",
-//			contentType: "application/json; charset=utf-8",
-//			url:"/gossip-server/news/event-news?newsids="+newsId,
-//			dataType: "json",
-//			anysc: true,
-//			//data: datt,
-//			success: function(result) {
-//				var newslist=result.news;
-//				for(var i=0;i<newslist.length;i++){
-//					html+='<input type="checkbox" name="check" class="pull-left" value="'+ newslist[i].id +'" id="'+newslist[i].id +'"/>';
-//					html+='<label for="'+newslist[i].id +'" accesskey="a">'+newslist[i].title+'</label><br/>';
-//				}
-//				html+='<button  id="submit1" class="btn btn-primary pull-left" onclick="deleteNews('+eventid +')">删除新闻</button>';
-//				$('#newslist').append(html);
-//			}
-//		});//ajax
-//		
-//		
-//	});//getJson
 $('#submitChange').click(function(){
 	var title=$('#eventTitle').val();
 	var keyWords=$('#eventTitle').val();

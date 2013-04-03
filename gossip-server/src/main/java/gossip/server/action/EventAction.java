@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.EventDAO;
 
@@ -46,9 +45,6 @@ public class EventAction {
 
 	/** 每一页由X个事件组成 **/
 	static final int X = 10;
-	/** memcached里面数据的过期时间 **/
-	static final int expiration = Integer.valueOf(DLDEConfiguration
-			.getInstance("gossip-server.properties").getValue("expiration"));
 
 	/**
 	 * 两种途径获得第N个事件集，每个事件集由X个事件组成。 第一种途径是/events?pageNo={pageNo}&limit={limit}
@@ -59,7 +55,7 @@ public class EventAction {
 	 *            page从0开始，没一页含有X个事件。
 	 * @return 返回一个由JSONArray表示的事件集
 	 */
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "")
 	@ResponseBody
 	public JSONObject getEventList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
@@ -152,7 +148,7 @@ public class EventAction {
 	 *            对应数据库里面event的id
 	 * @return 返回一个由JSONArray表示的事件集
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}")
 	@ResponseBody
 	public JSONObject getEventByDBid(@PathVariable int id) {
 		return eventDao.getEventJSONById(id);
@@ -165,7 +161,7 @@ public class EventAction {
 	 *            对应事件的排名
 	 * @return event 事件在数据库中的id
 	 */
-	@RequestMapping(value = "/rank", method = RequestMethod.GET)
+	@RequestMapping(value = "/rank")
 	@ResponseBody
 	public JSONObject getEventByRankNum(
 			@RequestParam(value = "id", required = true) int rank) {
@@ -187,21 +183,4 @@ public class EventAction {
 			@RequestParam(value = "q", required = true) String query) {
 		return null;
 	}
-
-	// public static void main(String[] args) {
-	// EventAction action = new EventAction();
-	// HashSet<EventModel> eventSet = action.listEvents();
-	// for (EventModel model : eventSet) {
-	// System.out.println("********************************");
-	// Compare.doc_compare(true, model.getPages());
-	// }
-	// System.out.println("" + eventSet.size());
-	// }
-	public static void main(String[] args) {
-		JSONObject json = new JSONObject();
-		json = null;
-		EventAction action = new EventAction();
-		json = action.getEventListSimply(1, 15);
-	}
-
 }

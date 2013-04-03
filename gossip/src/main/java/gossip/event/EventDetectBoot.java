@@ -1,5 +1,14 @@
 package gossip.event;
 
+import edu.bit.dlde.utils.DLDELogger;
+import gossip.Boot;
+import gossip.Handler;
+import gossip.dao.EventDAO;
+import gossip.sim.SimilarDocPair;
+import gossip.sim.SimilarityReader;
+import gossip.utils.DatabaseUtils;
+import gossip.utils.DateTrans;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,14 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import edu.bit.dlde.utils.DLDELogger;
-
-import gossip.Boot;
-import gossip.Handler;
-import gossip.dao.EventDAO;
-import gossip.sim.SimilarDocPair;
-import gossip.sim.SimilarityReader;
-import gossip.utils.DateTrans;
+import javax.sql.DataSource;
 
 /**
  * 事件检测任务的启动器。使用构造函数创建时，必须添加各种handler，否则的话请暂时使用工厂方法getMockInstance()。
@@ -62,7 +64,8 @@ public class EventDetectBoot extends Boot {
 		log.info("begin to detect events of " + date);
 		/** 初始化 **/
 		EventDAO dao = new EventDAO();
-		
+		DataSource source = DatabaseUtils.getInstance();
+		dao.setDataSource(source);
 		/** 根据一些老的事件获得更新后的事件 **/
 		HashSet<Event> events = detectEvents(date);
 		/** 只有当old被更新时才进行如下操作 **/

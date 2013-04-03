@@ -13,8 +13,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermFreqVector;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.MMapDirectory;
 
 /**
@@ -49,9 +55,11 @@ public class SimpleKeyWordsHandler implements Handler {
 		// 打开索引
 		MMapDirectory dir = null;
 		IndexReader ir = null;
+		IndexSearcher is = null;
 		try {
 			dir = new MMapDirectory(new File(indexPath));
 			ir = IndexReader.open(dir, true);
+			is = new IndexSearcher(ir);
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
@@ -64,7 +72,15 @@ public class SimpleKeyWordsHandler implements Handler {
 			for(int i: e.getPages()){
 				TermFreqVector tfv;
 				try {
-					tfv = ir.getTermFreqVector(i, "title");
+					
+					TermQuery query = new TermQuery(new Term("id",i+""));
+					TopDocs tdocs = is.search(query, 1);
+					ScoreDoc[] sdocs = tdocs.scoreDocs;
+					int docId = 0;
+					for(ScoreDoc sdoc : sdocs){
+						docId = sdoc.doc;
+					}
+					tfv = ir.getTermFreqVector(docId, "title");
 					for(int j = 0; j < tfv.size()&&j<5;j++){
 						if(keywords.containsKey(tfv.getTerms()[j])){
 							keywords.put(tfv.getTerms()[j], keywords.get(tfv.getTerms()[j])+tfv.getTermFrequencies()[j]);
@@ -73,7 +89,6 @@ public class SimpleKeyWordsHandler implements Handler {
 						}
 					}
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

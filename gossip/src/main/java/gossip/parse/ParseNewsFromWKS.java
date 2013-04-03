@@ -2,8 +2,6 @@ package gossip.parse;
 
 import java.io.File;
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.sql.DataSource;
 
 import org.apache.lucene.document.DateTools;
 
@@ -78,16 +78,12 @@ public class ParseNewsFromWKS {
 			/*
 			 * 插入数据
 			 */
-			try {
-				Connection conn = DatabaseUtils.getInstance().getConnection();
-				NewsDAO dao = new NewsDAO();
-				dao.init(conn);
-				DBThreadNews dbtn = new DBThreadNews(dao,pages);
-				new Thread(dbtn).start();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			DataSource source = DatabaseUtils.getInstance();
+			NewsDAO newsDao = new NewsDAO();
+			newsDao.setDataSource(source);
+
+			DBThreadNews dbtn = new DBThreadNews(newsDao, pages);
+			new Thread(dbtn).start();
 			/*
 			 * 移走数据
 			 */
@@ -187,7 +183,7 @@ class DBThreadNews implements Runnable {
 	private List<News> newsList;
 	private NewsDAO dao;
 
-	public DBThreadNews(NewsDAO dao,List<News> newsList) {
+	public DBThreadNews(NewsDAO dao, List<News> newsList) {
 		this.newsList = newsList;
 		this.dao = dao;
 	}
@@ -195,7 +191,6 @@ class DBThreadNews implements Runnable {
 	@Override
 	public void run() {
 		dao.insertNews(newsList);
-		dao.close();
 	}
 
 }

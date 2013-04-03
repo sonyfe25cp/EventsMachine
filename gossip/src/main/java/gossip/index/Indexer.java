@@ -2,8 +2,9 @@ package gossip.index;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
@@ -44,9 +45,9 @@ public class Indexer {
 
 			iw = new IndexWriter(dir, conf);
 
-			Connection conn = DatabaseUtils.getInstance().getConnection();
+			DataSource source = DatabaseUtils.getInstance();
 			NewsDAO newsDao = new NewsDAO();
-			newsDao.init(conn);
+			newsDao.setDataSource(source);
 			List<News> list = newsDao.getFreshNews();
 			int count = 0;
 			for (News news : list) {
@@ -58,7 +59,6 @@ public class Indexer {
 			iw.commit();
 			iw.close();
 			newsDao.batchUpdateNews(list, News.INDEX);
-			newsDao.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

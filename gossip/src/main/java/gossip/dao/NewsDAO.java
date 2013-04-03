@@ -22,7 +22,7 @@ import gossip.utils.DatabaseUtils;
  * 
  *         该类实现对新闻的读取和存储功能，并可以根据不同的条件对数据库进行操作
  */
-public class NewsDAO extends BaseDaoImpl{
+public class NewsDAO{
 	String indexPath = DLDEConfiguration.getInstance("gossip.properties")
 			.getValue("IndexPath");
 	private DataSource dataSource;
@@ -30,8 +30,6 @@ public class NewsDAO extends BaseDaoImpl{
 	final String SQL_SELECT_NEWS_ALL = "select * from news";
 	final String SQL_SELECT_NEWS_BY_ID = "select * from news  where id = ?";
 	final String SQL_SELECT_NEWS_BY_TITLE = "select * from news  where title = ?";
-
-	Connection conn = null;
 
 	public NewsDAO() {
 	}
@@ -64,28 +62,23 @@ public class NewsDAO extends BaseDaoImpl{
 	}
 
 	public void init() {
+		
+		System.out.println("logger:"+logger);
+		System.out.println("dataSource:"+dataSource);
+		
 		if (logger == null)
 			logger = new DLDELogger();
 		if (dataSource == null) {
 			dataSource = DatabaseUtils.getInstance();
 		}
-		try {
-			if (conn == null)
-				conn = dataSource.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
-	public void init(Connection conn){
-		this.conn = conn;
-	}
-
 	public JSONObject getNewsJSONById(long id) {
 		JSONObject result = null;
 		result = getNewsJSONByIdFromIndex(id);
+		
 		return result;
 	}
-
+	
 	/**
 	 * 从索引读取新闻,该方法被getNewsJSONById(long id)调用
 	 * 
@@ -144,22 +137,19 @@ public class NewsDAO extends BaseDaoImpl{
 	 *         返回形式如：{id:1,author:"***",body:"……",url:"……"，description:"……"}
 	 */
 	public News getNewsById(int id) {
-		init();
 		News news = new News();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			if (pstmt.execute()) {
 				rs = pstmt.getResultSet();
 				while (rs.next()) {
+					news = DatabaseUtils.newsfromResultSet(rs);
 					news.setId(id);
-					news.setTitle(rs.getString("title"));
-					news.setAuthor(rs.getString("author"));
-					news.setBody(rs.getString("body"));
-					news.setUrl(rs.getString("url"));
-					news.setDescription(rs.getString("description"));
 					logger.info("i found the news in database.");
 				}
 			}
@@ -171,6 +161,9 @@ public class NewsDAO extends BaseDaoImpl{
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -187,7 +180,9 @@ public class NewsDAO extends BaseDaoImpl{
 		News news = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_TITLE);
 			pstmt.setString(1, title);
 			if (pstmt.execute()) {
@@ -212,6 +207,9 @@ public class NewsDAO extends BaseDaoImpl{
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -226,19 +224,16 @@ public class NewsDAO extends BaseDaoImpl{
 	 */
 	public ArrayList<News> getAllNewsFromDB() {
 		ArrayList<News> allNews = new ArrayList<News>();
-		init();
 		Statement stmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(SQL_SELECT_NEWS_ALL);
 			while (rs.next()) {
 				News news = new News();
-				news.setId(rs.getInt("id"));
-				news.setTitle(rs.getString("title"));
-				news.setBody(rs.getString("body"));
-				news.setAuthor(rs.getString("author"));
-				news.setDescription(rs.getString("description"));
+				news = DatabaseUtils.newsfromResultSet(rs);
 				allNews.add(news);
 			}
 		} catch (SQLException e) {
@@ -249,6 +244,9 @@ public class NewsDAO extends BaseDaoImpl{
 					rs.close();
 				if (stmt != null)
 					stmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -262,7 +260,9 @@ public class NewsDAO extends BaseDaoImpl{
 	final String SQL_UPDATE_STATUS_BATCH = "update news set status = ? where id = ?";
 	public void batchUpdateNews(List<News> newsList, String status) {
 		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			conn.setAutoCommit(false);
 			for (News news : newsList) {
 				pstmt = conn.prepareStatement(SQL_UPDATE_STATUS_BATCH);
@@ -273,6 +273,7 @@ public class NewsDAO extends BaseDaoImpl{
 			pstmt.executeBatch();
 			conn.commit();
 			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -286,7 +287,9 @@ public class NewsDAO extends BaseDaoImpl{
 	public boolean isExist(String title) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_TITLE);
 			pstmt.setString(1, title);
 			if (pstmt.execute()) {
@@ -306,6 +309,9 @@ public class NewsDAO extends BaseDaoImpl{
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return false;
@@ -320,7 +326,9 @@ public class NewsDAO extends BaseDaoImpl{
 			return;
 		}
 		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(SQL_INSERT_NEWS);
 			for (News news : newsList) {
@@ -350,6 +358,9 @@ public class NewsDAO extends BaseDaoImpl{
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -368,7 +379,9 @@ public class NewsDAO extends BaseDaoImpl{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<News> newsList = new ArrayList<News>();
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_FRESH_NEWS);
 			pstmt.execute();
 			rs = pstmt.getResultSet();
@@ -407,7 +420,9 @@ public class NewsDAO extends BaseDaoImpl{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String pages = null;
+		Connection conn = null;
 		try {
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SQL_SELECT_NEWS_BY_ID);
 			pstmt.setInt(1, id);
 			pstmt.execute();
@@ -438,6 +453,9 @@ public class NewsDAO extends BaseDaoImpl{
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

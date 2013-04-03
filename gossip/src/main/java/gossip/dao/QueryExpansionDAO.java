@@ -68,7 +68,6 @@ public class QueryExpansionDAO {
 	 * 		"keywords":["",""...]}	}
 	 */
 	public JSONObject getExpansion(String query){
-		init();
 		JSONObject jsonObj = new JSONObject();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -138,6 +137,9 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -155,7 +157,6 @@ public class QueryExpansionDAO {
 	 */
 	public Expansion getExpansionByKeywords(String keywords){
 		Expansion expansion=new Expansion();
-		init();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -205,6 +206,9 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -218,7 +222,6 @@ public class QueryExpansionDAO {
 	 *
 	 */
 	public void insertExpansion(Expansion expansion){
-		init();
 		if(expansion==null)
 			return;
 		//如果数据库中已存在，则只进行更新操作
@@ -255,6 +258,9 @@ public class QueryExpansionDAO {
 						rs.close();
 					if (pstmt != null)
 						pstmt.close();
+					if(conn!=null){
+						conn.close();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -269,8 +275,6 @@ public class QueryExpansionDAO {
 	 *
 	 */	
 	public void insertExpansion(ArrayList<Expansion> expansions) {
-
-		init();
 		if(expansions.isEmpty()||expansions==null){
 			System.out.println("terms is null");
 			return;
@@ -315,6 +319,9 @@ public class QueryExpansionDAO {
 						rs.close();
 					if (pstmt != null)
 						pstmt.close();
+					if(conn!=null){
+						conn.close();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -328,7 +335,6 @@ public class QueryExpansionDAO {
 	 *
 	 */	
 	public void updateExpansion(Expansion expansion){
-		init();
 		Expansion existExpansion=getExpansionByKeywords(expansion.getTerm());
 		//将数据库中已有的扩展和该扩展合并
 		if(existExpansion.getEventId()==null||existExpansion.getEventId().isEmpty()){
@@ -368,6 +374,9 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -65,6 +65,9 @@ public class HotTermDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -106,6 +109,9 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -136,6 +142,9 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -177,6 +186,9 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
+				if(conn!=null){
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -197,23 +209,4 @@ public class HotTermDAO {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
-	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//测试完成:dao.insertHotTerm(HOTKEYWORDS,a ,b);
-		//测试完成:dao.getHotTerms(HOTKEYWORDS, 5)
-		//测试完成:dao.updateHotValue(HOTKEYWORDS, a, b)
-		//测试完成:dao.removeHotTerm(HOTKEYWORDS, "蛋疼")
-		//完毕
-		HotTermDAO dao = new HotTermDAO();
-		dao.init();
-		String []a = {"喵喵","汪汪"};
-		double []b = {0.31,0.32};
-		//dao.insertHotTerm(HOTKEYWORDS,a ,b);
-		//System.out.println(dao.getHotTerms(HOTKEYWORDS, 5));
-		System.out.println(dao.removeHotTerm(HOTKEYWORDS, "蛋疼"));
-	}
-
 }
