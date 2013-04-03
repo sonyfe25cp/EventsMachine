@@ -75,8 +75,6 @@ public class RelatedEventDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -128,8 +126,6 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -170,7 +166,7 @@ public class RelatedEventDAO {
 //				if (pstmt != null)
 //					pstmt.close();
 //				if (conn != null)
-//					conn.close();
+//					
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 //			}
@@ -222,8 +218,6 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -264,7 +258,7 @@ public class RelatedEventDAO {
 //				if (pstmt != null)
 //					pstmt.close();
 //				if (conn != null)
-//					conn.close();
+//					
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 //			}
@@ -301,8 +295,6 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -331,8 +323,6 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -358,8 +348,6 @@ public class RelatedEventDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

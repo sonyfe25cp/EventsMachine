@@ -17,7 +17,7 @@ import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.EventDAO;
 
 /**
- * 访问事件的action。各种事件被缓存在memcached里面。
+ * 访问事件的action。
  * 
  * @author lins
  */

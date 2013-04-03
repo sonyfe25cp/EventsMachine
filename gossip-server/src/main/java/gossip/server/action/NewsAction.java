@@ -1,8 +1,5 @@
 package gossip.server.action;
 
-import java.util.concurrent.TimeoutException;
-
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -13,13 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.NewsDAO;
-import gossip.index.GossipMessager;
 
 /**
- * 访问新闻的action。各种news被缓存在memcached里面。
+ * 访问新闻的action。
  * 
  * @author lins 2012-8-13
  */
@@ -48,10 +43,6 @@ public class NewsAction {
 
 	/** 每个事件集由X个事件组成 **/
 	static final int X = 10;
-	/** memcached里面数据的过期时间 **/
-	static final int expiration = Integer.valueOf(DLDEConfiguration
-			.getInstance("gossip-server.properties").getValue("expiration"));
-	final int MAX_TRY = 5;
 
 	/**
 	 * 获得一整个新闻。 /news/{id}

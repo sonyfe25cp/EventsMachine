@@ -22,7 +22,7 @@ import gossip.utils.DatabaseUtils;
  * 
  *         该类实现对新闻的读取和存储功能，并可以根据不同的条件对数据库进行操作
  */
-public class NewsDAO {
+public class NewsDAO extends BaseDaoImpl{
 	String indexPath = DLDEConfiguration.getInstance("gossip.properties")
 			.getValue("IndexPath");
 	private DataSource dataSource;
@@ -249,8 +249,6 @@ public class NewsDAO {
 					rs.close();
 				if (stmt != null)
 					stmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -397,16 +395,6 @@ public class NewsDAO {
 		return newsList;
 	}
 
-	public void close() {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	final String SQL_DELETE_NEWS_BY_ID = "update event set pages=? where id = ?";
 
 	/**
@@ -450,8 +438,6 @@ public class NewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -83,8 +83,6 @@ public class RelatedNewsDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -136,8 +134,6 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -178,7 +174,7 @@ public class RelatedNewsDAO {
 //				if (pstmt != null)
 //					pstmt.close();
 //				if (conn != null)
-//					conn.close();
+//					
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 //			}
@@ -230,8 +226,6 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -273,7 +267,7 @@ public class RelatedNewsDAO {
 //				if (pstmt != null)
 //					pstmt.close();
 //				if (conn != null)
-//					conn.close();
+//					
 //			} catch (SQLException e) {
 //				e.printStackTrace();
 //			}
@@ -310,8 +304,6 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -340,8 +332,6 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -367,8 +357,6 @@ public class RelatedNewsDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

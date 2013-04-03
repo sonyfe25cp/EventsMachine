@@ -1,10 +1,5 @@
 package gossip.model;
 
-import gossip.utils.DateTimeUtil;
-
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
@@ -24,11 +19,37 @@ public class News {
 	private String fromSite="";
 	private String crawlAt="";
 	private String status=NEW;
+	private String startedLocation = "";
+	private String keywords ="";
 	
 	public final static String NEW = "new";
 	public final static String INDEX = "index";
 	public final static String DELETE = "delete";
 	public final static String UPDATE = "update";
+	
+	public String toJson(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("\"id\":" + id);
+		sb.append(",");
+		sb.append("\"title\":\"" + title+"\"");
+		sb.append(",");
+		sb.append("\"desc\":\"" + description+"\"");
+		sb.append(",");
+		sb.append("\"author\":\"" + author+"\"");
+		sb.append(",");
+		sb.append("\"body\":\"" + body+"\"");
+		sb.append(",");
+		sb.append("\"publish_at\":\""+date+"\"");
+		sb.append(",");
+		sb.append("\"source\":\"" + url+"\"");
+		sb.append(",");
+		sb.append("\"started_location\":\"" + startedLocation+"\"");
+		sb.append(",");
+		sb.append("\"keywords\":\"" + keywords+"\"");
+		sb.append("}");
+		return sb.toString();
+	}
 	
 	public static News fromDocument(Document doc){
 		News news = new News();
@@ -51,7 +72,6 @@ public class News {
 		if (title == null || body == null || url == null || date == null) {
 			return null;
 		}
-
 		Field uniqueField = new Field("id", id + "", Store.YES, Index.NOT_ANALYZED);
 		Field titleField = new Field("title", title, Store.YES, Index.ANALYZED, TermVector.YES);
 		Field contentField = new Field("body", body, Store.YES, Index.ANALYZED, TermVector.YES);
@@ -150,6 +170,22 @@ public class News {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getStartedLocation() {
+		return startedLocation;
+	}
+
+	public void setStartedLocation(String startedLocation) {
+		this.startedLocation = startedLocation;
+	}
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 }

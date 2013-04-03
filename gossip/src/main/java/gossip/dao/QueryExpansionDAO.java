@@ -138,8 +138,6 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -207,8 +205,6 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -259,8 +255,6 @@ public class QueryExpansionDAO {
 						rs.close();
 					if (pstmt != null)
 						pstmt.close();
-					if (conn != null)
-						conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -321,8 +315,6 @@ public class QueryExpansionDAO {
 						rs.close();
 					if (pstmt != null)
 						pstmt.close();
-					if (conn != null)
-						conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -376,8 +368,6 @@ public class QueryExpansionDAO {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

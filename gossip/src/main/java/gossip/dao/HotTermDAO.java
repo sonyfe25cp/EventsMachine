@@ -65,8 +65,6 @@ public class HotTermDAO {
 					result.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -108,8 +106,6 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -140,8 +136,6 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -183,8 +177,6 @@ public class HotTermDAO {
 			try {
 				if (pstmt != null)
 					pstmt.close();
-				if (conn != null)
-					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
