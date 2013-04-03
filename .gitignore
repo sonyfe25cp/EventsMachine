@@ -6,7 +6,6 @@ gossip/bin/
 gossip-server/bin/
 target/*
 # Package Files #
-*.jar
 *.war
 *.ear
 *.properties
