@@ -32,7 +32,7 @@ public class SimilarityCalBoot extends Boot {
 			int month = cal.get(Calendar.MONTH) + 1;
 			int year = cal.get(Calendar.YEAR);
 			int today = DateTrans.YYMMDDToInt(year, month, day);
-			for(int begin = 20120601; begin <= today; begin = DateTrans.theDayAfterYYMMDD(begin)){
+			for(int begin = 20130108; begin <= today; begin = DateTrans.theDayAfterYYMMDD(begin)){
 				process_once(begin);
 			}
 		}else{
@@ -80,7 +80,7 @@ public class SimilarityCalBoot extends Boot {
 				System.exit(0);
 			}
 		}
-		SimilarityCalBoot scb = new SimilarityCalBoot(20120601);
+		SimilarityCalBoot scb = new SimilarityCalBoot(0);
 		scb.run();
 	}
 

@@ -406,7 +406,6 @@ public class EventDAO {
 						e.id = rs.getInt(1);
 					}
 				} catch (SQLException sql) {
-					logger.error(e.getUTF8Title() + " error");
 					sql.printStackTrace();
 					continue;
 				}

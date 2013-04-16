@@ -46,6 +46,14 @@ public class ParseNewsFromWKS {
 				.getValue("BackupPath");
 		File folder = new File(folderPath);
 		News news = null;
+		
+		/*
+		 * 插入数据
+		 */
+		DataSource source = DatabaseUtils.getInstance();
+		NewsDAO newsDao = new NewsDAO();
+		newsDao.setDataSource(source);
+		
 		for (File file : folder.listFiles()) {
 			List<News> pages = new ArrayList<News>();
 			String filename = file.getName();
@@ -75,13 +83,7 @@ public class ParseNewsFromWKS {
 					pages.add(news);
 				}
 			}
-			/*
-			 * 插入数据
-			 */
-			DataSource source = DatabaseUtils.getInstance();
-			NewsDAO newsDao = new NewsDAO();
-			newsDao.setDataSource(source);
-
+//			newsDao.insertNews(pages);
 			DBThreadNews dbtn = new DBThreadNews(newsDao, pages);
 			new Thread(dbtn).start();
 			/*

@@ -13,7 +13,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.store.NIOFSDirectory;
 
 import edu.bit.dlde.utils.DLDEConfiguration;
 
@@ -67,11 +67,11 @@ public class SegParaSentence {
 	public String readNewsFile(int id) {
 		StringBuffer sourceStr = new StringBuffer();
 		// 打开索引
-		MMapDirectory dir = null;
+		NIOFSDirectory dir = null;
 		IndexReader ir = null;
 		IndexSearcher is =null;
 		try {
-			dir = new MMapDirectory(new File(indexPath));
+			dir = new NIOFSDirectory(new File(indexPath));
 			ir = IndexReader.open(dir, true);
 			is = new IndexSearcher(ir);
 			TermQuery query = new TermQuery(new Term("id",id+""));
@@ -83,7 +83,6 @@ public class SegParaSentence {
 				docId =  sdoc.doc;
 				doc = is.doc(sdoc.doc);
 			}
-			System.out.println("docId "+ docId +" doc " + doc);
 			if(doc == null)
 				return "";
 			String tit = doc.get("title");

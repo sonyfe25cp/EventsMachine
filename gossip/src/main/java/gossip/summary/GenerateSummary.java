@@ -40,7 +40,7 @@ public class GenerateSummary {
 		for(int i=0;i<pages.size();i++){
 			int id = pages.get(i);
 			if(id != 0){
-				System.out.println("id :  "+id);
+//				System.out.println("id :  "+id);
 				summap.put(pages.get(i), summary(pages.get(i)));
 				keymap.put(pages.get(i), keywordWeight);
 				senmap.put(pages.get(i), topNSen);

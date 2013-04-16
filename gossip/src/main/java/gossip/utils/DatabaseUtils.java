@@ -1,5 +1,7 @@
 package gossip.utils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,10 +25,8 @@ public class DatabaseUtils {
 			.getValue("driver");
 	static String dbUser = DLDEConfiguration.getInstance("gossip.properties")
 			.getValue("dbUser");
-	static String dbPassword = DLDEConfiguration.getInstance(
-			"gossip.properties").getValue("dbPassword");
-	static String dbUrl = DLDEConfiguration.getInstance("gossip.properties")
-			.getValue("dbUrl");
+	static String dbPassword = DLDEConfiguration.getInstance("gossip.properties").getValue("dbPassword");
+	static String dbUrl = DLDEConfiguration.getInstance("gossip.properties").getValue("dbUrl");
 
 	public static DataSource getInstance() {
 		if (dataSource == null) {
@@ -45,18 +45,18 @@ public class DatabaseUtils {
 	}
 	
 
-//	public static Connection getConnection() {
-//		Connection conn = null;
-//		try {
-//			Class.forName(driver);
-//			conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-//
-//			// conn = dataSource.getConnection();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return conn;
-//	}
+	public static Connection getConnection() {
+		Connection conn = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://10.1.0.127:3306/gossip", "root", "123iop");
+
+			// conn = dataSource.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
 
 	public static Event eventfromResultSet(ResultSet rs) {
 		Event event = new Event();

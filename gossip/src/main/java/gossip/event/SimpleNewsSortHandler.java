@@ -15,13 +15,14 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.MMapDirectory;
 
 /**
+ * 以前pages存的是news在索引里的docid，现在存的是news在数据库的id，排序按照id从小到大即可
  * 
  * @author lins
  * @date 2012-9-5
+ * @deprecated
  **/
 public class SimpleNewsSortHandler implements Handler {
-	String indexPath = DLDEConfiguration.getInstance("gossip.properties")
-			.getValue("IndexPath");
+	String indexPath = DLDEConfiguration.getInstance("gossip.properties").getValue("IndexPath");
 
 	public void handle(Collection<Event> events) {
 		// 打开索引
@@ -38,7 +39,8 @@ public class SimpleNewsSortHandler implements Handler {
 		Iterator<Event> it = events.iterator();
 		while (it.hasNext() && ir != null) {
 			Event event = it.next();
-			List<Integer> ids = event.getPages();
+			List<Integer> ids = event.getPages();//----------
+			
 			Document[] docs = new Document[ids.size()];
 			try {
 				for (int i = 0; i < ids.size(); i++) {

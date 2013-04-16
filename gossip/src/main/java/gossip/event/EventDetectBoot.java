@@ -73,10 +73,10 @@ public class EventDetectBoot extends Boot {
 			log.info("Found new EVENTS!");
 			/** 对获得的事件进行后期处理，需要我们写各种handler，当前只是使用一些mock的handler **/
 			for (Handler handler : handlers) {
-				log.info(handler.getClass().getName()
-						+ " begin to  hadle events");
+//				log.info(handler.getClass().getName()
+//						+ " begin to  hadle events");
 				handler.handle(events);
-				log.info(handler.getClass().getName() + " hadle events over");
+//				log.info(handler.getClass().getName() + " hadle events over");
 			}
 			/** 数据入库 **/
 			dao.saveORupdateEvents(events);
@@ -194,7 +194,7 @@ public class EventDetectBoot extends Boot {
 		edb.addHandler(new SimpleKeyWordsHandler());
 		edb.addHandler(new SimpleTitleHandler());
 		edb.addHandler(new MockRecommendedHndler());
-		edb.addHandler(new SimpleNewsSortHandler());
+//		edb.addHandler(new SimpleNewsSortHandler());
 		edb.addHandler(new SimpleDescHandler());
 		edb.run();
 	}
