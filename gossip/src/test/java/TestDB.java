@@ -1,15 +1,27 @@
 import gossip.model.News;
-import gossip.model.NewsStatus;
 import gossip.utils.DatabaseUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 public class TestDB {
 
-	
 	public static void main(String[] args){
+//		DataSource source = DatabaseUtils.getInstance();
+		
+		try {
+//			Connection conn = source.getConnection();
+			Connection conn = DatabaseUtils.getConnection();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void test(String[] args){
 		News news = new News();
 		news.setAuthor("author");
 		news.setBody("123123123");
