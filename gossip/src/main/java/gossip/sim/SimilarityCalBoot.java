@@ -80,7 +80,7 @@ public class SimilarityCalBoot extends Boot {
 				System.exit(0);
 			}
 		}
-		SimilarityCalBoot scb = new SimilarityCalBoot(20120601);
+		SimilarityCalBoot scb = new SimilarityCalBoot(0);
 		scb.run();
 	}
 
