@@ -3,10 +3,8 @@ gossip-server/target/*
 gossip/target/*
 target/*
 # Package Files #
-*.jar
 *.war
 *.ear
-*.project
 gossip/.project/
 gossip-server/.project/
 .settings/
