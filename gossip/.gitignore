@@ -1,16 +1,6 @@
 *.class
-gossip-server/target/*
-gossip/target/*
-target/*
 # Package Files #
 *.war
 *.ear
-gossip/.project/
-gossip-server/.project/
 .settings/
-gossip/.settings/
-gossip-server/.settings/
-.classpath
-gossip/.classpath
-gossip-server/.classpath
 /bin
