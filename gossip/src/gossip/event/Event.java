@@ -33,7 +33,12 @@ public class Event implements Serializable {
 	
 	
 	
-	
+	public void mergeEvent(Event event){
+		List<News> nList = event.getNewsList();
+		for(News news : nList){
+			this.getNewsList().add(news);
+		}
+	}
 	
 	
 
