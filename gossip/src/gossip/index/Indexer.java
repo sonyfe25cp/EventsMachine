@@ -38,6 +38,7 @@ public class Indexer {
 
 		IndexWriter iw = null;
 		IKAnalyzer analyzer = new IKAnalyzer();
+		
 		try {
 			MMapDirectory dir = new MMapDirectory(new File(indexPath));
 
