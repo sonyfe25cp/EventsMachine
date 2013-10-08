@@ -11,6 +11,15 @@ public class Word {
 	public Word() {
 		
 	}
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("name:"+name);
+		sb.append("\r");
+		sb.append("count:"+count);
+		sb.append("\r");
+		sb.append("idf:"+idf);
+		return sb.toString();
+	}
 	public Word(String name) {
 		super();
 		this.name = name;

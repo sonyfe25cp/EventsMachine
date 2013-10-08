@@ -7,6 +7,12 @@ import gossip.utils.TokenizerUtils;
 
 import java.util.List;
 
+/**
+ * 用于批量更新数据库中新闻的分词
+ * @author ChenJie
+ *
+ * Oct 8, 2013
+ */
 public class BatchUpdateNews extends Service{
 
 	private NewsMapper newsMapper = session.getMapper(NewsMapper.class) ;
@@ -44,7 +50,6 @@ public class BatchUpdateNews extends Service{
 		
 		news.setTitleWords(twords);
 		news.setBodyWords(bwords);
-		
 		newsMapper.updateNews(news);
 	}
 	

@@ -4,6 +4,7 @@ import gossip.mapper.WordMapper;
 import gossip.model.News;
 import gossip.model.Word;
 import gossip.service.Service;
+import gossip.test.TestDB;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,8 @@ public class WordStatistics extends Service{
 
 	private WordMapper wordMapper = session.getMapper(WordMapper.class) ;
 	
-	private HashMap<String,Integer> wordsMap = null;
-	private HashMap<String,Integer> idfMap = null;
+	private HashMap<String,Integer> wordsMap = null;//每个文档中的词计算多份
+	private HashMap<String,Integer> idfMap = null;//每个文档中的词只算一份
 	
 	private int fileCount = 0 ;
 	
@@ -58,6 +59,12 @@ public class WordStatistics extends Service{
 		}
 	}
 	
+	/**
+	 * 将title和body的分词合并为一份无重复的数组
+	 * 然后计算将词存入idf表
+	 * @param titleWords
+	 * @param bodyWords
+	 */
 	private void setIDF(String[] titleWords, String[] bodyWords){
 		if(idfMap == null){
 			idfMap = new HashMap<String,Integer>();
@@ -93,6 +100,7 @@ public class WordStatistics extends Service{
 	
 	public void batchComputeWords(){
 		recordAllWords();
+		TestDB tdb = new TestDB();
 		for(Entry<String, Integer> tmp : wordsMap.entrySet()){
 			String value = tmp.getKey();
 			int count = tmp.getValue();
@@ -101,8 +109,11 @@ public class WordStatistics extends Service{
 			word.setName(value);
 			double idf = countIDF(value);
 			word.setIdf(idf);
-			wordMapper.insertWord(word);
+			System.out.println(word);
+			wordMapper.insertWords(word);
+			tdb.insertWord(word);
 		}
+		tdb.close();
 	}
 	public void testInsert(){
 		Word word = new Word();
@@ -110,8 +121,17 @@ public class WordStatistics extends Service{
 		word.setName("a");
 		double idf = 0.1;
 		word.setIdf(idf);
-		wordMapper.insertWord(word);
+		wordMapper.insertWords(word);
 		
+		TestDB tdb = new TestDB();
+		tdb.insertWord(word);
+		tdb.close();
+	}
+	public void testGetWords(){
+		List<Word> words = wordMapper.getWords();
+		for(Word word: words){
+			System.out.println(word.getName());
+		}
 	}
 	
 	public WordMapper getWordMapper() {
@@ -151,8 +171,9 @@ public class WordStatistics extends Service{
 	 */
 	public static void main(String[] args) {
 		WordStatistics wst = new WordStatistics();
-//		wst.batchComputeWords();
-		wst.testInsert();
+		wst.batchComputeWords();
+//		wst.testInsert();
+//		wst.testGetWords();
 		System.out.println(wst.getFileCount());
 		
 	}

@@ -30,5 +30,4 @@ public class BatchNewsReader extends Service{
 		return newsList;
 	}
 	
-	
 }
