@@ -678,6 +678,13 @@ public class EventDAO {
 
 	public static void main(String[] args) {
 		EventDAO dao = new EventDAO();
+		dao.init();
+		List<Event> events = dao.getAllEvent();
+		int newsCount = 0;
+		for(Event event : events){
+			newsCount += event.getPages().size();
+		}
+		System.out.println(newsCount);
 		// Event e = new Event();
 		// e.setCreateTime(Calendar.getInstance().getTime().getTime());
 		// e.setTitle("q231");
@@ -687,7 +694,7 @@ public class EventDAO {
 		// set.add(e);
 		// dao.updateEvents(set);
 		// dao.updateTitle(1, "陕西榆林20辆超标公车被拍卖");
-		dao.addKeywords(1, "韩国：1.0");
+		//dao.addKeywords(1, "韩国：1.0");
 
 	}
 }

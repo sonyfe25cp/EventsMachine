@@ -4,7 +4,7 @@ $(document).ready(function() {
 	thisURL = document.URL;
 	var eveid = thisURL.split("=");
 	var eventid=$("#eventid").val();
-	url="/gossip-server/events/"+eventid;
+	url="/Gossip-server/events/"+eventid;
 	
 	$.ajax({
 		type: "GET",
@@ -31,7 +31,7 @@ $(document).ready(function() {
 			$.ajax({
 				type: "GET",
 				contentType: "application/json; charset=utf-8",
-				url:"/gossip-server/news/event-news?newsids="+newsids,
+				url:"/Gossip-server/news/event-news?newsids="+newsids,
 				dataType: "json",
 				anysc: true,
 				//data: datt,
@@ -64,7 +64,7 @@ $(document).ready(function() {
 	
 	
 	//相关事件的显示
-	var url1="/gossip-server/related-events?id="+eveid[1]+"&pageNo=1&limit=15";
+	var url1="/Gossip-server/related-events?id="+eveid[1]+"&pageNo=1&limit=15";
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
@@ -77,7 +77,7 @@ $(document).ready(function() {
 			$('#relate').empty();
 			var html = "";
 			for(var ir = 0; ir < datad.length; ir++) {
-				html += '<a href="/gossip-server/events?id=' + datad[ir].id + '" class="span3">' + datad[ir].title + ' </a>';
+				html += '<a href="/Gossip-server/events?id=' + datad[ir].id + '" class="span3">' + datad[ir].title + ' </a>';
 			}
 
 			$('#relate').append(html);
@@ -116,7 +116,7 @@ function toPage(pageNo,newsArray){
          html += '<li id="last_page" class="disabled"><a href="javascript:void(0)">'+'«</a></li>';
     }
     else{
-    	html = '<li><a href="/gossip-server/">首页</a></li>';
+    	html = '<li><a href="/Gossip-server/">首页</a></li>';
         html += '<li id="last_page"><a href="#" onclick="toPage('+(pageNo-1)+','+newsArray+')">'+'«</a></li>';
     }
     
@@ -178,8 +178,8 @@ var ppp = function(page, numPerPage, array, dateb) {
 var newdis = function(dateb, datb) {
 	var htmlc = '<li class="article">';
 	htmlc += '<div class="article-content">';
-	htmlc += '<h2><a href="/gossip-server/newsContent?newsId=' + datb.id + '" title="">' + datb.title + '</a></h2>';
-	htmlc += '<p><a href="/gossip-server/newsContent?newsId='+datb.id+'">' + datb.body.substring(0,300)+" ... " + '</a></p></div>';//datb.desc -> datb.body  by chenjie
+	htmlc += '<h2><a href="/Gossip-server/newsContent?newsId=' + datb.id + '" title="">' + datb.title + '</a></h2>';
+	htmlc += '<p><a href="/Gossip-server/newsContent?newsId='+datb.id+'">' + datb.body.substring(0,300)+" ... " + '</a></p></div>';//datb.desc -> datb.body  by chenjie
 	htmlc += '<span class="s">来源:' + datb.source + '</span>';
 	htmlc += '<span class="s">作者:' + datb.author + '</span>';
 	htmlc += '</li>';

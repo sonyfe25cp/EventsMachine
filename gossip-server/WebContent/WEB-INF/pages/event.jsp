@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" media="all">
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/eventdisplay1.js"></script>
+<script type="text/javascript" src="js/eventdisplay.js"></script>
 <script type="text/javascript" src="js/signup.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
@@ -102,14 +102,14 @@
 						for="repassword">重复密码：</label><input type="password"
 						id="repassword" onBlur="RepasswordCheck()"> <label
 						for="email">email:</label><input type="email" id="email"
-						onBlur="EmailCheck()">
+">
 				</form>
 			</div>
 			<div class="span6" style="padding: 10px;" id="signuptishi"></div>
 		</div>
 		<div class="modal-footer">
-			<a id="signupbutton" class="btn btn-primary" disabled="disabled"
-				onClick="Form_Submit()">注册</a>
+			<button type="button" id="signupbutton" class="btn btn-primary" 
+				onClick="Form_Submit()">注册</button>
 
 			<button type="button" class="btn" data-dismiss="modal">取消</button>
 		</div>
@@ -148,32 +148,7 @@
 
 								</div>
 							</div>
-							<!-- <div class="news">
-							<span class="news-time">2012-10-15</span>
-							<div class="news-list">
-								<i></i>
-								<ul>
-									<li class="article">
-										<div class="article-content">
-											<h2><a href="./news.html" title="">西哈努克灵柩启程回国 新华门及外交部降半旗</a></h2>
-											<p>西哈努克灵柩启程回国 新华门及外交部降半旗	</p>
-										</div>
-									</li>
-									<li class="article">
-										<div class="article-content">
-											<h2><a href="./news.html" title="">视频：安倍晋三今日将参拜靖国神社</a></h2>
-											<p>西哈努克灵柩启程回国 新华门及外交部降半旗	</p>
-										</div>
-									</li>
-									<li class="article">
-										<div class="article-content">
-											<h2><a href="./news.html" title="">新华门及外交部降半旗</a></h2>
-											<p>西哈努克灵柩启程回国 新华门及外交部降半旗	</p>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div> -->
+							
 						</div>
 					</div>
 				</div>
@@ -203,5 +178,7 @@
 				</div>
 			</div>
 		</div>
+    </div>
+
 </body>
 </html>

@@ -16,7 +16,7 @@ if(username!="''"){
     $.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
-			url: "/gossip-server/clicklog",
+			url: "/Gossip-server/clicklog",
 			//url: url,
 			dataType: "json",
 			anysc: false,

@@ -9,11 +9,11 @@
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/index1.js"></script>
 <script type="text/javascript" src="js/signup.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/clicklog.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>在线新闻系统</title>
@@ -101,15 +101,14 @@
 						type="password" id="password" onBlur="PasswordCheck()"> <label
 						for="repassword">重复密码：</label><input type="password"
 						id="repassword" onBlur="RepasswordCheck()"> <label
-						for="email">email:</label><input type="email" id="email"
-						onBlur="EmailCheck()">
+						for="email">email:</label><input type="email" id="email">
 				</form>
 				<div class="span6" style="padding: 10px;" id="signuptishi"></div>
 
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button id="signupbutton" class="btn btn-primary" disabled="disabled"
+			<button id="signupbutton" class="btn btn-primary"
 				onClick="Form_Submit()">注册</button>
 
 			<button type="button" class="btn" data-dismiss="modal">取消</button>

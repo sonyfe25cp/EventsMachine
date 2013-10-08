@@ -21,12 +21,10 @@ public class DatabaseUtils {
 
 	private static DataSource dataSource;
 
-	static String driver = DLDEConfiguration.getInstance("gossip.properties")
-			.getValue("driver");
-	static String dbUser = DLDEConfiguration.getInstance("gossip.properties")
-			.getValue("dbUser");
-	static String dbPassword = DLDEConfiguration.getInstance("gossip.properties").getValue("dbPassword");
-	static String dbUrl = DLDEConfiguration.getInstance("gossip.properties").getValue("dbUrl");
+	static String driver = "com.mysql.jdbc.Driver";
+	static String dbUser = "root";
+	static String dbPassword = "123iop";
+	static String dbUrl = "jdbc:mysql://localhost:3306/gossip";
 
 	public static DataSource getInstance() {
 		if (dataSource == null) {

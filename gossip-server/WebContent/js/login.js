@@ -1,11 +1,9 @@
 ﻿//登录
 var loginSubmit = function() {
-		// loginNameCheck();
-		//loginPasswordCheck();
 		var username = document.getElementById('loginusername').value;
 		var password = document.getElementById('loginpassword').value;
 		var data = 'username=' + username + '&password=' + password;
-		var url = '/gossip-server/login?' + data;
+		var url = '/Gossip-server/login?' + data;
 		$.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
@@ -46,7 +44,7 @@ var loginSubmit = function() {
 				}
 			}
 		});
-	}
+	};
 	//实现从登录界面转到注册界面
 
 function toSignUp() {
@@ -66,33 +64,6 @@ function loginclear() {
 	$("#loginpassword").val("");
 }
 
-//利用cookie存储登录信息
-// function addcookie(name, value) {
-// 	var cookieString = name + "=" + escape(value);
-// 	//判断是否设置过期时间
-// 	//  if(expireDays>0){
-// 	var date = new Date();
-// 	date.setTime(date.getTime + 1 * 3600 * 1000);
-// 	cookieString = cookieString + "; expire=" + date.toGMTString();
-// 	//}      
-// 	document.cookie = cookieString;
-// }
-// function getcookie(name) {
-// 	var strcookie = document.cookie;
-// 	var arrcookie = strcookie.split("; ");
-// 	for(var i = 0; i < arrcookie.length; i++) {
-// 		var arr = arrcookie[i].split("=");
-// 		if(arr[0] == name) return arr[1];
-// 	}
-// 	return "";
-// }
-// function deletecookie(name) {
-// 	var date = new Date();
-// 	date.setTime(date.getTime() - 10000);
-// 	//设置删除
-// 	document.cookie = name + "='" + "'; expire=" + date.toGMTString();
-// }
-//登录之后的退出操作
 
 function loginexit() {
 	var name = "username";

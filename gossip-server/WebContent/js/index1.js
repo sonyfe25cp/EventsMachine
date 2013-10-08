@@ -8,7 +8,7 @@ $(document).ready(function() {
     type: "GET",
     contentType: "application/json; charset=utf-8",
     //url: "json_example/events.json",
-    url:"/gossip-server/events?pageNo=1",
+    url:"/Gossip-server/events?pageNo=1",
     dataType: "json",
     anysc: false,
     data: data,
@@ -47,7 +47,7 @@ $(document).ready(function() {
 	 
 	 /*下面是获取hotPeople、hotPlaces、hotKeywords*/
 	 $('#sidebar').empty();
-	 $.get('/gossip-server/hot-words', function(data) {
+	 $.get('/Gossip-server/hot-words', function(data) {
 	    	var hotKeywords=data.hotKeywords;
 	    	if(hotKeywords==null||hotKeywords.length<1)
 	    		return;
@@ -62,7 +62,7 @@ $(document).ready(function() {
 	    });//hotKeywords
 	 
 	 
-	 $.get('/gossip-server/hot-people', function(data) {
+	 $.get('/Gossip-server/hot-people', function(data) {
 	    	var hotPeople=data.hotPeople;
 	    	if(hotPeople==null||hotPeople.length<1)
 	    		return;
@@ -78,7 +78,7 @@ $(document).ready(function() {
 	    });//hotPeople
 	 
 	 
-	 $.get('/gossip-server/hot-places', function(data) {
+	 $.get('/Gossip-server/hot-places', function(data) {
 	    	var hotPlaces=data.hotPlaces;
 	    	if(hotPlaces==null||hotPlaces.length<1)
 	    		return;
@@ -116,8 +116,8 @@ var ppp = function(page, numPerPage, result) {
    	   //alert(tt.id+"---"+tt.desc);
    	   //alert(splitKeywords(tt.keywords));
 	       var eventDom = $('<li id="' + tt.id + '" class="article"><div class="article-content"><h2><a href="./event.html" title=""></a></h2> <br></div><div class="info"><span class="pull-right"></span></div></li>');
-	       eventDom.find("h2").html('<a href="/gossip-server/event?eventId=' + tt.id  + '">' + tt.title + '</a>');
-	       $('<p><a href="/gossip-server/event?eventId='+tt.id+'">' + tt.desc + '</a></p>').insertAfter(eventDom.find(".article-content br"));
+	       eventDom.find("h2").html('<a href="/Gossip-server/event?eventId=' + tt.id  + '">' + tt.title + '</a>');
+	       $('<p><a href="/Gossip-server/event?eventId='+tt.id+'">' + tt.desc + '</a></p>').insertAfter(eventDom.find(".article-content br"));
 	       var info = "&#x7279;&#x5F81;&#x8BCD;&#xFF1A;";
 	       var keyword=splitKeywords(tt.keywords);
 	       keyword=keyword.split(",");
@@ -140,7 +140,7 @@ display=function(currentPage){
 	  $.ajax({
 	              type: "GET",
 	              contentType: "application/json; charset=utf-8",
-	              url:"/gossip-server/events?pageNo="+currentPageNum,
+	              url:"/Gossip-server/events?pageNo="+currentPageNum,
 	              //url: "json_example/events.json",
 	              dataType: "json",
 	              anysc: false,
@@ -161,7 +161,7 @@ display=function(currentPage){
 	 	                html += '                    <li id="last_page" class="disabled"><a href="javascript:void(0)">'+'«</a></li>';
 	                }
 	                else{
-	                	html = '                     <li><a href="/gossip-server/">首页</a></li>';
+	                	html = '                     <li><a href="/Gossip-server/">首页</a></li>';
 		                html += '                    <li id="last_page"><a href="#" onclick="toPage('+(page-1)+')">'+'«</a></li>';
 	                }
 	                

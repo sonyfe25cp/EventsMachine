@@ -8,7 +8,7 @@ $(document).ready(function() {
     type: "POST",
     contentType: "application/json; charset=utf-8",
     //url: "json_example/events.json",
-    url:"/gossip-server/events?pageNo=1",
+    url:"/Gossip-server/events?pageNo=1",
     dataType: "json",
     anysc: false,
     data: data,
@@ -51,7 +51,7 @@ function toPage(pageNo){
 function toEvent(eventId){
 	var imageStatus="";
 	//alert(eventId);
-	window.location.href="/gossip-server/eventManage?eventId="+eventId+"&status="+"0";
+	window.location.href="/Gossip-server/eventManage?eventId="+eventId+"&status="+"0";
 
 }
 
@@ -92,7 +92,7 @@ display=function(currentPage){
 	  $.ajax({
 	              type: "GET",
 	              contentType: "application/json; charset=utf-8",
-	              url:"/gossip-server/events?pageNo="+currentPageNum,
+	              url:"/Gossip-server/events?pageNo="+currentPageNum,
 	              //url: "json_example/events.json",
 	              dataType: "json",
 	              anysc: false,
@@ -113,7 +113,7 @@ display=function(currentPage){
 	 	                html += '                    <li id="last_page" class="disabled"><a href="javascript:void(0)">'+'«</a></li>';
 	                }
 	                else{
-	                	html = '                     <li><a href="/gossip-server/">首页</a></li>';
+	                	html = '                     <li><a href="/Gossip-server/">首页</a></li>';
 		                html += '                    <li id="last_page"><a href="#" onclick="toPage('+(page-1)+')">'+'«</a></li>';
 	                }
 	                

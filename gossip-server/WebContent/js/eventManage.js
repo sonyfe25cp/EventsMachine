@@ -7,7 +7,7 @@ $(document).ready(function() {
 	var status=$("#status").val();
 	//alert(status);
 //	alert(imageStatus);
-	url="/gossip-server/events/"+eventid;
+	url="/Gossip-server/events/"+eventid;
 	
 	$.ajax({
 		type: "GET",
@@ -27,7 +27,7 @@ $(document).ready(function() {
 			$.ajax({
 				type: "GET",
 				contentType: "application/json; charset=utf-8",
-				url:"/gossip-server/news/event-news?newsids="+newsId,
+				url:"/Gossip-server/news/event-news?newsids="+newsId,
 				dataType: "json",
 				anysc: true,
 				//data: datt,
@@ -52,7 +52,7 @@ $('#submitChange').click(function(){
 	var eventLocation=$('#eventLocation').val();
 	//alert("123123");
 	var data="eventId="+eventid+"&title="+title+"&summary="+summary+"&newsId="+newsId+"&keyWords="+keyWords+"&location="+eventLocation;
-	window.location.href="/gossip-server/eventModify/content?"+data;
+	window.location.href="/Gossip-server/eventModify/content?"+data;
 });
 
 if(status=="success")
@@ -69,7 +69,7 @@ function deleteNews(eventid){
 		}); 
 	var data="eventId="+eventid+"&newsId="+newsId;
 	//alert(data);
-	window.location.href="/gossip-server/eventModify/deleteNews?"+data;
+	window.location.href="/Gossip-server/eventModify/deleteNews?"+data;
 
 };
 

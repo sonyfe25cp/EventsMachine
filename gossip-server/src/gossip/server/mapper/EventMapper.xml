@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "gossip.server.mapper.EventMapper">
+   <select id = "getEventById" parameterType = "int" resultType = "Event">
+        select * from event where id = #{id}
+   </select>
+   
+   <select id = "getEventRanking" resultType = "int">
+        select id from event order by recommended desc
+   </select>
+   
+   <select id = "getEvent"  resultType = "Event">
+        select * from event
+   </select>
+</mapper>

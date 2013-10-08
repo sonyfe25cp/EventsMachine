@@ -93,7 +93,7 @@
     		<label for="username">用户名：</label> <input type="text" id="username" onBlur="UserNameCheck()">
     		<label for="password">密码：</label><input type="password" id="password" onBlur="PasswordCheck()">
     		<label for="repassword">重复密码：</label><input type="password" id="repassword" onBlur="RepasswordCheck()">
-    		<label for="email">email:</label><input type="email" id="email" onBlur="EmailCheck()">
+    		<label for="email">email:</label><input type="email" id="email">
     	</form>
 	    <div class="span6" style="padding:10px;" id="signuptishi">
 		    	
@@ -102,7 +102,7 @@
     </div>
 	</div>
 	<div class="modal-footer" >	    
-       <button id="signupbutton" class="btn btn-primary" disabled="disabled" onClick="Form_Submit()" >注册</button>
+       <button id="signupbutton" class="btn btn-primary" onClick="Form_Submit()" >注册</button>
 
        <button type="button" class="btn" data-dismiss="modal">取消</button>
      </div>

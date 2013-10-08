@@ -24,6 +24,7 @@
 	<!-- scan for controllers -->
 	<context:component-scan base-package="gossip.server.action" />
     <context:component-scan base-package="gossip.server.admin" />
+    <context:component-scan base-package="gossip.server.service" />
 
 	<!-- InternalResourceViewResolver默认的就是JstlView所以这里就不用配置viewClass了 -->
 	<bean

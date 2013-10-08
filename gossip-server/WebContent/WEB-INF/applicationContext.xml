@@ -24,19 +24,19 @@
 		destroy-method="close">
 		<!-- 确定数据源的驱动 -->
 		<property name="driverClassName">
-			<value>${driver}</value>
+			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<!-- 确定连接数据库的url -->
 		<property name="url">
-			<value>${dbUrl}</value>
+			<value>jdbc:mysql://127.0.0.1:3306/gossip</value>
 		</property>
 		<!--确定连接数据库的用户名 -->
 		<property name="username">
-			<value>${dbUser}</value>
+			<value>root</value>
 		</property>
 		<!-- 确定连接数据库的密码 -->
 		<property name="password">
-			<value>${dbPassword}</value>
+			<value>123iop</value>
 		</property>
 	</bean>
 
