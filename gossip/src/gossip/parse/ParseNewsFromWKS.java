@@ -42,6 +42,7 @@ public class ParseNewsFromWKS {
 
 		String folderPath = DLDEConfiguration.getInstance("gossip.properties")
 				.getValue("NewsPath");
+		System.out.println(folderPath);
 		String bakPath = DLDEConfiguration.getInstance("gossip.properties")
 				.getValue("BackupPath");
 		File folder = new File(folderPath);
@@ -64,10 +65,10 @@ public class ParseNewsFromWKS {
 			for (StoredPage page : array) {
 				int pagesDate = getPagesDate(filename);
 				if (pagesDate < 20121031) {// 20121031新闻改版
-					cpe.configWith(new File("src/main/resources/gn-news-qq.xml"));// 只有qq新闻
+					cpe.configWith(new File("conf/gn-news-qq.xml"));// 只有qq新闻
 				} else {
 					cpe.configWith(new File(
-							"src/main/resources/gn-news-qq-new.xml"));// 只有qq新闻
+							"conf/gn-news-qq-new.xml"));// 只有qq新闻
 				}
 				String rawContent = page.getContent();
 				cpe.setResource(new StringReader(rawContent), "gn-news-qq");
