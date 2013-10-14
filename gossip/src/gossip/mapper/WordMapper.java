@@ -10,7 +10,7 @@ public interface WordMapper {
 
 	public Word getWordByValue(String value);
 	
-	public void insertWords(@Param("word")Word word);
+	public void insertWords(Word word);
 	
 	public List<Word> getWords();
 	

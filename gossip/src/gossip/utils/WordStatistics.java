@@ -123,9 +123,9 @@ public class WordStatistics extends Service{
 		word.setIdf(idf);
 		wordMapper.insertWords(word);
 		
-		TestDB tdb = new TestDB();
-		tdb.insertWord(word);
-		tdb.close();
+//		TestDB tdb = new TestDB();
+//		tdb.insertWord(word);
+//		tdb.close();
 	}
 	public void testGetWords(){
 		List<Word> words = wordMapper.getWords();
@@ -171,8 +171,8 @@ public class WordStatistics extends Service{
 	 */
 	public static void main(String[] args) {
 		WordStatistics wst = new WordStatistics();
-		wst.batchComputeWords();
-//		wst.testInsert();
+//		wst.batchComputeWords();
+		wst.testInsert();
 //		wst.testGetWords();
 		System.out.println(wst.getFileCount());
 		
