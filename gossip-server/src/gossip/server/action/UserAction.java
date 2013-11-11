@@ -1,7 +1,7 @@
 
 package gossip.server.action;
 
-import gossip.server.model.User;
+import gossip.model.User;
 import gossip.server.service.UserService;
 
 import java.text.SimpleDateFormat;

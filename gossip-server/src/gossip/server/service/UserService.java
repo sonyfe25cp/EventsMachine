@@ -1,10 +1,9 @@
 package gossip.server.service;
 
-import gossip.server.mapper.UserMapper;
-import gossip.server.model.User;
+import gossip.mapper.UserMapper;
+import gossip.model.User;
 
 import java.sql.Date;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

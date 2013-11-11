@@ -1,13 +1,14 @@
 package gossip.server.service;
 
-import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.mapper.NewsMapper;
-import gossip.server.model.News;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import edu.bit.dlde.utils.DLDELogger;
+import gossip.mapper.NewsMapper;
+import gossip.model.News;
 
 /**
  * @author yulong

@@ -88,12 +88,12 @@
 	<!-- 配置SqlSessionFactoryBean -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="gossip.server.model"/>
+		<property name="typeAliasesPackage" value="gossip.model"/>
 	</bean>
 
 	<!-- 配置mapperScanner -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="gossip.server.mapper" />
+		<property name="basePackage" value="gossip.mapper" />
 	</bean>
 
 </beans>

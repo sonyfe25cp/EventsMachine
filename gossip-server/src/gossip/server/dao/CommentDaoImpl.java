@@ -11,8 +11,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.model.Comment;
-import gossip.utils.DatabaseUtils;
+import gossip.gossip.utils.DatabaseUtils;
+import gossip.model.Comment;
 
 /**
  * Mysql数据库的CommentDao实现类

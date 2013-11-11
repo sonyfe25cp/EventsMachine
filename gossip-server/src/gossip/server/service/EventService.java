@@ -1,9 +1,5 @@
 package gossip.server.service;
 
-import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.mapper.EventMapper;
-import gossip.server.model.Event;
-
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -11,6 +7,10 @@ import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import edu.bit.dlde.utils.DLDELogger;
+import gossip.mapper.EventMapper;
+import gossip.model.Event;
 
 @Service
 public class EventService {
@@ -21,8 +21,8 @@ public class EventService {
 
 	public Event getEventById(int id) {
 		Event event = eventMapper.getEventById(id);
-		System.out.println("create time: " + event.getCreate_time());
-		event.setStarted_at(event.getCreate_time().getTime());
+		System.out.println("create time: " + event.getCreateTime());
+		event.setCreateTime(event.getCreateAt().getTime());
 		return event;
 	}
 
@@ -31,12 +31,12 @@ public class EventService {
 		Event event = getEventById(id);
 		json.put("id", event.getId());
 		json.put("title", event.getTitle());
-		json.put("desc", event.getContent_abstract());
+		json.put("desc", event.getDesc());
 		json.put("img", event.getImg());
 		json.put("recommended", event.getRecommended());
-		json.put("started_at", event.getStarted_at());
+		json.put("started_at", event.getCreateTime());
 		json.put("keywords", event.getKeyWords());
-		json.put("started_location", event.getStarted_location());
+		json.put("started_location", event.getStartedLocation());
 		json.put("news", event.getPages());
 		logger.info("i found the event in database.");
 		return json;

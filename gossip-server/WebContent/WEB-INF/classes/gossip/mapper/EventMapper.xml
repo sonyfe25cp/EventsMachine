@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gossip.mapper.EventMapper">
+	<select id="insert" parameterType="Event">
+		insert into event(title, recommended, img, keywords, pages, create_time, started_location, content_abstract)
+			values(
+				#{title}, #{recommended}, #{img}, #{keyWords}, #{pages}, #{createAt}, #{startedLocation}, #{desc}
+			)
+	</select>
+	<update id="update" parameterType="Event">
+		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{pages},
+		started_location = #{startedLocation}, content_abstract = #{desc}, updateAt = #{updateAt} where id = #{id}
+	</update>
+	<select id="getEventsAfterDate" parameterType="String" resultMap="eventResultMap">
+		select * from event where <![CDATA[ create_time > #{creatAt} ]]>
+	</select>
+	<select id="getEventById" parameterType="Integer" resultMap="eventResultMap">
+		select * from event where id = #{id}
+	</select>
+	
+	<resultMap id="eventResultMap" type="Event">
+	  <id property="id" column="id" />
+	  <result property="title" column="title"/>
+	  <result property="recommended" column="recommended"/>
+	  <result property="img" column="img"/>
+	  <result property="keyWords" column="keywords"/>
+	  <result property="pages" column="pages"/>
+	  <result property="startedLocation" column="started_location"/>
+	  <result property="desc" column="content_abstract"/>
+	  <result property="createAt" column="create_time"/>
+	  <result property="updateAt" column="updateAt"/>
+	</resultMap>
+	<select id = "getEventRanking" resultType = "int">
+        select id from event order by recommended desc
+   </select>
+</mapper>

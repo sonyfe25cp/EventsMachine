@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gossip.mapper.NewsMapper">
+	<select id="getNewsById" parameterType="int" resultType="News">
+		select * from news where id = #{id}
+	</select>
+	
+	<select id="getAllNews" resultType="News">
+		select * from news
+	</select>
+	<select id="getNewsByPage" resultType="News">
+		select * from news limit #{page.numBegin}, #{page.pageSize}
+	</select>
+	
+	<insert id="insertNews" parameterType="News">
+		insert into news(title, body, url, author, description, date, fromsite, crawlat, status, keywords, titlewords, bodywords) 
+			values(#{title}, #{body}, #{url}, #{author}, #{description}, #{date}, #{fromSite}, #{crawlat}, #{status}, #{keywords}, #{titleWords}, #{bodyWords})
+	</insert>
+	
+	
+	<select id="getNewsByDate" parameterType="String" resultType="News">
+		select * from news where date = #{date}
+	</select>
+	
+	<select id="getNewsAfterDate" resultType="News">
+		select * from news where <![CDATA[ crawlat >= #{crawlAt} and eventStatus = #{eventStatus}]]>
+	</select>
+	
+	<update id="updateNews" parameterType="News">
+		update news set title = #{title}, url = #{url}, body = #{body}, author = #{author}, description = #{description},
+			fromsite = #{fromSite}, crawlat = #{crawlAt}, status = #{status}, keywords = #{keywords}, titlewords = #{titleWords}, bodywords = #{bodyWords}
+		where id = #{id}
+	</update>
+	
+	<update id="batchUpdateNewsStatus">
+		update news set eventStatus = #{eventStatus} where id in 
+		<foreach collection="array" item="idArray"  open="(" separator="," close=")">  
+	        #{idArray}  
+	    </foreach>
+	</update>
+	
+</mapper>

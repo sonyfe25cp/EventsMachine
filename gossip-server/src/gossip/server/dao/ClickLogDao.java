@@ -1,8 +1,8 @@
 package gossip.server.dao;
 
-import java.util.List;
+import gossip.model.ClickLog;
 
-import gossip.server.model.ClickLog;
+import java.util.List;
 
 public interface ClickLogDao {
 	

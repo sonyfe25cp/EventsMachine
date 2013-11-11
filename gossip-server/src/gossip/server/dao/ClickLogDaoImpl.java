@@ -11,8 +11,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import edu.bit.dlde.utils.DLDELogger;
-import gossip.server.model.ClickLog;
-import gossip.utils.DatabaseUtils;
+import gossip.gossip.utils.DatabaseUtils;
+import gossip.model.ClickLog;
 
 public class ClickLogDaoImpl implements ClickLogDao {
 	private DataSource dataSource;

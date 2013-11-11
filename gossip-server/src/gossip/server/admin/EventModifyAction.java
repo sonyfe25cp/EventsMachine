@@ -1,7 +1,7 @@
 package gossip.server.admin;
 
-import gossip.dao.EventDAO;
-import gossip.dao.NewsDAO;
+import gossip.gossip.dao.EventDAO;
+import gossip.gossip.dao.NewsDAO;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;

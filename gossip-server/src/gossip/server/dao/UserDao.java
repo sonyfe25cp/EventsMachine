@@ -1,6 +1,6 @@
 package gossip.server.dao;
 
-import gossip.server.model.User;
+import gossip.model.User;
 
 /**
  * 与用户相关的数据库操作接口

@@ -1,6 +1,6 @@
 package gossip.server.dao;
 
-import gossip.server.model.Comment;
+import gossip.model.Comment;
 
 import java.util.List;
 
