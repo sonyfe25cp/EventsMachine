@@ -21,6 +21,8 @@ public class News {
 	private String status=NEW;
 	private String startedLocation = "";
 	private String keywords ="";
+	private String titleWords;
+	private String bodyWords;
 	
 	public final static String NEW = "new";
 	public final static String INDEX = "index";
@@ -187,5 +189,22 @@ public class News {
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
+
+	public String getTitleWords() {
+		return titleWords;
+	}
+
+	public void setTitleWords(String titleWords) {
+		this.titleWords = titleWords;
+	}
+
+	public String getBodyWords() {
+		return bodyWords;
+	}
+
+	public void setBodyWords(String bodyWords) {
+		this.bodyWords = bodyWords;
+	}
+
 
 }

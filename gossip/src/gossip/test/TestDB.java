@@ -1,6 +1,7 @@
 package gossip.test;
 
 import gossip.model.News;
+import gossip.model.Word;
 import gossip.utils.DatabaseUtils;
 
 import java.sql.Connection;
@@ -34,15 +35,31 @@ public class TestDB {
 		System.out.println(news.getStatus().toString());
 	}
 	
+	public TestDB(){
+		try {
+			conn = DatabaseUtils.getInstance().getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void close(){
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private Connection conn;
 	/**
 	 * @param args
 	 * @throws ClassNotFoundException 
 	 * @throws SQLException 
 	 */
-	public static void run() throws ClassNotFoundException, SQLException {
+	public void run() throws ClassNotFoundException, SQLException {
 		String SQL_INSERT_NEWS = "insert into news(title,body,url,author,description) values(?,?,?,?,?)";
 
-		Connection conn = DatabaseUtils.getInstance().getConnection();
 		try {
 
 			News news = new News();
@@ -65,7 +82,21 @@ public class TestDB {
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertWord(Word word){
+		String SQL_INSERT_WORD = "insert into words(name, count, idf) values(?,?,?)";
+		try {
+			PreparedStatement pstmt = null;
+			pstmt = conn.prepareStatement(SQL_INSERT_WORD);
+			pstmt.setString(1, word.getName());
+			pstmt.setInt(2, word.getCount());
+			pstmt.setDouble(3, word.getIdf());
+			pstmt.execute();
+			pstmt.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

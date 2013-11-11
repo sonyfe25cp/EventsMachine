@@ -1,5 +1,7 @@
 package gossip.event;
 
+import gossip.model.News;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -22,6 +24,23 @@ import net.sf.json.JSONObject;
  */
 public class Event implements Serializable {
 	private static final long serialVersionUID = 8954198578600418283L;
+	
+	private List<News> newsList;
+	
+	public void add(News news){
+		
+	}
+	
+	
+	
+	public void mergeEvent(Event event){
+		List<News> nList = event.getNewsList();
+		for(News news : nList){
+			this.getNewsList().add(news);
+		}
+	}
+	
+	
 
 	final String delimiter = ";";
 
@@ -268,6 +287,14 @@ public class Event implements Serializable {
 		// sb.append();
 
 		return sb.toString();
+	}
+
+	public List<News> getNewsList() {
+		return newsList;
+	}
+
+	public void setNewsList(List<News> newsList) {
+		this.newsList = newsList;
 	}
 
 	public static void main(String args[]) {
