@@ -28,8 +28,10 @@ public class GossipEventAction {
 		System.out.println("newsToday need to compute is : "+newsToday.size());
 		//step1. 找出今天的events，标记没有存为事件的那些新闻
 		List<Event> eventsTody = eventService.computeEventFromNews(newsToday);
+		System.out.println("eventsToday is : "+eventsTody.size());
 		//step2. 找出前面7天的events
 		List<Event> eventsLast7Days = eventService.getEventsLast7Days(now);
+		System.out.println("eventsLast7Days is : "+eventsLast7Days.size());
 		//step3. 合并今天的与本周的，并找出新的
 		List<Event> newOrUpdatedEvents = eventService.mergeEvents(eventsLast7Days, eventsTody);
 		//step4. 插入or更新这些events

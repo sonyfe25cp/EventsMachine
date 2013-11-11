@@ -35,8 +35,8 @@
 	
 	<update id="batchUpdateNewsStatus">
 		update news set eventStatus = #{eventStatus} where id in 
-		<foreach collection="array" item="idArray"  open="(" separator="," close=")">  
-	        #{idArray}  
+		<foreach collection="idArray" item="id"  open="(" separator="," close=")">  
+	        #{id}  
 	    </foreach>
 	</update>
 	
