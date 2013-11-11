@@ -2,6 +2,7 @@ package gossip.event;
 
 import edu.bit.dlde.utils.DLDEConfiguration;
 import gossip.Handler;
+import gossip.model.Event;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +14,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermFreqVector;

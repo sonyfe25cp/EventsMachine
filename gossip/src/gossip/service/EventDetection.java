@@ -1,6 +1,6 @@
 package gossip.service;
 
-import gossip.event.Event;
+import gossip.model.Event;
 import gossip.model.News;
 
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ public class EventDetection {
 	
 	/**
 	 * if a sim b > lambda , a b belong to same event
+	 * 参数1：空的events表
+	 * 参数2：新闻列表
 	 * @param newsList
 	 * @return
 	 */

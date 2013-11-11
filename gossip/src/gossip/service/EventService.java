@@ -1,8 +1,9 @@
 package gossip.service;
 
-import gossip.event.Event;
-import gossip.mapper.NewsMapper;
+import gossip.mapper.EventMapper;
+import gossip.model.Event;
 import gossip.model.News;
+import gossip.utils.DateTrans;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,16 +11,24 @@ import java.util.List;
 
 public class EventService {
 	private double lambda = 0.5;
-	private NewsService newsService;
-	private NewsMapper newsMapper;
 	
+	private NewsService newsService;
+	
+	private EventMapper eventMapper;
 	
 	/*
 	 * basic event service
 	 */
 
 	public List<Event> computeEventFromNews(List<News> newsList){
-		return EventDetection.simpleDetect(newsList);
+		List<Event> events = new ArrayList<Event>();
+		events = EventDetection.simpleDetect(newsList);//得到事件列表
+		//标记已经被发现的新闻为Evented
+		for(Event event : events){
+			List<Integer> newsIds = event.getPages();
+			newsService.batchUpdateNewsStatus(newsIds, News.Evented);
+		}
+		return events;
 	}
 	
 	public List<Event> mergeEvents(List<Event> originEvents, List<Event> newEvents){
@@ -60,19 +69,45 @@ public class EventService {
 	 * basic dao service
 	 */
 	public void updateOrInsert(Event event){
-		
+		int id = event.getId();
+		if(id != 0){
+			updateEvent(event);
+		}else{
+			insertEvent(event);
+		}
+	}
+	
+	public void insertEvent(Event event){
+		eventMapper.insert(event);
+	}
+	
+	public void updateEvent(Event event){
+		eventMapper.update(event);
 	}
 
 	public void updateOrInsert(List<Event> events){
-		
+		for(Event e : events){
+			updateOrInsert(e);
+		}
 	}
 	
 	public Event getEventById(int id){
-		return null;
+		return eventMapper.getEventById(id);
 	}
 	
 	public List<Event> getEventsByDate(Date date){
 		return null;
+	}
+	public List<Event> getEventsLast7Days(Date date){
+		Date begin = DateTrans.getDateBefore(date, 7);
+		
+//		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+//		
+//		String beginDate = df.format(begin);
+//		
+//		System.out.println("begin Date : " + beginDate);
+		
+		return eventMapper.getEventsAfterDate(begin);
 	}
 	
 	

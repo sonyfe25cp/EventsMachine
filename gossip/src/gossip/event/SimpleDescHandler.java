@@ -1,6 +1,7 @@
 package gossip.event;
 
 import gossip.Handler;
+import gossip.model.Event;
 import gossip.summary.GenerateSummary;
 
 import java.util.Collection;

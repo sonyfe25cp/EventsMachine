@@ -4,6 +4,7 @@ import edu.bit.dlde.utils.DLDELogger;
 import gossip.Boot;
 import gossip.Handler;
 import gossip.dao.EventDAO;
+import gossip.model.Event;
 import gossip.sim.SimilarDocPair;
 import gossip.sim.SimilarityReader;
 import gossip.utils.DatabaseUtils;

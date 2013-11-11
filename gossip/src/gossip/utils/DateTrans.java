@@ -1,6 +1,22 @@
 package gossip.utils;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class DateTrans {
+	public static Date getDateBefore(Date d,int day){
+	   Calendar now =Calendar.getInstance();
+	   now.setTime(d);
+	   now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
+	   return now.getTime();
+	}
+	public static int kdaysbefore(int date,int range){
+		int day = date;
+		for(int i = 0 ; i < range ; i ++){
+			day = DateTrans.theDayBeforeYYMMDD(day);
+		}
+		return day;
+	}
 
 	/**
 	 * @param year

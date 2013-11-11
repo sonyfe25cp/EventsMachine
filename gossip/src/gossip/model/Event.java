@@ -1,4 +1,4 @@
-package gossip.event;
+package gossip.model;
 
 import gossip.model.News;
 
@@ -27,10 +27,19 @@ public class Event implements Serializable {
 	
 	private List<News> newsList;
 	
+	//事件中增加一个新闻
 	public void add(News news){
-		
+		int newsId = news.getId();
+		if(pages ==null){
+			pages = new LinkedList<Integer>();
+		}
+		pages.add(newsId);
 	}
 	
+	public Event(){
+		Date now = new Date(System.currentTimeMillis());
+		this.createAt = now;
+	}
 	
 	
 	public void mergeEvent(Event event){
@@ -50,10 +59,13 @@ public class Event implements Serializable {
 	// 下面这个属性感觉不要再建一个表，干脆就直接合一下放event这个表里面，表连接太耗时了
 	public Map<String, Double> keyWords = new HashMap<String, Double>(); // 关键词-权重
 	public List<Integer> pages = new LinkedList<Integer>();// 页面id,已经排过序的
+	public String newsIds;
 	public long createTime;
 	public String desc;// 事件描述
 	public String img;
 	public String startedLocation;
+	public Date createAt;//创建时间 20131101
+	public Date updateAt;
 
 	/**
 	 * @return 返回新闻在索引的id的列表，该列表里面的新闻是已经排过序的

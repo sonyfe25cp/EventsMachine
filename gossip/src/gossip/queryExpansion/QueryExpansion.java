@@ -3,7 +3,7 @@ package gossip.queryExpansion;
 import gossip.dao.EventDAO;
 import gossip.dao.NewsDAO;
 import gossip.dao.QueryExpansionDAO;
-import gossip.event.Event;
+import gossip.model.Event;
 import gossip.model.News;
 
 import java.io.IOException;

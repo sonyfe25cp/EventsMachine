@@ -2,6 +2,7 @@ package gossip.event;
 
 import edu.bit.dlde.utils.DLDEConfiguration;
 import gossip.Handler;
+import gossip.model.Event;
 
 import java.io.File;
 import java.io.IOException;

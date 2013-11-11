@@ -1,8 +1,17 @@
 package gossip.service;
 
+import gossip.mapper.NewsMapper;
 import gossip.model.News;
+import gossip.utils.DateTrans;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class NewsService {
+	
+	private NewsMapper newsMapper;
 	
 	private double lambda = 0.5;
 
@@ -16,5 +25,25 @@ public class NewsService {
 			return true;
 		}else
 			return false;
+	}
+	
+	
+	public List<News> getNewsLast7Days(Date date){
+		
+		Date begin = DateTrans.getDateBefore(date, 7);
+		
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		
+		String beginDate = df.format(begin);
+		
+		System.out.println("begin Date : " + beginDate);
+		
+		return newsMapper.getNewsAfterDate(beginDate, News.UnEvented);
+	}
+	
+	public void batchUpdateNewsStatus(List<Integer> ids, int eventStatus){
+		if(ids !=null && ids.size() > 0){
+			newsMapper.batchUpdateNewsStatus(ids, eventStatus);
+		}
 	}
 }

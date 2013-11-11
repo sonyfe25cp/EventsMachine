@@ -1,5 +1,8 @@
 package gossip.utils;
 
+import gossip.model.Event;
+import gossip.model.News;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,10 +15,6 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-
-import edu.bit.dlde.utils.DLDEConfiguration;
-import gossip.event.Event;
-import gossip.model.News;
 
 public class DatabaseUtils {
 

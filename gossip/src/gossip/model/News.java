@@ -18,11 +18,15 @@ public class News {
 	private String date="";
 	private String fromSite="";
 	private String crawlAt="";
-	private String status=NEW;
+	private String status=NEW;//新闻的状态，新建，被索引，更新，删除
 	private String startedLocation = "";
 	private String keywords ="";
 	private String titleWords;
 	private String bodyWords;
+	private String eventStatus;//跟事件的关系，已属于事件和不属于事件，默认为0，标志没有被某事件包含，若为1，则已经被包含在某事件
+	
+	public final static int Evented = 1;
+	public final static int UnEvented = 0;
 	
 	public final static String NEW = "new";
 	public final static String INDEX = "index";
@@ -204,6 +208,14 @@ public class News {
 
 	public void setBodyWords(String bodyWords) {
 		this.bodyWords = bodyWords;
+	}
+
+	public String getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(String eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 
 

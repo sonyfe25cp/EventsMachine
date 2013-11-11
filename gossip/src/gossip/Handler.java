@@ -1,6 +1,6 @@
 package gossip;
 
-import gossip.event.Event;
+import gossip.model.Event;
 
 import java.util.Collection;
 

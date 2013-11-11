@@ -23,10 +23,21 @@
 		select * from news where date = #{date}
 	</select>
 	
+	<select id="getNewsAfterDate" resultType="">
+		select * from news where <![CDATA[ crawlat >= #{crawlAt} and eventStatus = #{eventStatus}]]>
+	</select>
+	
 	<update id="updateNews" parameterType="gossip.model.News">
 		update news set title = #{title}, url = #{url}, body = #{body}, author = #{author}, description = #{description},
 			fromsite = #{fromSite}, crawlat = #{crawlAt}, status = #{status}, keywords = #{keywords}, titlewords = #{titleWords}, bodywords = #{bodyWords}
 		where id = #{id}
+	</update>
+	
+	<update id="batchUpdateNewsStatus">
+		update news set eventStatus = #{eventStatus} where id in 
+		<foreach collection="array" item="idArray"  open="(" separator="," close=")">  
+	        #{idArray}  
+	    </foreach>
 	</update>
 	
 </mapper>

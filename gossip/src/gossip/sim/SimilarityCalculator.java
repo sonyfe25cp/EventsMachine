@@ -67,7 +67,7 @@ public class SimilarityCalculator {
 			logger.info("maxDoc:"+is.maxDoc());
 			
 			/** 将读出来的东西放进List<DocVector>，设总共N个;同时向前追溯back天 **/
-			int endDate = kdaysbefore(date,range);
+			int endDate = DateTrans.kdaysbefore(date,range);
 			NumericRangeQuery nrq= NumericRangeQuery.newIntRange("crawlat", endDate,date, true, true);
 			docs = is.search(nrq,is.maxDoc());
 			ScoreDoc[] sdocs = docs.scoreDocs;
@@ -106,13 +106,7 @@ public class SimilarityCalculator {
 		return sdplist;
 	}
 	
-	private int kdaysbefore(int date,int range){
-		int day = date;
-		for(int i = 0 ; i < range ; i ++){
-			day = DateTrans.theDayBeforeYYMMDD(day);
-		}
-		return day;
-	}
+
 	
 	/**
 	 * 查date那天,field那个域的文档，然后计算他们的相似度
