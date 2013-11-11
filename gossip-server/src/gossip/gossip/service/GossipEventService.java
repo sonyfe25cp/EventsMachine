@@ -9,11 +9,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EventService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class GossipEventService {
 	private double lambda = 0.5;
 	
-	private NewsService newsService;
-	
+	@Autowired
+	private GossipNewsService newsService;
+	@Autowired
 	private EventMapper eventMapper;
 	
 	/*
@@ -22,7 +27,7 @@ public class EventService {
 
 	public List<Event> computeEventFromNews(List<News> newsList){
 		List<Event> events = new ArrayList<Event>();
-		events = EventDetection.simpleDetect(newsList);//得到事件列表
+		events = GossipEventDetection.simpleDetect(newsList);//得到事件列表
 		//标记已经被发现的新闻为Evented
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();

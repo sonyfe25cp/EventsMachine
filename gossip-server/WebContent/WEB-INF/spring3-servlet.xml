@@ -22,7 +22,7 @@
     <mvc:resources mapping="/eventImg/**" location="/eventImg/" />
 
 	<!-- scan for controllers -->
-	<context:component-scan base-package="gossip.server.action" />
+	<context:component-scan base-package="gossip.*.action" />
     <context:component-scan base-package="gossip.server.admin" />
     <context:component-scan base-package="gossip.*.service" />
 
