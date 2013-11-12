@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="all">
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/search.js"></script>
 
 </head>
 <body>
@@ -67,32 +68,49 @@
   </div>
 </div>
 
-	<div id="container" class="container">
-		<div id="container-inner" style="padding: 120px 0 40px;">
-			<div class="row-fluid" style="min-height: 400px; margin:0 auto;width:500px;">	
-				<p style="text-align: center"> 
-					<img src="http://www.baidu.com/img/baidu_sylogo1.gif" width="270" height="129">
-				</p>			
-				<form name="f" action="#" onsubmit="javascript:F.call('ps/ssuggestion','pssubmit');">
-					<input type="text" name="wd" id="kw" maxlength="100" style="width:474px;" autocomplete="off">
-					<div class="text-center" style="margin-top: 10px;">
-						<span class="btn_wr" style="margin-right: 10px;">
-							<input type="submit" value="搜索一下" id="su" class="btn">
-						</span>		
-						<span class="btn_wr">
-							<input type="submit" value="手气不错" id="su" class="btn">
-						</span>
-					</div>
-				</form>
-			</div>
+<div id = "search-body" style="width:100%;float:left;">
+   <div id = "search-left" style="width:46%;min-height:600px;float:left;">
+       <div id = "search1" class="row-fluid" >			
+			<input type="text" name="wd" id="queryWords1" maxlength="100" style="width:350px;">
+			<span class="btn_wr" style="margin-right: 10px;">
+				<input type="button" value="搜索一下" id="search_btn1" class="button button-rounded">
+			</span>		
 		</div>
-		<div id="footer">
-			<div class="copyright">
-				<h3>版权声明</h3>
-				<p>版权所有 © 2012 <a href="#">****M</a>. 保留所有权.</p>
-			</div>
+		<div id = "left-result" class = "row-fluid">
+			 <div id = "primary1" class="span11">
+			       <ul class="list" id="eventList">
+			       
+			       </ul>
+			 </div>
 		</div>
-	</div>
+		<div id="page1" class="pagination pagination-centered1">
+		   <ul>
+
+		   </ul>
+		</div>
+   </div><!-- search-left -->
+   <div id = "search-right" style="width:46%;min-height:600px;float:left">
+       <div id = "search2" class="row-fluid" >			
+			<input type="text" name="wd" id="queryWords2" maxlength="100" style="width:350px;">
+			<span class="btn_wr" style="margin-right: 10px;">
+				<input type="button" value="搜索一下" id="search_btn2" class="button button-rounded">
+			</span>		
+	   </div>
+	   <div id = "right-result" class = "row-fluid">
+			 <div id = "primary2" class="span11">
+			       <ul class="list" id="eventList">
+			       
+			       </ul>
+			 </div>
+		</div>
+		<div id="page2" class="pagination pagination-centered1">
+		   <ul>
+
+		   </ul>
+		</div>
+   </div><!-- search-right -->
+   <div style="clear:both"></div>
+</div><!-- search-body -->	
 
 </body>
 </html>

@@ -59,5 +59,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/wks_pages_reader-1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ansj_seg-0.8.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/EventServer-1.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ansj_seg-0.9.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tree_split-1.0.1.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
