@@ -9,18 +9,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class NewsService {
-	
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class GossipNewsService {
+	@Autowired
 	private NewsMapper newsMapper;
 	
 	private double lambda = 0.5;
 
 	public double compairNews(News n1, News n2){
-		return SimCompute.cosineSim(n1, n2);
+		return GossipSimCompute.cosineSim(n1, n2);
 	}
 	
 	public boolean isSimilar(News n1, News n2){
-		double sim = SimCompute.cosineSim(n1, n2);
+		double sim = GossipSimCompute.cosineSim(n1, n2);
 		if(sim > lambda){
 			return true;
 		}else

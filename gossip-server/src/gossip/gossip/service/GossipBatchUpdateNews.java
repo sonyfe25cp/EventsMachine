@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Oct 8, 2013
  */
-public class BatchUpdateNews extends Service{
+public class GossipBatchUpdateNews extends Service{
 
 	private NewsMapper newsMapper = session.getMapper(NewsMapper.class) ;
 	
@@ -57,7 +57,7 @@ public class BatchUpdateNews extends Service{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BatchUpdateNews bun = new BatchUpdateNews();
+		GossipBatchUpdateNews bun = new GossipBatchUpdateNews();
 		bun.batchUpdate();
 //		bun.testUpdate();
 	}

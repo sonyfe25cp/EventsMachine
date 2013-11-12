@@ -5,7 +5,7 @@ import gossip.model.News;
 
 import java.util.HashSet;
 
-public class SimCompute {
+public class GossipSimCompute {
 	
 	static{
 		
@@ -71,9 +71,10 @@ public class SimCompute {
 	}
 	private static boolean contains(String[] array, String word){
 		for(String token: array){
-			if(word.equals(token)){
-				return true;
-			}
+			if(word != null && token !=null)
+				if(word.equals(token)){
+					return true;
+				}
 		}
 		return false;
 	}
