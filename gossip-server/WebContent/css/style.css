@@ -332,3 +332,44 @@ color: white;
 .disabled{
 	background: ##DD4B39;
 }
+
+/* search */
+#search-body{
+	padding-top:40px;
+}
+#search-left{
+	border-right:gray 1px dashed;
+	padding-left:3%;
+}
+#search-right{
+	padding-left:3%;
+}
+#primary1,#primary2{
+	margin-top:20px;
+}
+#primary1 ul, #primary2 ul{
+	margin-left:0px;
+}
+
+.search-result-list2{
+	border-left:gray 1px solid;
+	
+}
+#search-result a{
+	text-decoration: underline;
+}
+#resultlist1,#resultlist2{
+	padding-left: 10px;
+}
+.abstract{
+	word-break: break-all;
+}
+
+.search-footer{
+	bottom:44px;
+}
+#search{
+	margin-left: 25px;
+	height:60px;
+}
+

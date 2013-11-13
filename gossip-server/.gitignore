@@ -3,3 +3,5 @@
 *.war
 *.ear
 .settings/
+WebContent/WEB-INF/classes/
+.classpath
