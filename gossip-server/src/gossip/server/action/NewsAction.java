@@ -1,5 +1,7 @@
 package gossip.server.action;
 
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.bit.dlde.utils.DLDELogger;
+import gossip.model.News;
 import gossip.server.service.NewsService;
 
 /**
@@ -51,7 +54,7 @@ public class NewsAction {
 	 */
 	@RequestMapping(value = "/getEventNews")
 	@ResponseBody
-	public JSONObject getEventNews(@RequestParam(value = "newsIdList", required = true) String newsIdList){
+	public List<News> getEventNews(@RequestParam(value = "newsIdList", required = true) String newsIdList){
 		return newsService.getEventNews(newsIdList);
 	}
 	

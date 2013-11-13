@@ -1,86 +1,38 @@
 $(document).ready(function() {
-    var currentPageNum=1; 
+    var currentPageNum=0; 
     $.ajax({
     type: "GET",
     contentType: "application/json; charset=utf-8",
-    url:"/Gossip-server/events?pageNo=" + currentPageNum,
+    url:"/events?pageNo=" + currentPageNum,
     dataType: "json",
     anysc: false,
     success: function(result) {
     	display(result);
-    }
-  });
-	 
-//	 /*下面是获取hotPeople、hotPlaces、hotKeywords*/
-//	 $('#sidebar').empty();
-//	 $.get('/Gossip-server/hot-words', function(data) {
-//	    	var hotKeywords=data.hotKeywords;
-//	    	if(hotKeywords==null||hotKeywords.length<1)
-//	    		return;
-//		      var html = '<div class="sidemodule">';
-//		      html += '<h3 class="sub">热门关键词</h3>';
-//
-//		      for(var i = 0; i < hotKeywords.length; i++) {
-//		        html += '           <a href="#" class="label">' + hotKeywords[i] + '</a>                                                                                                                                                                                           ';
-//		      }
-//		      html+= '</div>';
-//		      $('#sidebar').append(html);
-//	    });//hotKeywords
-//	 
-//	 
-//	 $.get('/Gossip-server/hot-people', function(data) {
-//	    	var hotPeople=data.hotPeople;
-//	    	if(hotPeople==null||hotPeople.length<1)
-//	    		return;
-//	    	 //$('#sidebar div:eq(1)').empty();
-//		      var html = '<div class="sidemodule">';
-//		      html += '<h3 class="sub">热门人名</h3>';
-//
-//		      for(var i = 0; i < hotPeople.length; i++) {
-//		        html += '           <a href="#" class="label label-inverse">' + hotPeople[i] + '</a>                                                                                                                                                                                           ';
-//		      }
-//		      html+= '</div>';
-//		      $('#sidebar').append(html);
-//	    });//hotPeople
-//	 
-//	 
-//	 $.get('/Gossip-server/hot-places', function(data) {
-//	    	var hotPlaces=data.hotPlaces;
-//	    	if(hotPlaces==null||hotPlaces.length<1)
-//	    		return;
-//	    	 //$('#sidebar div:eq(2)').empty();
-//		      var html = '<div class="sidemodule">';
-//		      html += '<h3 class="sub">热门地名</h3>';
-//
-//		      for(var i = 0; i < hotPlaces.length; i++) {
-//		        html += '           <a href="#" class="label label-info">' + hotPlaces[i] + '</a>                                                                                                                                                                                           ';
-//		      }
-//		      html+= '</div>';
-//		      $('#sidebar').append(html);
-//	    });//hotPlaces
-	 
+    	}
+    });
 });//document
 
 function display(result){
 	$('#primary .list').empty();
-	var events = result.events;
-	for(var i = 0; i< events.length; i++){
-		var event = events[i];
-		var eventDom = $('<li id="' + event.id + '" class="article"><div class="article-content"><h2></h2> <br></div><div class="info"><span class="pull-right"></span></div></li>');
-		
-		/** /Gossip-server/event? 请求在页面跳转action： pageSwitchAction里面  **/
-		eventDom.find("h2").html('<a href="/Gossip-server/event?eventId=' + event.id  + '">' + event.title + '</a>');
-		$('<p><a href="/Gossip-server/event?eventId=' + event.id+'">' + event.desc + '</a></p>').insertAfter(eventDom.find(".article-content br"));
-	    var info = "&#x7279;&#x5F81;&#x8BCD;&#xFF1A;";
-	    var keyword=splitKeywords(event.keywords);
-	    keyword=keyword.split(",");
-	    for(var j = 0; j < keyword.length; j++){
-	    	info += "&nbsp;"+"&nbsp;"+'<a class="label">' + keyword[j] + '</a>';  
-	    }  
-	    info = info + '<span class="pull-right">&#x65F6;&#x95F4;&#xFF1A;' + dateConvert(event.started_at) + '</span>';
-	    eventDom.find(".info").html(info);
-	    eventDom.appendTo("#primary .list");
-	}
+	var html = "";
+	$.each(result, function(i, event){
+		var event_html ='<li id='+event["id"]+' class="article">' +
+							'<div class="article-content">' +
+								'<h2><a href="/event?eventId='+event["id"]+'">'+event["title"]+'</a></h2>'+
+								'<br>'+
+								'<p>'+
+									'<a href="/event?eventId='+event["id"]+'">'+event['desc']+'</a>'+
+								'</p>' +
+							'</div>'+
+							'<div class="info">'+
+								'<a class="label">北京</a>'+
+								'<span class="pull-right">'+event["createAt"]+'</span>'+
+							'</div>'+
+						'</li>';
+		html += event_html;
+	});
+	$('#primary').html(html);
+	
 	//页码和翻页功能
 	pagination(result);
 }//display
@@ -127,7 +79,7 @@ function toPage(pageNo){
 	$.ajax({
 	    type: "GET",
 	    contentType: "application/json; charset=utf-8",
-	    url:"/Gossip-server/events?pageNo=" + pageNo,
+	    url:"/events?pageNo=" + pageNo,
 	    dataType: "json",
 	    anysc: false,
 	    success: function(result) {

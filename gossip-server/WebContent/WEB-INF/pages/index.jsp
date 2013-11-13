@@ -131,19 +131,57 @@
 		<div id="container-inner" style="padding: 20px 0 40px;">
 
 			<div class="row-fluid">
-				<div id="primary" class="span9">
-					<h2 class="sub">最新事件</h2>
-					<ul class="list" id="eventList">
-
-
+				<div  class="span9">
+				<h2 class="sub">最新事件</h2>
+					<ul id="primary" class="list" id="eventList">
+						<!-- 
+						<li id="12" class="article">
+							<div class="article-content">
+								<h2><a href="/event?eventId=123">asdfasdf</a></h2>
+								<br>
+								<p>
+									<a href="/event?eventId=12312">sdfasfd11111111111</a>
+								</p>
+							</div>
+							<div class="info">
+								<a class="label">北京</a>
+								<span class="pull-right">2013-11-1</span>
+							</div>
+						</li>
+						<li id="132" class="article">
+							<div class="article-content">
+								<h2><a href="/event?eventId=123">asdfasdf</a></h2>
+								<br>
+								<p>
+									<a href="/event?eventId=12312">sdfasfd11111111111</a>
+								</p>
+							</div>
+							<div class="info">
+								<a class="label">北京</a>
+								<span class="pull-right">2013-11-1</span>
+							</div>
+						</li>
+						<li id="12" class="article">
+							<div class="article-content">
+								<h2><a href="/event?eventId=123">asdfasdf</a></h2>
+								<br>
+								<p>
+									<a href="/event?eventId=12312">sdfasfd11111111111</a>
+								</p>
+							</div>
+							<div class="info">
+								<a class="label">北京</a>
+								<span class="pull-right">2013-11-1</span>
+							</div>
+						</li>
+						-->
 					</ul>
-
 				</div>
 				<div id="sidebar" class="span3"></div>
 			</div>
 			<div id="page" class="pagination pagination-centered1">
 				<ul>
-
+	
 				</ul>
 			</div>
 		</div>

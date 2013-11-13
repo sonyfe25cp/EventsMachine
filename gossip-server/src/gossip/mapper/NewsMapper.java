@@ -22,4 +22,6 @@ public interface NewsMapper {
 	public List<News> getNewsByPage(@Param("page")Page page);
 
 	public void batchUpdateNewsStatus(@Param("idArray")List<Integer> idArray, @Param("eventStatus")int eventStatus);
+	
+	public List<News> getNewsListByIds(@Param("idArray")List<Integer> idArray);
 }

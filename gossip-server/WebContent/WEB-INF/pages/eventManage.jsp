@@ -60,7 +60,7 @@
 								
 								<div  class="span8 event-brief">
 									<h3 class="sub">事件修改</h3>
-									<form id="uploadImg" action="/gossip-server/imageUpload" enctype="multipart/form-data" method="POST">
+									<form id="uploadImg" action="/imageUpload" enctype="multipart/form-data" method="POST">
 									    <label>上传图片:</label>
 									    <input type="hidden" name="eventId" value="${eventId}" />
 									    <div style="width:512px;height:35px;">

@@ -31,7 +31,7 @@
 						alt="新闻系统"></a>
 					<div class="nav-collapse">
 						<ul class="nav">
-							<li class="active"><a href="/gossip-server/">返回首页</a></li>
+							<li class="active"><a href="/">返回首页</a></li>
 						</ul>
 
 						<div class="pull-right" id="user-button">
@@ -118,7 +118,7 @@
 	<div id="container" class="container">
 		<div id="head">
 			<ul class="breadcrumb pull-left">
-				<li><a href="/gossip-server/">首页</a> <span class="divider">&gt;</span></li>
+				<li><a href="/">首页</a> <span class="divider">&gt;</span></li>
 				<li class="active">事件详情</li>
 			</ul>
 

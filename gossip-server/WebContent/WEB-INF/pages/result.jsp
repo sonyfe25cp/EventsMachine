@@ -19,7 +19,7 @@
 	  	  <div class="container">
 	  	  	<a class="brand" href="#"><img src="images/logo3.gif" alt="新闻系统"></a>
 	  	  	<ul class="nav">
-	  	  	  <li class="active"><a href="/gossip-server">返回主页</a></li>
+	  	  	  <li class="active"><a href="">返回主页</a></li>
 	  	  	</ul>
 	  	  	<div class="pull-right" id="user-button">                        
                     <div id="login-popover-container" data-original-title="">

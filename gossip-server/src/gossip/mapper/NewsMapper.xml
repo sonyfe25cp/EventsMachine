@@ -39,5 +39,11 @@
 	        #{id}  
 	    </foreach>
 	</update>
+	<select id="getNewsListByIds" resultType="News">
+		select * from news where id in
+		<foreach collection="idArray" item="id"  open="(" separator="," close=")">  
+	        #{id}  
+	    </foreach>
+	</select>
 	
 </mapper>

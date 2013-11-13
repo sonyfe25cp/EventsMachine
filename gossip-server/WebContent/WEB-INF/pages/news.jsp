@@ -27,7 +27,7 @@
 		  	  <div class="container">
 		  	  	<a class="brand" href="#"><img src="images/logo3.gif" alt="新闻系统"></a>
 		  	  	<ul class="nav">
-		  	  	  <li class="active"><a href="/gossip-server/">返回首页</a></li>
+		  	  	  <li class="active"><a href="/">返回首页</a></li>
 		  	  	</ul>
 		  	  <div class="pull-right" id="user-button">                        
 	  	  		                <div id="login-popover-container" data-original-title="">
@@ -109,7 +109,7 @@
 				
 			</div>	
 			<ul class="breadcrumb pull-left">
-				  <li><a href="/gossip-server/">首页</a> <span class="divider">&gt;</span></li>
+				  <li><a href="/">首页</a> <span class="divider">&gt;</span></li>
 				  <li class="active">新闻详情</li>
 			</ul>
 

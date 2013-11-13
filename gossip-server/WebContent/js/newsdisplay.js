@@ -8,7 +8,7 @@ $(document).ready(function(){
 	var newid=thisURL.split("=");
 	//alert($("#newsid").val());
 	var newsid=$("#newsid").val();
-	var url='/Gossip-server/news/'+newsid;
+	var url='/news/'+newsid;
     $.ajax({ 
        type: "GET", 
        contentType: "application/json; charset=utf-8", 
@@ -31,7 +31,7 @@ $(document).ready(function(){
        	}
      });
      $('.relate-news').empty();
-     var urlt='/Gossip-server/related-news?id='+newid[1]+'&pageNo=1&limit=15';
+     var urlt='/related-news?id='+newid[1]+'&pageNo=1&limit=15';
    $.ajax({ 
        type: "GET", 
        contentType: "application/json; charset=utf-8", 
@@ -45,7 +45,7 @@ $(document).ready(function(){
 	         var html="";
 	         for(var ir=0;ir<datad.length;ir++){
 	         	
-	           html+='												<a href="/Gossip-server/newsContent?newsId='+datad[ir].id+'" class="span3">'+datad[ir].title+' </a>';
+	           html+='<a href="/newsContent?newsId='+datad[ir].id+'" class="span3">'+datad[ir].title+' </a>';
 	        }
 	     
 	        $('.relate-news').append(html);

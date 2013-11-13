@@ -1,10 +1,11 @@
+//122
 $(document).ready(function() {
 	//获取了id
 	var currentPageNum=0;
 	thisURL = document.URL;
 	var eveid = thisURL.split("=");
 	var eventid=$("#eventid").val();
-	url="/Gossip-server/events/"+eventid;
+	url="/events/"+eventid;
 	
 	$.ajax({
 		type: "GET",
@@ -17,29 +18,6 @@ $(document).ready(function() {
 			display(result);
 		}//success
 	});//ajax
-	
-	
-	//相关事件的显示
-//	var url1="/Gossip-server/related-events?id="+eveid[1]+"&pageNo=1&limit=10";
-//	$.ajax({
-//		type: "GET",
-//		contentType: "application/json; charset=utf-8",
-//		url:url1,
-//		dataType: "json",
-//		anysc: false,
-//		//data: data,
-//		success: function(result) {
-//			var datad = result.events;
-//			$('#relate').empty();
-//			var html = "";
-//			for(var ir = 0; ir < datad.length; ir++) {
-//				html += '<a href="/Gossip-server/events?id=' + datad[ir].id + '" class="span3">' + datad[ir].title + ' </a>';
-//			}
-//
-//			$('#relate').append(html);
-//
-//		}//sucess
-//	});//ajax
 	var timelineHeight = $("#timelinecontent").height();
 	$("#timelinebar").height(timelineHeight);
 });//document	
@@ -58,22 +36,21 @@ function display(eventInfo){
 	html += '</div>';
 	$('#container-inner .event-title').append(html);
 	//显示事件新闻
-	var newsIdList = eventInfo['news'];
+	var newsIdList = eventInfo['pages'];
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		url:"/Gossip-server/news/getEventNews?newsIdList="+newsIdList,
+		url:"/news/getEventNews?newsIdList="+newsIdList,
 		dataType: "json",
 		anysc: true,
 		success: function(result) {
-			newsJson = result;
 			displayEventNews(1, newsIdList, result);
 			}//success
 	});//ajax
 }//display
 
 function displayEventNews(pageNo, newsIdList, result){
-	var eventNews = result.news;
+	var eventNews = result;
 	//alert(pageNo);
 	var total = eventNews.length;
 	var numPerPage = 10;
@@ -83,11 +60,10 @@ function displayEventNews(pageNo, newsIdList, result){
 	$('#timelinecontent').empty();
 	for(var i = start; i <= end; i++){
 		if(i == start||(eventNews[i].date!=eventNews[i-1].date)){
-			 generateTimeLine(eventNews[i].date);
-			 insertNews(eventNews[i]);
+			 generateTimeLine(eventNews[i]['date']);
 		}
-		else
-			insertNews(eventNews[i]);
+		var news_o = new news_object(eventNews[i]);
+		insertNews(news_o);
 	}
 	pagination(pageNo, newsIdList, result);
 }
@@ -109,17 +85,25 @@ function insertNews(news){
 	var newsDate = news.date;
 	var htmlc = '<li class="article">';
 	htmlc += '<div class="article-content">';
-	htmlc += '<h2><a href="/Gossip-server/newsContent?newsId=' + news.id + '" title="">' + news.title + '</a></h2>';
-	htmlc += '<p><a href="/Gossip-server/newsContent?newsId='+news.id+'">' + news.body.substring(0,300)+" ... " + '</a></p></div>';//datb.desc -> datb.body  by chenjie
+	htmlc += '<h2><a href="/newsContent?newsId=' + news.id + '" title="">' + news.title + '</a></h2>';
+	htmlc += '<p><a href="/newsContent?newsId='+news.id+'">' + news.body.substring(0,300)+" ... " + '</a></p></div>';//datb.desc -> datb.body  by chenjie
 	htmlc += '<span class="s">来源:' + news.url + '</span>';
 	htmlc += '<span class="s">作者:' + news.author + '</span>';
 	htmlc += '</li>';
 	$('#' + newsDate).append(htmlc);
 }
+function news_object(news_json){
+	this.id = news_json["id"];
+	this.title = news_json["title"];
+	this.url = news_json["url"];
+	this.author = news_json["author"] == null ? "no body " : news_json["author"];
+	this.body = news_json["body"];
+	this.date = news_json["date"];
+}
 
 function pagination(pageNo, newsIdList, result){
 	$('#page ul').empty();
-	var eventNews = result.news;
+	var eventNews = result;
 	var totalNews = eventNews.length;
 	var totalPages = Math.ceil(totalNews/10);
 	var pageBegin = (pageNo-5)>0?pageNo-5:1;
@@ -160,7 +144,7 @@ function toPage(pageNo, newsIdList){
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-		url:"/Gossip-server/news/getEventNews?newsIdList="+newsIdList,
+		url:"/news/getEventNews?newsIdList="+newsIdList,
 		dataType: "json",
 		anysc: true,
 		success: function(result) {

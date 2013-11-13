@@ -4,9 +4,9 @@ import edu.bit.dlde.utils.DLDELogger;
 import gossip.mapper.NewsMapper;
 import gossip.model.News;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,44 +37,16 @@ public class NewsService {
 	 * @param newsIdList
 	 * @return
 	 */
-	public JSONObject getEventNews(String newsIdList){
-		JSONObject json = new JSONObject();
-		JSONObject result = new JSONObject();
-		JSONArray jsonArray = new JSONArray();
-		String[] ids = newsIdList.split(";");
-		for(String id : ids)
-		{
-			News news = newsMapper.getNewsById(Integer.parseInt(id));
-			json = JSONObject.fromObject(news);
-			if(json != null){
-				jsonArray.add(json);
+	public List<News> getEventNews(String newsIdList){
+		String[] ids = newsIdList.split(",");
+		List<Integer> idArray = new ArrayList<Integer>();
+		for(String id : ids){
+			if(id!=null && id.length() > 0){
+				int tmp = Integer.parseInt(id);
+				idArray.add(tmp);
 			}
-			else
-				logger.debug("have not the news error!");
-		}//for
-		
-		//使用选择排序对新闻按时间逆序排序
-		for(int i=0;i<jsonArray.size();i++)
-		{
-			int k=i;
-			for(int j=i+1;j<jsonArray.size();j++){
-				JSONObject jsona=JSONObject.fromObject(jsonArray.get(j));
-				JSONObject jsonb=JSONObject.fromObject(jsonArray.get(k));
-				if(timeToInt(jsona.getString("date"))>timeToInt(jsonb.getString("date"))){
-					k=j;
-				}
-			}
-			if(k!=i){
-				JSONObject jsonc=JSONObject.fromObject(jsonArray.get(i));
-				JSONObject jsonk=JSONObject.fromObject(jsonArray.get(k));
-				jsonArray.set(i, jsonk);
-				jsonArray.set(k, jsonc);
-			}
-		}//for
-		
-		result.accumulate("news", jsonArray);
-		logger.info("Succeed to response news list in format of JSON...");
-		return result;
+		}
+		return newsMapper.getNewsListByIds(idArray);
 	}
 	
 	public List<News> getAllNews(){
