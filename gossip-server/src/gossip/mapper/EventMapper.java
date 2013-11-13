@@ -23,7 +23,7 @@ public interface EventMapper {
 	
 	public void deleteEventById(int id);
 	
-	public List<Integer> getEventRanking();
+	public List<Event> getEventRanking(Page page);
 	
 
 }

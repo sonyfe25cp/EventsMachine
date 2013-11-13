@@ -20,35 +20,41 @@ public class GossipEventDetection {
 	 * @return
 	 */
 	public static List<Event> simpleDetect(List<News> newsList){
-		Map<Integer, Integer> mark = new HashMap<Integer, Integer>();
-		Map<Integer, Event> eventStore = new HashMap<Integer, Event>();
+		Map<Integer, Integer> mark = new HashMap<Integer, Integer>();//新闻所在的事件号，news.id : event.id
+		Map<Integer, Event> eventStore = new HashMap<Integer, Event>();//事件的序号，1-n 与新闻号无关
 		int storeCount = 0;
 		
 		for(int i = 0; i < newsList.size(); i++){
 			News n1 = newsList.get(i);
+			if(n1.getId() == 199782){
+				System.out.println("a");
+			}
 			for(int j = i+1; j < newsList.size(); j++){
 				News n2 = newsList.get(j);
 				double sim = GossipSimCompute.cosineSim(n1, n2);
 				if(sim > lambda){
-//					int cusor = mark.get(i) == 0 ? i : mark.get(i);
+					//n1与n2相似
+					//step1 找出n1所在的事件
+					//	若不存在，则新建一个事件，并记录n1在该事件中
+					//step2 把n2放入该事件
+					//step3 记录n2所在的事件
+					Event event = null;
 					int cusor = 0;
 					Integer cTmp = mark.get(i);
-					if(cTmp !=null ){
+					if(cTmp !=null ){//说明该n1 已经有所属的事件
 						cusor = cTmp;
-					}else{
-						cusor = i;
-					}
-					
-					Event event = eventStore.get(cusor);
-					if(event == null){
+						event = eventStore.get(cusor);
+						event.add(n2);
+						mark.put(j, cusor);
+					}else{//该n1是个新事件
 						event = new Event();
 						event.add(n1);
+						event.add(n2);
 						eventStore.put(storeCount, event);
 						mark.put(i, storeCount);
+						mark.put(j, storeCount);
 						storeCount++;
 					}
-					event.add(n2);
-					mark.put(j, i);
 				}
 			}
 			System.out.println("computing the news : "+n1.getId());

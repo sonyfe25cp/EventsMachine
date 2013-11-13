@@ -1,6 +1,11 @@
 package gossip.server.action;
 
+import gossip.mapper.Page;
+import gossip.model.Event;
 import gossip.server.service.EventService;
+
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +28,19 @@ public class EventAction {
 	
 	@RequestMapping(value = "")
 	@ResponseBody
-	public JSONObject getEventList(
+	public List<Event> getEventList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
 			@RequestParam(value = "year", required = false, defaultValue = "0") int year,
 			@RequestParam(value = "month", required = false, defaultValue = "1") int month,
 			@RequestParam(value = "day", required = false, defaultValue = "1") int day) {
 		System.out.println("into event");
-		return eventService.getEventList(pageNo, limit, year, month, day);
+		return eventService.getEventList(new Page(pageNo, limit), year, month, day);
 	}
 	
 	@RequestMapping(value = "/{id}")
 	@ResponseBody
-	public JSONObject getEventById(@PathVariable int id){
+	public Event getEventById(@PathVariable int id){
 		return eventService.getEventJSONById(id);
 	}
 	

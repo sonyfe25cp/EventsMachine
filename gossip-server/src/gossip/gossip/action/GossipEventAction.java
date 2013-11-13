@@ -5,12 +5,14 @@ import gossip.gossip.service.GossipNewsService;
 import gossip.model.Event;
 import gossip.model.News;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/gossip/event")
 @Controller
 public class GossipEventAction {
@@ -21,8 +23,14 @@ public class GossipEventAction {
 	private GossipNewsService newsService;
 	//测试用
 	@RequestMapping("/detect")
-	public void detectEvent(){
-		Date now = new Date(System.currentTimeMillis());
+	public void detectEvent(@RequestParam int day){
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DATE, cal.get(Calendar.DATE)-day);
+		Date date = cal.getTime();
+		run(date);
+	}
+	
+	public void run(Date now){
 		//step0. 取出今天的新闻包括本周的未被识别为事件的新闻
 		List<News> newsToday = newsService.getNewsLast7Days(now);
 		System.out.println("newsToday need to compute is : "+newsToday.size());

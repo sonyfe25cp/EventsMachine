@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,9 +30,15 @@ public class Event implements Serializable {
 	public void add(News news){
 		int newsId = news.getId();
 		if(pagesList ==null){
-			pagesList = new LinkedList<Integer>();
+			this.pagesList = new LinkedList<Integer>();
 		}
-		pagesList.add(newsId);
+		if(!pagesList.contains(newsId)){
+			this.pagesList.add(newsId);
+			if(newsList == null){
+				this.newsList = new ArrayList<News>();
+			}
+			this.newsList.add(news);
+		}
 	}
 	
 	public Event(){
@@ -51,7 +58,7 @@ public class Event implements Serializable {
 
 	final String delimiter = ";";
 
-	public int id = -1;// 事件id
+	public int id ;// 事件id
 	public String title; // 事件主标题
 	public double recommended = 0.0;
 	// 下面这个属性感觉不要再建一个表，干脆就直接合一下放event这个表里面，表连接太耗时了

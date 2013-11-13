@@ -44,7 +44,7 @@ public class GossipSimCompute {
 		double lv1 = computeL1(v1);
 		double lv2 = computeL1(v2);
 		
-		double cos = mult / lv1*lv2;
+		double cos = mult / (lv1*lv2);
 		return cos;
 	}
 	private static double computeL1(int[] v1){

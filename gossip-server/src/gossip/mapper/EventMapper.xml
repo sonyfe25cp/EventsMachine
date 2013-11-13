@@ -31,7 +31,7 @@
 	  <result property="createAt" column="create_time"/>
 	  <result property="updateAt" column="updateAt"/>
 	</resultMap>
-	<select id = "getEventRanking" resultType = "int">
-        select id from event order by recommended desc
+	<select id = "getEventRanking" resultMap="eventResultMap">
+        select * from event order by recommended desc limit #{numBegin},#{pageSize}
    </select>
 </mapper>

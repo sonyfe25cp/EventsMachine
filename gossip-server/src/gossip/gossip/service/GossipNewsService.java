@@ -17,6 +17,10 @@ public class GossipNewsService {
 	@Autowired
 	private NewsMapper newsMapper;
 	
+	public News getNewsById(int id){
+		return newsMapper.getNewsById(id);
+	}
+	
 	private double lambda = 0.5;
 
 	public double compairNews(News n1, News n2){

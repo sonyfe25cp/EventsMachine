@@ -1,4 +1,4 @@
-package gossip.gossip;
+package gossip.gossip.event;
 
 
 import java.util.LinkedList;

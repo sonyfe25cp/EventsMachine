@@ -1,5 +1,6 @@
 package gossip.gossip.service;
 
+import gossip.gossip.event.EventProcess;
 import gossip.gossip.utils.DateTrans;
 import gossip.mapper.EventMapper;
 import gossip.model.Event;
@@ -28,6 +29,24 @@ public class GossipEventService {
 	public List<Event> computeEventFromNews(List<News> newsList){
 		List<Event> events = new ArrayList<Event>();
 		events = GossipEventDetection.simpleDetect(newsList);//得到事件列表
+		for(Event event : events){
+			List<Integer> newsIds = event.getPagesList();
+			for(int a : newsIds){
+				System.out.print(a+" ");
+			}
+			System.out.println();
+		}
+		//加载各种对事件处理的逻辑，题目，摘要等
+		for(Event event : events){
+			EventProcess ep = new EventProcess(event);
+//			ep.start();
+			ep.run();
+//			try {
+//				ep.join();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+		}
 		//标记已经被发现的新闻为Evented
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();
@@ -37,19 +56,23 @@ public class GossipEventService {
 	}
 	
 	public List<Event> mergeEvents(List<Event> originEvents, List<Event> newEvents){
-		List<Event> events = new ArrayList<Event>();
-		for(Event newEvent : newEvents){
-			for(Event originEvent : originEvents){
-				double sim = compairEvents(newEvent, originEvent);
-				if(sim > lambda ){
-					originEvent.mergeEvent(newEvent);
-					events.add(originEvent);
-				}else{
-					events.add(newEvent);
+		if(originEvents.size()==0){
+			return newEvents;
+		}else{
+			List<Event> events = new ArrayList<Event>();
+			for(Event newEvent : newEvents){
+				for(Event originEvent : originEvents){
+					double sim = compairEvents(newEvent, originEvent);
+					if(sim > lambda ){
+						originEvent.mergeEvent(newEvent);
+						events.add(originEvent);
+					}else{
+						events.add(newEvent);
+					}
 				}
 			}
+			return events;
 		}
-		return events;
 	}
 
 	public double compairEvents(Event event1, Event event2){
@@ -66,7 +89,7 @@ public class GossipEventService {
 					tmp++;
 			}
 		}
-		double sim = tmp/(list1.size()+list2.size());
+		double sim = tmp/(size1+size2+0.0);
 		return sim;
 	}
 	
@@ -106,13 +129,19 @@ public class GossipEventService {
 	public List<Event> getEventsLast7Days(Date date){
 		Date begin = DateTrans.getDateBefore(date, 7);
 		
-//		DateFormat df = new SimpleDateFormat("yyyyMMdd");
-//		
-//		String beginDate = df.format(begin);
-//		
-//		System.out.println("begin Date : " + beginDate);
+		List<Event> events =  eventMapper.getEventsAfterDate(begin);
+		for(Event event : events){
+			String pages = event.getPages();
+			String[] pagesTmp = pages.split(",");
+			List<News> newsList = new ArrayList<News>();
+			for(String pageId : pagesTmp){
+				News news = newsService.getNewsById(Integer.parseInt(pageId));
+				newsList.add(news);
+			}
+			event.setNewsList(newsList);
+		}
+		return events;
 		
-		return eventMapper.getEventsAfterDate(begin);
 	}
 	
 	

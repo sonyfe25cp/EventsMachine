@@ -1,8 +1,6 @@
-package gossip.gossip;
+package gossip.gossip.event;
 
 import gossip.model.Event;
-
-import java.util.Collection;
 
 
 /**
@@ -10,5 +8,5 @@ import java.util.Collection;
  *@author lins 2012-8-18
  */
 public interface Handler {
-	public void handle(Collection<Event> events);
+	public void handle(Event event);
 }
