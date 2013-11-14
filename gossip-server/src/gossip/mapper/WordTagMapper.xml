@@ -22,7 +22,7 @@
 	</select>
 	
 	<update id="updateWordTag" parameterType="gossip.model.WordTag">
-		update wordtag set approve = #{approve}, against = #{against} where keywords = #{keywords}
+		update wordtag set approve = #{approve}, against = #{against} where id = #{id}
 	</update>
 	
 </mapper>

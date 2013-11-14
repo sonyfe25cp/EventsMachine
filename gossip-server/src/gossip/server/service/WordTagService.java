@@ -26,21 +26,23 @@ public class WordTagService {
 		return wordTags;
 	}
 	
-	public void updateApprove(String keyword){
-		if(keyword.trim().equals("")||keyword==null){
+	public void updateApprove(String id){
+		if(id.trim().equals("")||id==null){
 			return;
 		}
-		WordTag wordTag = wordTagMapper.getWordTagByWord(keyword);
+		int keywordId = Integer.parseInt(id);
+		WordTag wordTag = wordTagMapper.getWordTagById(keywordId);
 		int approve = wordTag.getApprove();
 		wordTag.setApprove(approve+1);
 		wordTagMapper.updateWordTag(wordTag);
 	}
 	
-	public void updateAgainst(String keyword){
-		if(keyword.trim().equals("")||keyword==null){
+	public void updateAgainst(String id){
+		if(id.trim().equals("")||id==null){
 			return;
 		}
-		WordTag wordTag = wordTagMapper.getWordTagByWord(keyword);
+		int keywordId = Integer.parseInt(id);
+		WordTag wordTag = wordTagMapper.getWordTagById(keywordId);
 		int against = wordTag.getAgainst();
 		wordTag.setAgainst(against+1);
 		wordTagMapper.updateWordTag(wordTag);

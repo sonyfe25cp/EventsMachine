@@ -13,16 +13,18 @@ $(document).ready(function() {
 	    success: function(result) {
 	    	wordTags = result;
 	    	$('#keyword').text(wordTags[index].keywords);
+	    	$('#keywordId').val(wordTags[index].id);
 	    	}
 	    });
 	
-	$('#keep').click(function(){
+	$('#keep-word').click(function(){
 		var keyword = $('#keyword').text();
+		var id = $('#keywordId').val();
 		$.ajax({
 		    async: false,
 		    type: "GET",
 		    contentType: "application/json; charset=utf-8",
-		    url:"/wordTagging/updateApprove?keyword=" + keyword,
+		    url:"/wordTagging/updateApprove?id=" + id,
 		    dataType: "json",
 		    success: function(result){
 		    	index++;
@@ -31,26 +33,29 @@ $(document).ready(function() {
 		    		index = 0;
 		    	}
 		    	$('#keyword').text(wordTags[index].keywords);
+		    	$('#keywordId').val(wordTags[index].id);
 		    	}
 		    });
 	});
 	
-	$('#jump').click(function(){
+	$('#jump-word').click(function(){
 		index++;
 		if(index >=20){
 			wordTags = getWordTags();
 			index = 0;
 		}
 		$('#keyword').text(wordTags[index].keywords);
+		$('#keywordId').val(wordTags[index].id);
 	});
 	
-	$('#abort').click(function(){
+	$('#abort-word').click(function(){
 		var keyword = $('#keyword').text();
+		var id = $('#keywordId').val();
 		$.ajax({
 		    async: false,
 		    type: "GET",
 		    contentType: "application/json; charset=utf-8",
-		    url:"/wordTagging/updateAgainst?keyword=" + keyword,
+		    url:"/wordTagging/updateAgainst?id=" + id,
 		    dataType: "json",
 		    success: function(result) {
 				index++;
@@ -59,6 +64,7 @@ $(document).ready(function() {
 					index = 0;
 				}
 				$('#keyword').text(wordTags[index].keywords);
+				$('#keywordId').val(wordTags[index].id);
 		    	}
 		    });
 	});

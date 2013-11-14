@@ -25,14 +25,14 @@ public class WordTagAction {
 	
 	@RequestMapping(value= "/updateApprove")
 	@ResponseBody
-	public void updateApprove(@RequestParam(value = "keyword", required = true) String keyword){
-		wordTagService.updateApprove(keyword);
+	public void updateApprove(@RequestParam(value = "id", required = true) String id){
+		wordTagService.updateApprove(id);
 	}
 	
 	@RequestMapping(value= "/updateAgainst")
 	@ResponseBody
-	public void updateAgainst(@RequestParam(value = "keyword", required = true) String keyword){
-		wordTagService.updateAgainst(keyword);
+	public void updateAgainst(@RequestParam(value = "id", required = true) String id){
+		wordTagService.updateAgainst(id);
 	}
 
 }

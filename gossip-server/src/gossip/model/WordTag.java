@@ -5,6 +5,7 @@ public class WordTag {
 	private String keywords;
 	private int approve;
 	private int against;
+	private String property = "";
 	
 	public WordTag(){
 		
@@ -12,6 +13,11 @@ public class WordTag {
 	
 	public WordTag(String keywords){
 		this.keywords = keywords;
+	}
+	
+	public WordTag(String keywords, String property){
+		this.keywords = keywords;
+		this.property = property;
 	}
 	
 	public WordTag(String keywords, int approve, int against){
@@ -48,5 +54,15 @@ public class WordTag {
 	public void setAgainst(int against) {
 		this.against = against;
 	}
+
+	public String getProperty() {
+		return property;
+	}
+
+	public void setProperty(String property) {
+		this.property = property;
+	}
+	
+	
 	
 }

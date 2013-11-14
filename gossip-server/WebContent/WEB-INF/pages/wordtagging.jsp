@@ -22,12 +22,13 @@
      </div>
      <div id = "container-inner" style = "padding: 20px 0 40px">
         <div id = "word" style="text-align:center">
-             <span id ="keyword" style="font-size:60px;padding-top:20px"></span>
+             <span id ="keyword" class="keyword" style="font-size:60px;padding-top:20px"></span>
+             <input type="hidden" id = "keywordId">
         </div>
         <div id = "tagging" style="margin-top:30px;text-align:center">
-             <button id = "keep"  class = "btn-large">保留</button>
-             <button id = "jump"  class = "btn-large">跳过</button>
-             <button id = "abort" class = "btn-large">放弃</button>
+             <button id = "keep-word"  class = "btn-large">保留</button>
+             <button id = "jump-word"  class = "btn-large">跳过</button>
+             <button id = "abort-word" class = "btn-large">放弃</button>
         </div>
      </div>
   </div>

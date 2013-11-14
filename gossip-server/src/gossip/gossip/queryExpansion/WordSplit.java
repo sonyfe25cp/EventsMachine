@@ -5,6 +5,7 @@ import gossip.gossip.utils.TokenizerUtils;
 import gossip.model.Document;
 import gossip.model.News;
 import gossip.model.TermEnum;
+import gossip.model.WordTag;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -253,36 +254,91 @@ public class WordSplit {
 		System.out.println("done!!!!!");
 	}
 	
-	//将分完的词存入wordtag表中，待标注
+	/**
+	 * 将分完的词存到wordtag中，待标注，人名、地名单独存放，不用再标注，单个字的词语也单独存放，以便于人工筛选。
+	 * 现在是从文件中读取，可以修改成从数据库中读取
+	 */
 	public void storeWords(){
 		DataSource dataSource = DatabaseUtils.getInstance();
 		Connection conn = null;
 		PreparedStatement pstat = null;
-		String sql = "insert into wordtag(keywords) values(?)";
+		String sql1 = "insert into nameword(keyword, property) values(?, ?)";
+		String sql2 = "insert into wordtag(keywords, property) values(?, ?)";
 		BufferedReader br = null;
-		List<String> words = new ArrayList<String>();
+		List<WordTag> tagWords = new ArrayList<WordTag>();
+		List<WordTag> nameWords = new ArrayList<WordTag>();
+		List<WordTag> singleWords = new ArrayList<WordTag>();
 		int i = 0;
 		try {
 			br = new BufferedReader(new FileReader(new File("/home/yulong/Desktop/term")));
 			String str = null;
 			while((str = br.readLine())!= null){
-				String word = str.split("\\s{5}")[0];
-				words.add(word);
+				String word[] = str.split("\\s{5}");
+				String keyword = word[0];
+				String property = (word[1].split(":"))[1];
+				WordTag wordTag = new WordTag(keyword, property);
+				if(keyword.trim().length() == 1){
+					singleWords.add(wordTag);
+				}
+				else if(property.equals("nr")||property.equals("ns") ){
+					nameWords.add(wordTag);
+				}
+				else
+					tagWords.add(wordTag);
 				if(i%1000 == 0){
 					System.out.println(i);
 				}
 				i++;
 			}
 			br.close();
+			//将只有一个字的词语存储到singleword文件中
+			System.out.println("---------------------开始存放singleword-----------------------");
+			BufferedWriter bw = null; 
+			bw = new BufferedWriter(new FileWriter(new File("/home/yulong/Desktop/singleword")));
+			for(WordTag word : singleWords){
+				String str1 = word.getKeywords() + "     " + word.getProperty();
+				bw.write(str1);
+				bw.newLine();
+			}
+			bw.close();/*存储singleword 完毕*/
+			
+			
 			conn = dataSource.getConnection();
-			pstat = conn.prepareStatement(sql);
-			int count = 0;//试验阶段先加入2000个词
-			for(String word : words){
-				pstat.setString(1, word);
-				pstat.execute();
-				if(count >= 2000)
-					break;
+			//将人名、地名存储到nameword表格中
+			System.out.println("---------------------开始存放nameWord-----------------------");
+			System.out.println("nameWord count: " + nameWords.size());
+			int count = 0;
+			pstat = conn.prepareStatement(sql1);
+			for(WordTag word : nameWords){
+				pstat.setString(1, word.getKeywords());
+				pstat.setString(2, word.getProperty());
+				pstat.addBatch();
 				count++;
+				if(count%2000 == 0){
+					System.out.println("nameWord: " + count);
+					pstat.executeBatch();
+					pstat.clearBatch();
+				}
+				pstat.executeBatch();
+			}
+			pstat.close();/*存储人名、地名结束*/
+			
+			//将待标注的词存到wordtag表格中
+			pstat = conn.prepareStatement(sql2);
+			System.out.println("---------------------开始存放tagWords-----------------------");
+			System.out.println(tagWords.size());
+			count = 0;
+			for(WordTag word : tagWords){
+				pstat.setString(1, word.getKeywords());
+				pstat.setString(2, word.getProperty());
+				pstat.addBatch();
+				count++;
+				if(count%2000 == 0){
+					System.out.println("tagWord: " + count);
+					pstat.executeBatch();
+					pstat.clearBatch();
+				}
+				pstat.executeBatch();
 			}
 			pstat.close();
 			conn.close();
@@ -298,6 +354,8 @@ public class WordSplit {
 		}
 		
 	}
+	
+	
 
 	public boolean wordFilter(String word) {
 		boolean flag = true;
