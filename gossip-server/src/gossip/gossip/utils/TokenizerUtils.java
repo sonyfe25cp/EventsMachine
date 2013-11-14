@@ -65,7 +65,7 @@ public class TokenizerUtils {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File("conf/stopwords")));
 			String line = null;
-			while(( line = br.readLine()) !=null){
+			while(( line = br.readLine())!=null){
 				set.add(line);
 			}
 			br.close();

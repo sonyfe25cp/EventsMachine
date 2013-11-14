@@ -1,18 +1,26 @@
 package gossip.gossip.queryExpansion;
 
 import gossip.gossip.utils.DatabaseUtils;
+import gossip.gossip.utils.TokenizerUtils;
+import gossip.model.Document;
 import gossip.model.News;
+import gossip.model.TermEnum;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +33,15 @@ import org.ansj.recognition.NatureRecognition;
 import org.ansj.splitWord.analysis.ToAnalysis;
 
 public class WordSplit {
-	
+
+	private static HashSet<String> stopwords = TokenizerUtils.getStopWords();
+
 	/**
 	 * 从数据库中读取所有的新闻文档，仅包含id，title和body
+	 * 
 	 * @return
 	 */
-	public List<News> getAllNews(){
+	public List<News> getAllNews() {
 		DataSource dataSource = DatabaseUtils.getInstance();
 		Connection conn = null;
 		Statement state = null;
@@ -41,7 +52,7 @@ public class WordSplit {
 			conn = dataSource.getConnection();
 			state = conn.createStatement();
 			rs = state.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				int id = rs.getInt("id");
 				String title = rs.getString("title");
 				String body = rs.getString("body");
@@ -58,50 +69,52 @@ public class WordSplit {
 		System.out.println(newsList.size());
 		return newsList;
 	}
-	
+
 	/**
 	 * 对title和body分别进行分词，并统计title和body中的单词及其出现的频率
+	 * 
 	 * @param args
 	 */
-	public void computeWordsFre(){
-		
+	public void computeWordsFre() {
+
 	}
-	
+
 	/**
 	 * 得到所有分词的词性
+	 * 
 	 * @param args
 	 */
-	public void getCiXing(){
+	public void getCiXing() {
 		Map<String, String> words = new HashMap<String, String>();
 		List<News> newsList = getAllNews();
 		int count = 0;
-		for(News news : newsList){
-			if(count%1000==0){
+		for (News news : newsList) {
+			if (count % 1000 == 0) {
 				System.out.println("document--------------" + count);
 			}
 			String title = news.getTitle();
 			List<Term> titleTerms = ToAnalysis.parse(title);
-			new NatureRecognition(titleTerms).recognition() ;
-			for(Term term : titleTerms){
-				if(term.getName().trim()=="")
+			new NatureRecognition(titleTerms).recognition();
+			for (Term term : titleTerms) {
+				if (term.getName().trim() == "")
 					continue;
-				if(!words.containsKey(term.getName().trim())){
+				if (!words.containsKey(term.getName().trim())) {
 					words.put(term.getName().trim(), term.getNatrue().natureStr);
 				}
 			}
 			String body = news.getBody();
 			List<Term> bodyTerms = ToAnalysis.parse(body);
-			new NatureRecognition(bodyTerms).recognition() ;
-			for(Term term : bodyTerms){
-				if(term.getName().trim()=="")
+			new NatureRecognition(bodyTerms).recognition();
+			for (Term term : bodyTerms) {
+				if (term.getName().trim() == "")
 					continue;
-				if(!words.containsKey(term.getName().trim())){
+				if (!words.containsKey(term.getName().trim())) {
 					words.put(term.getName().trim(), term.getNatrue().natureStr);
 				}
 			}
 			count++;
 		}
-		//将词性写入文件
+		// 将词性写入文件
 		File file = new File("library/words.dic");
 		BufferedWriter br = null;
 		try {
@@ -109,7 +122,7 @@ public class WordSplit {
 			String str = "";
 			Set<Map.Entry<String, String>> mapSet = words.entrySet();
 			Iterator<Map.Entry<String, String>> it = mapSet.iterator();
-			while(it.hasNext()){
+			while (it.hasNext()) {
 				Map.Entry<String, String> entry = it.next();
 				str = entry.getKey() + "     " + entry.getValue();
 				br.write(str);
@@ -121,13 +134,229 @@ public class WordSplit {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 得到文档的所有分词，并按照倒序进行存储
+	 */
+	public void getAllWords() {
+		List<News> newsList = getAllNews();
+		List<Document> docs = new ArrayList<Document>();
+		Map<String, TermEnum> allWords = new HashMap<String, TermEnum>();
+		int count = 0;
+		for (News news : newsList) {
+			if(count%1000 == 0){
+				System.out.println(count);
+			}
+//			if (count > 10000)
+//				break;
+			Map<String, String> wordsProperty = new HashMap<String, String>();
+			Map<String, Integer> titleWordsMap = new HashMap<String, Integer>();
+			Map<String, Integer> bodyWordsMap = new HashMap<String, Integer>();
+			String title = news.getTitle();
+			int titleWordsCount = 0;
+			// 对title进行分词
+			List<Term> titleTerms = ToAnalysis.parse(title);
+			new NatureRecognition(titleTerms).recognition();
+			for (Term term : titleTerms) {
+				String keyword = term.getName();
+				String property = term.getNatrue().natureStr;
+				if (!wordFilter(keyword))
+					continue;
+				titleWordsCount++;
+				wordsProperty.put(keyword, property);
+				if (titleWordsMap.containsKey(keyword)) {
+					titleWordsMap.put(keyword, titleWordsMap.get(keyword) + 1);
+				} else
+					titleWordsMap.put(keyword, 1);
+			}// for title
+				// 对body进行分词
+			String body = news.getBody();
+			int bodyWordsCount = 0;
+			List<Term> bodyTerms = ToAnalysis.parse(body);
+			new NatureRecognition(bodyTerms).recognition();
+			for (Term term : bodyTerms) {
+				String keyword = term.getName();
+				String property = term.getNatrue().natureStr;
+				if (!wordFilter(keyword))
+					continue;
+				bodyWordsCount++;
+				wordsProperty.put(keyword, property);
+				if (bodyWordsMap.containsKey(keyword)) {
+					bodyWordsMap.put(keyword, bodyWordsMap.get(keyword) + 1);
+				} else
+					bodyWordsMap.put(keyword, 1);
+			}// for body
+				// 构建document和TermInDoc结构，包含docid，titlewords和bodywords等信息
+			int id = news.getId();
+			Document doc = new Document(id);
+			docs.add(doc);
+			doc.setTitleWordsCount(titleWordsCount);
+			doc.setBodyWordsCount(bodyWordsCount);
+			doc.setTotalWordsCount(titleWordsCount + bodyWordsCount);
+			StringBuffer titleWords = new StringBuffer();
+			StringBuffer bodyWords = new StringBuffer();
+			for (String word : wordsProperty.keySet()) {
+				int countInTitle = 0;
+				if (titleWordsMap.containsKey(word)) {
+					countInTitle = titleWordsMap.get(word);
+					titleWords.append(word).append(":").append(countInTitle)
+							.append(";");
+				}
+				int countInBody = 0;
+				if (bodyWordsMap.containsKey(word)) {
+					countInBody = bodyWordsMap.get(word);
+					bodyWords.append(word).append(":").append(countInBody)
+							.append(";");
+				}
+				if (allWords.containsKey(word)) {
+					allWords.get(word).addCount(id, countInTitle, countInBody);
+				} else {
+					TermEnum te = new TermEnum(word);
+					te.setProperty(wordsProperty.get(word));
+					te.addCount(id, countInTitle, countInBody);
+					allWords.put(word, te);
+				}
+			}
+			doc.setTitleWords(titleWords.toString());
+			doc.setBodyWords(bodyWords.toString());
+			count++;
+		}// for news
+		BufferedWriter br = null;
+		try {
+			br = new BufferedWriter(new FileWriter(new File(
+					"/home/yulong/Desktop/doc")));
+			for (Document doc : docs) {
+				String str = doc.getId() + "     " + doc.getTitleWords()
+						+ "     " + doc.getTitleWordsCount() + "     "
+						+ doc.getBodyWords() + "     "
+						+ doc.getBodyWordsCount();
+				br.write(str);
+				br.newLine();
+			}
+			br.close();
+			br = new BufferedWriter(new FileWriter(new File(
+					"/home/yulong/Desktop/term")));
+			for (String word : allWords.keySet()) {
+				TermEnum te = allWords.get(word);
+				String str = te.getWords() + "     pro:" + te.getProperty()
+						+ "     newsId:" + te.getDocIdString()
+						+ "     titleCount:" + te.getTitleCountString()
+						+ "     bodyCount:" + te.getBodyCountString();
+				br.write(str);
+				br.newLine();
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("done!!!!!");
+	}
 	
-	
-	public static void main(String[] args){
+	//将分完的词存入wordtag表中，待标注
+	public void storeWords(){
+		DataSource dataSource = DatabaseUtils.getInstance();
+		Connection conn = null;
+		PreparedStatement pstat = null;
+		String sql = "insert into wordtag(keywords) values(?)";
+		BufferedReader br = null;
+		List<String> words = new ArrayList<String>();
+		int i = 0;
+		try {
+			br = new BufferedReader(new FileReader(new File("/home/yulong/Desktop/term")));
+			String str = null;
+			while((str = br.readLine())!= null){
+				String word = str.split("\\s{5}")[0];
+				words.add(word);
+				if(i%1000 == 0){
+					System.out.println(i);
+				}
+				i++;
+			}
+			br.close();
+			conn = dataSource.getConnection();
+			pstat = conn.prepareStatement(sql);
+			int count = 0;//试验阶段先加入2000个词
+			for(String word : words){
+				pstat.setString(1, word);
+				pstat.execute();
+				if(count >= 2000)
+					break;
+				count++;
+			}
+			pstat.close();
+			conn.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public boolean wordFilter(String word) {
+		boolean flag = true;
+		// 去掉空格
+		word = word.replaceAll("\\s{1,}", "");
+		if ((!isChinese(word)) && (!isEnglish(word))) {
+			return false;
+		}
+		// 去掉停用词
+		if (stopwords.contains(word)) {
+			return false;
+		}
+		return flag;
+	}
+
+	/* 以下两个函数都是判断字符串类型的函数，在扩展词的过滤中用到 */
+
+	private static final boolean isChinese(char c) {
+		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+		if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+				|| ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+				|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+				|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+				|| ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+				|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+			return true;
+		}
+		return false;
+	}
+
+	/* 准确判断字符串是否为中文 */
+	public static final boolean isChinese(String strName) {
+		strName = strName.replaceAll("\\s{1,}", "");
+		char[] ch = strName.toCharArray();
+		for (int i = 0; i < ch.length; i++) {
+			char c = ch[i];
+			if (!isChinese(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean isEnglish(String str) {
+		return str.replaceAll("\\s{1,}", "").matches("[a-zA-Z]");
+	}
+
+	// 判断字符串为数字
+	public static boolean isNum(String str) {
+		return str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$");
+	}
+
+	public static void main(String[] args) {
 		WordSplit ws = new WordSplit();
-//		List<News> newsList = ws.getAllNews();
-//		System.out.println(newsList.size());
-		ws.getCiXing();
+		// List<News> newsList = ws.getAllNews();
+		// System.out.println(newsList.size());
+		// ws.getCiXing();
+		//ws.getAllWords();
+		ws.storeWords();
 	}
 
 }

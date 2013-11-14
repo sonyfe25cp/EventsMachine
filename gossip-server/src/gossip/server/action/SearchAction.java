@@ -1,5 +1,9 @@
 package gossip.server.action;
 
+import java.util.List;
+
+import gossip.mapper.Page;
+import gossip.model.Event;
 import gossip.server.service.EventService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,12 +23,13 @@ public class SearchAction {
 	
 	@RequestMapping(value= "")
 	@ResponseBody
-	public JSONObject searchEvent(
+	public List<Event> searchEvent(
 			@RequestParam(value = "queryWords", required = true) String queryWords,
-			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo
+			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit
 			){
 		System.out.println("queryWords:  " + queryWords + "pageNo: " + pageNo );
-		return eventService.getEventList(pageNo, 10, 0, 1, 1);
+		return eventService.getEventList(new Page(pageNo, limit), 0, 1, 1);
 	}
 	
 

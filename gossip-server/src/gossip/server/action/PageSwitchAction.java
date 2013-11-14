@@ -53,5 +53,12 @@ public class PageSwitchAction {
 		ModelAndView mav = new ModelAndView("search");
 		return mav;
 	}
+	
+	//跳转到搜索界面
+	@RequestMapping(value = "/wordtagging")
+	public ModelAndView toWordTagging(){
+		ModelAndView mav = new ModelAndView("wordtagging");
+		return mav;
+	}
 
 }

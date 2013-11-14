@@ -1,0 +1,28 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gossip.mapper.WordTagMapper">
+
+    <select id="getRandomWordTags" resultType="gossip.model.WordTag">
+		select * from wordtag where id in
+		<foreach collection="idList" item="id"  open="(" separator="," close=")">  
+	        #{id}  
+	    </foreach>
+	</select>
+
+	<select id="getWordTagByWord" parameterType="String" resultType="gossip.model.WordTag">
+		select * from wordtag where keywords = #{keyword}
+	</select>
+	
+	<select id = "getWordTagById" parameterType="int" resultType ="gossip.model.WordTag">
+		select * from wordtag where id = #{id}
+	</select>
+	
+	<select id = "getWordTagCount" resultType ="int">
+		select count(*) from wordtag
+	</select>
+	
+	<update id="updateWordTag" parameterType="gossip.model.WordTag">
+		update wordtag set approve = #{approve}, against = #{against} where keywords = #{keywords}
+	</update>
+	
+</mapper>
