@@ -24,19 +24,7 @@ public class EventService {
 	}
 
 	public Event getEventJSONById(int id) {
-//		JSONObject json = new JSONObject();
 		Event event = getEventById(id);
-//		json.put("id", event.getId());
-//		json.put("title", event.getTitle());
-//		json.put("desc", event.getDesc());
-//		json.put("img", event.getImg());
-//		json.put("recommended", event.getRecommended());
-//		json.put("started_at", event.getCreateTime());
-//		json.put("keywords", event.getKeyWords());
-//		json.put("started_location", event.getStartedLocation());
-//		json.put("news", event.getPages());
-//		logger.info("i found the event in database.");
-//		return json;
 		return event;
 	}
 
@@ -50,8 +38,6 @@ public class EventService {
 	}
 
 	private List<Event> getEventListTimeConstrain(Page page,	int year, int month, int day) {
-//		JSONObject result = new JSONObject();
-//		return result;
 		return null;
 	}
 

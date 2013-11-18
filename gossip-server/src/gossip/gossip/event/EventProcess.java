@@ -13,6 +13,9 @@ public class EventProcess extends Boot{
 		this.addHandler(new EventTitleHandler());
 		this.addHandler(new EventSequenceHandler());
 		this.addHandler(new EventSummaryHandler());
+		this.addHandler(new EventRecommendHandler());
+		this.addHandler(new EventLocationHandler());
+		this.addHandler(new EventKeyWordsHandler());
 	}
 	
 

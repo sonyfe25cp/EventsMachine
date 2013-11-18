@@ -176,6 +176,14 @@
 						</li>
 						-->
 					</ul>
+					<div class="pagination">
+						<ul>
+							<li><a href="javascript:toPage(0)">首页</a></li>
+							<li><a href="javascript:toPage(current-1)">上一页</a></li>
+							<li><a href="javascript:toPage(current+1)">下一页</a></li>
+							<li><a href="">最后</a></li>
+						</ul>
+					</div>
 				</div>
 				<div id="sidebar" class="span3"></div>
 			</div>

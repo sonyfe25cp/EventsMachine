@@ -18,32 +18,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class GossipEventAction {
 
 	@Autowired
-	private GossipEventService eventService;
+	private GossipEventService gossipEventService;
 	@Autowired
-	private GossipNewsService newsService;
+	private GossipNewsService gossipNewsService;
 	//测试用
 	@RequestMapping("/detect")
-	public void detectEvent(@RequestParam int day){
+	public void detectEvent(@RequestParam(value="day", required= false, defaultValue="0") int day){
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DATE, cal.get(Calendar.DATE)-day);
 		Date date = cal.getTime();
 		run(date);
 	}
 	
+	
 	public void run(Date now){
 		//step0. 取出今天的新闻包括本周的未被识别为事件的新闻
-		List<News> newsToday = newsService.getNewsLast7Days(now);
+		List<News> newsToday = gossipNewsService.getNewsLast7Days(now);
 		System.out.println("newsToday need to compute is : "+newsToday.size());
 		//step1. 找出今天的events，标记没有存为事件的那些新闻
-		List<Event> eventsTody = eventService.computeEventFromNews(newsToday);
+		List<Event> eventsTody = gossipEventService.computeEventFromNews(newsToday);
 		System.out.println("eventsToday is : "+eventsTody.size());
 		//step2. 找出前面7天的events
-		List<Event> eventsLast7Days = eventService.getEventsLast7Days(now);
+		List<Event> eventsLast7Days = gossipEventService.getEventsLast7Days(now);
 		System.out.println("eventsLast7Days is : "+eventsLast7Days.size());
 		//step3. 合并今天的与本周的，并找出新的
-		List<Event> newOrUpdatedEvents = eventService.mergeEvents(eventsLast7Days, eventsTody);
+		List<Event> newOrUpdatedEvents = gossipEventService.mergeEvents(eventsLast7Days, eventsTody);
 		//step4. 插入or更新这些events
-		eventService.updateOrInsert(newOrUpdatedEvents);
+		gossipEventService.updateOrInsert(newOrUpdatedEvents);
 	}
+
+	public GossipEventService getGossipEventService() {
+		return gossipEventService;
+	}
+
+	public void setGossipEventService(GossipEventService gossipEventService) {
+		this.gossipEventService = gossipEventService;
+	}
+
+	public GossipNewsService getGossipNewsService() {
+		return gossipNewsService;
+	}
+
+	public void setGossipNewsService(GossipNewsService gossipNewsService) {
+		this.gossipNewsService = gossipNewsService;
+	}
+
+
 
 }

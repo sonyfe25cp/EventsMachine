@@ -1,11 +1,5 @@
 package gossip.model;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.Field.TermVector;
-import org.apache.lucene.document.NumericField;
 
 public class News {
 
@@ -57,48 +51,48 @@ public class News {
 		return sb.toString();
 	}
 	
-	public static News fromDocument(Document doc){
-		News news = new News();
-		
-		String title = doc.get("title");
-		news.setTitle(title);
-		
-		String crawlat = doc.get("crawlat");
-		news.setCrawlAt(crawlat);
-		
-		return news;
-	}
+//	public static News fromDocument(Document doc){
+//		News news = new News();
+//		
+//		String title = doc.get("title");
+//		news.setTitle(title);
+//		
+//		String crawlat = doc.get("crawlat");
+//		news.setCrawlAt(crawlat);
+//		
+//		return news;
+//	}
 	
 	public String toString(){
 		return "title:"+title+"\n"+"crawlat:"+crawlAt+"\n";
 	}
 	
-	public Document toDocument(){
-		Document doc = new Document();
-		if (title == null || body == null || url == null || date == null) {
-			return null;
-		}
-		Field uniqueField = new Field("id", id + "", Store.YES, Index.NOT_ANALYZED);
-		Field titleField = new Field("title", title, Store.YES, Index.ANALYZED, TermVector.YES);
-		Field contentField = new Field("body", body, Store.YES, Index.ANALYZED, TermVector.YES);
-		Field authorField = new Field("author",author == null ? "" : author, Store.YES, Index.NOT_ANALYZED);
-		Field urlField = new Field("url", url, Store.YES, Index.NOT_ANALYZED);
-		Field dateField = new Field("date", date, Store.YES, Index.NOT_ANALYZED);// 显示用
-		Field siteField = new Field("site",	fromSite == null ? "" : fromSite, Store.YES, Index.ANALYZED);
-		NumericField crawlAtField = new NumericField("crawlat",	Field.Store.YES, true).setIntValue(0);// 便于范围查找
-		crawlAtField.setIntValue(Integer.parseInt(crawlAt));
-		Field statusField = new Field("status", status, Store.NO, Index.NOT_ANALYZED);
-		doc.add(uniqueField);
-		doc.add(titleField);
-		doc.add(contentField);
-		doc.add(authorField);
-		doc.add(urlField);
-		doc.add(dateField);
-		doc.add(siteField);
-		doc.add(crawlAtField);
-		doc.add(statusField);
-		return doc;
-	}
+//	public Document toDocument(){
+//		Document doc = new Document();
+//		if (title == null || body == null || url == null || date == null) {
+//			return null;
+//		}
+//		Field uniqueField = new Field("id", id + "", Store.YES, Index.NOT_ANALYZED);
+//		Field titleField = new Field("title", title, Store.YES, Index.ANALYZED, TermVector.YES);
+//		Field contentField = new Field("body", body, Store.YES, Index.ANALYZED, TermVector.YES);
+//		Field authorField = new Field("author",author == null ? "" : author, Store.YES, Index.NOT_ANALYZED);
+//		Field urlField = new Field("url", url, Store.YES, Index.NOT_ANALYZED);
+//		Field dateField = new Field("date", date, Store.YES, Index.NOT_ANALYZED);// 显示用
+//		Field siteField = new Field("site",	fromSite == null ? "" : fromSite, Store.YES, Index.ANALYZED);
+//		NumericField crawlAtField = new NumericField("crawlat",	Field.Store.YES, true).setIntValue(0);// 便于范围查找
+//		crawlAtField.setIntValue(Integer.parseInt(crawlAt));
+//		Field statusField = new Field("status", status, Store.NO, Index.NOT_ANALYZED);
+//		doc.add(uniqueField);
+//		doc.add(titleField);
+//		doc.add(contentField);
+//		doc.add(authorField);
+//		doc.add(urlField);
+//		doc.add(dateField);
+//		doc.add(siteField);
+//		doc.add(crawlAtField);
+//		doc.add(statusField);
+//		return doc;
+//	}
 	
 //	private int transTodayToInt(){
 //		Date date = Calendar.getInstance().getTime();

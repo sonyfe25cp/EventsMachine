@@ -28,7 +28,7 @@
 		</property>
 		<!-- 确定连接数据库的url -->
 		<property name="url">
-			<value>jdbc:mysql://127.0.0.1:3306/gossip</value>
+			<value>jdbc:mysql://localhost:3306/gossip</value>
 		</property>
 		<!--确定连接数据库的用户名 -->
 		<property name="username">
@@ -94,6 +94,43 @@
 	<!-- 配置mapperScanner -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="gossip.mapper" />
+	</bean>
+
+	<bean id="testTimer" class="gossip.gossip.test.TestTimerJob"></bean>
+	<!-- Main Scheduler -->
+	<bean id="mainScheduler" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	        <list>
+<!-- 	             <ref bean="mainJobTrigger" /> -->
+	             <ref bean="cronTrigger"/>
+	        </list>
+	    </property>
+	</bean>
+	
+	<!-- Main Job -->
+	<bean id="testTimerTask" class="gossip.gossip.test.TestTimerTask">
+	</bean>
+	
+	<bean id="mainJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="gossip.gossip.test.TestTimerJob" />
+		<property name="Durability" value="true"/>
+		<property name="jobDataAsMap">
+			<map>
+		 		<entry key="testTimerTask" value-ref="testTimerTask" />
+		   	</map>
+		</property>
+	</bean>
+	
+	<!-- Main Trigger -->					   
+	<bean id="mainJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="mainJobDetail" />
+		<property name="startDelay" value="10000" />
+		<property name="repeatInterval" value="30000" />
+	</bean>
+	
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	  <property name="jobDetail" ref="mainJobDetail"/>
+	  <property name="cronExpression" value="0/5 * * * * ?"/>
 	</bean>
 
 </beans>
