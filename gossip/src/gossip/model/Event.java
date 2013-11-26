@@ -58,6 +58,7 @@ public class Event implements Serializable {
 	public double recommended = 0.0;
 	// 下面这个属性感觉不要再建一个表，干脆就直接合一下放event这个表里面，表连接太耗时了
 	public Map<String, Double> keyWords = new HashMap<String, Double>(); // 关键词-权重
+	private String keys;
 	public List<Integer> pages = new LinkedList<Integer>();// 页面id,已经排过序的
 	public String newsIds;
 	public long createTime;
@@ -324,6 +325,30 @@ public class Event implements Serializable {
 		// JSONObject jsonObj = JSONObject.fromObject(e);
 		// System.out.println(jsonObj);
 		// System.out.println(Event.fromJSONObject(jsonObj));
+	}
+
+	public String getKeys() {
+		return keys;
+	}
+
+	public void setKeys(String keys) {
+		this.keys = keys;
+	}
+
+	public String getNewsIds() {
+		return newsIds;
+	}
+
+	public void setNewsIds(String newsIds) {
+		this.newsIds = newsIds;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
 	}
 
 }

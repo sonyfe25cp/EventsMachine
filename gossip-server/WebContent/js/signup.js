@@ -40,7 +40,7 @@ function UserNameCheck(){
         }
     }
      
-	var url = "/Gossip-server/verifyUsername?username=" + username;
+	var url = "/verifyUsername?username=" + username;
 	$.ajax({
 		type: "POST",
 		contentType: "application/json; charset=utf-8",
@@ -130,7 +130,7 @@ function RepasswordCheck() {
 
 function EmailCheck() {
 	var email = document.getElementById('email').value;
-	var url = "/Gossip-server/verifyEmail?email=" + email;
+	var url = "/verifyEmail?email=" + email;
 	if(signupform.email.value == "") //对用户名是否为空进行验证
 	{
 		$('#signuptishi').empty();
@@ -174,7 +174,7 @@ function EmailCheck() {
 	 var password = document.getElementById('password').value;
 	 var email = document.getElementById('email').value;
 	 var data = 'username=' + username + '&password=' + password + '&email=' + email;
-	 var url = '/Gossip-server/register?' + data;
+	 var url = '/register?' + data;
 	 $.ajax({
 		type: "POST",
 		contentType: "application/json; charset=utf-8",

@@ -31,6 +31,8 @@ public class BatchUpdateNews extends Service{
 		for(int i = 0; i<= run ; i++){
 			List<News> newsList = newsMapper.getNewsByPage(new Page(i,pageSize));
 			for(News news : newsList){
+				if(news.getTitleWords() !=null && news.getTitleWords().length() > 0)
+					continue;
 				tokenizerNews(news);
 				count++;
 				if(count/100==0)

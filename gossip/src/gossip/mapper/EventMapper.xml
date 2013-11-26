@@ -2,21 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gossip.mapper.EventMapper">
-	public Event getEventById(int id);
 	
-	public List<Event> getEventsAfterDate(@Param("createAt")String createAt);
-	
-	public void insert(Event event);
-	
-	public void update(Event event);
-	
-	<select id="insert" parameterType="gossip.event.Event">
+	<select id="insert" parameterType="gossip.model.Event">
 		insert into event(title, recommended, img, keywords, pages, create_time, started_location, content_abstract)
 			values(
 				#{title}, #{recommended}, #{img}, #{keyWords}, #{newsIds}, #{createAt}, #{startedLocation}, #{desc}
 			)
 	</select>
-	<update id="update" parameterType="gossip.event.Event">
+	<update id="update" parameterType="gossip.model.Event">
 		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{newsIds},
 		started_location = #{startedLocation}, content_abstract = #{desc}, updateAt = #{updateAt} where id = #{id}
 	</update>
@@ -27,12 +20,12 @@
 		select * from event where id = #{id}
 	</select>
 	
-	<resultMap id="eventResultMap" type="User">
+	<resultMap id="eventResultMap" type="gossip.model.Event">
 	  <id property="id" column="id" />
 	  <result property="title" column="title"/>
 	  <result property="recommended" column="recommended"/>
 	  <result property="img" column="img"/>
-	  <result property="keyWords" column="keywords"/>
+	  <result property="keys" column="keywords"/>
 	  <result property="newsIds" column="pages"/>
 	  <result property="startedLocation" column="started_location"/>
 	  <result property="desc" column="content_abstract"/>

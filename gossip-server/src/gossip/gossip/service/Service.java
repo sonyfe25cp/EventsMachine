@@ -1,5 +1,6 @@
 package gossip.gossip.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -7,6 +8,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 
 public class Service {
 
@@ -16,7 +18,12 @@ public class Service {
 		getSqlSession();
 	}
 	private void getSqlSession(){
-		String resource = "mybatis.xml";
+		String resource = "conf/mybatis.xml";
+		File dir = new File("conf");
+		for(File file : dir.listFiles()){
+			System.out.println(file.getName());
+		}
+		
 		InputStream inputStream;
 		SqlSessionFactory sqlSessionFactory = null;
 		try {

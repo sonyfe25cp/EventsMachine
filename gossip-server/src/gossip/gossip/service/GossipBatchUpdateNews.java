@@ -24,13 +24,16 @@ public class GossipBatchUpdateNews extends Service{
 	
 	
 	public void batchUpdate(){
-		int total = 90000;
+		int total = 10000;
 		int pageSize = 1000;
 		int run = total / 100;
 		int count = 0;
 		for(int i = 0; i<= run ; i++){
 			List<News> newsList = newsMapper.getNewsByPage(new Page(i,pageSize));
 			for(News news : newsList){
+				if(news.getTitleWords()!=null && news.getTitleWords().length()>0){
+					continue;
+				}
 				tokenizerNews(news);
 				count++;
 				if(count/100==0)

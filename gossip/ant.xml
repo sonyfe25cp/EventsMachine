@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project Gossip with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/coder/git/EventsMachine/gossip/Gossip.jar">
+            <manifest>
+                <attribute name="Main-Class" value="gossip.auto.AutoParser"/>
+                <attribute name="Class-Path" value=". Gossip_lib/activation-1.1.jar Gossip_lib/ansj_seg-0.8.jar Gossip_lib/ant-1.7.0.jar Gossip_lib/ant-launcher-1.7.0.jar Gossip_lib/commons-beanutils-1.8.0.jar Gossip_lib/commons-codec-1.4.jar Gossip_lib/commons-collections-3.2.1.jar Gossip_lib/commons-dbcp-1.4.jar Gossip_lib/commons-io-2.0.1.jar Gossip_lib/commons-lang-2.6.jar Gossip_lib/commons-logging-1.1.1.jar Gossip_lib/commons-pool-1.4.jar Gossip_lib/dlde-commons-1.0.jar Gossip_lib/EventServer-1.0.jar Gossip_lib/ezmorph-1.0.6.jar Gossip_lib/genius-model-1.0.jar Gossip_lib/gson-2.0.jar Gossip_lib/htmlcleaner-2.2.jar Gossip_lib/httpclient-4.1.jar Gossip_lib/httpcore-4.1.jar Gossip_lib/ik-analyzer-3.2.9.jar Gossip_lib/jdom-1.1.jar Gossip_lib/json-lib-2.4-jdk15.jar Gossip_lib/log4j-1.2.17.jar Gossip_lib/lucene-core-3.5.0.jar Gossip_lib/mail-1.4.1.jar Gossip_lib/mybatis-3.2.2.jar Gossip_lib/mysql-connector-java-5.1.9.jar Gossip_lib/org.apache.commons.io-2.1.jar Gossip_lib/page-extractor-1.0.jar Gossip_lib/tree_split-1.0.1.jar Gossip_lib/wks_pages_reader-1.0.jar Gossip_lib/xmemcached-1.3.8.jar"/>
+            </manifest>
+            <fileset dir="/home/coder/git/EventsMachine/gossip/bin"/>
+        </jar>
+        <delete dir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <mkdir dir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/activation-1.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/ansj_seg-0.8.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/ant-1.7.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/ant-launcher-1.7.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-beanutils-1.8.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-codec-1.4.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-collections-3.2.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-dbcp-1.4.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-io-2.0.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-lang-2.6.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-logging-1.1.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/commons-pool-1.4.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/dlde-commons-1.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/EventServer-1.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/ezmorph-1.0.6.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/genius-model-1.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/gson-2.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/htmlcleaner-2.2.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/httpclient-4.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/httpcore-4.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/ik-analyzer-3.2.9.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/jdom-1.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/json-lib-2.4-jdk15.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/log4j-1.2.17.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/lucene-core-3.5.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/mail-1.4.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/mybatis-3.2.2.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/mysql-connector-java-5.1.9.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/org.apache.commons.io-2.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/page-extractor-1.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/tree_split-1.0.1.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/wks_pages_reader-1.0.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+        <copy file="/home/coder/git/EventsMachine/gossip/lib/xmemcached-1.3.8.jar" todir="/home/coder/git/EventsMachine/gossip/Gossip_lib"/>
+    </target>
+</project>
