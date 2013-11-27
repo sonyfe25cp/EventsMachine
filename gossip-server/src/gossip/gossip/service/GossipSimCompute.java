@@ -1,6 +1,5 @@
 package gossip.gossip.service;
 
-import gossip.gossip.utils.TokenizerUtils;
 import gossip.model.News;
 
 import java.util.HashSet;
@@ -12,13 +11,27 @@ public class GossipSimCompute {
 	}
 	
 	public static double cosineSim(News n1, News n2){
+
+		if(n1.getTitleWords() == null || n1.getTitleWords().length() == 0 || n2.getTitleWords() == null || n2.getTitleWords().length() == 0){
+			return 0;
+		}
 		
-		String body1 = n1.getBody();
-		String body2 = n2.getBody();
+		String[] title1 = n1.getTitleWords().split(";");
+		String[] title2 = n2.getTitleWords().split(";");
 		
-		String[] tokens1 = TokenizerUtils.tokenizer(body1);
-		String[] tokens2 = TokenizerUtils.tokenizer(body2);
+		double titleSim = cosineArraySim(title1, title2);
 		
+		String[] body1 = n1.getBodyWords().split(";");
+		String[] body2 = n2.getBodyWords().split(";");
+		
+		double bodySim = cosineArraySim(body1, body2);
+		
+		double rel = 0.7 * titleSim + 0.3 * bodySim;
+				
+		return rel;
+	}
+	
+	private static double cosineArraySim(String[] tokens1, String[] tokens2){
 		HashSet<String> set = new HashSet<String>();
 		for(String token: tokens1){
 			set.add(token);
@@ -31,7 +44,6 @@ public class GossipSimCompute {
 		int[] v2 = computeVector(set, tokens2);
 		
 		double rel = cos(v1, v2);
-		
 		return rel;
 	}
 	

@@ -8,6 +8,7 @@ import gossip.model.News;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class GossipEventService {
 	private double lambda = 0.5;
 	
 	@Autowired
-	private GossipNewsService newsService;
+	private GossipNewsService gossipNewsService;
 	@Autowired
 	private EventMapper eventMapper;
 	
@@ -39,18 +40,18 @@ public class GossipEventService {
 		//加载各种对事件处理的逻辑，题目，摘要等
 		for(Event event : events){
 			EventProcess ep = new EventProcess(event);
-//			ep.start();
-			ep.run();
-//			try {
-//				ep.join();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
+			ep.start();
+//			ep.run();
+			try {
+				ep.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		//标记已经被发现的新闻为Evented
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();
-			newsService.batchUpdateNewsStatus(newsIds, News.Evented);
+			gossipNewsService.batchUpdateNewsStatus(newsIds, News.Evented);
 		}
 		return events;
 	}
@@ -60,17 +61,23 @@ public class GossipEventService {
 			return newEvents;
 		}else{
 			List<Event> events = new ArrayList<Event>();
-			for(Event newEvent : newEvents){
+			Iterator<Event> newComes = newEvents.iterator();
+			
+			nextLoop: while(newComes.hasNext()){//若新事件找到可合并的旧事件，则合并，并继续下一个新事件；若都没有，则计为新事件
+				Event newEvent = newComes.next();
 				for(Event originEvent : originEvents){
 					double sim = compairEvents(newEvent, originEvent);
 					if(sim > lambda ){
 						originEvent.mergeEvent(newEvent);
 						events.add(originEvent);
-					}else{
-						events.add(newEvent);
+						newComes.remove();
+						break nextLoop;
 					}
 				}
+				events.add(newEvent);
 			}
+			
+			
 			return events;
 		}
 	}
@@ -84,7 +91,7 @@ public class GossipEventService {
 		int tmp = 0;
 		for(News tmp1 : list1){
 			for(News tmp2 : list2){
-				boolean flag = newsService.isSimilar(tmp1, tmp2);
+				boolean flag = gossipNewsService.isSimilar(tmp1, tmp2);
 				if(flag)
 					tmp++;
 			}
@@ -135,7 +142,7 @@ public class GossipEventService {
 			String[] pagesTmp = pages.split(",");
 			List<News> newsList = new ArrayList<News>();
 			for(String pageId : pagesTmp){
-				News news = newsService.getNewsById(Integer.parseInt(pageId));
+				News news = gossipNewsService.getNewsById(Integer.parseInt(pageId));
 				newsList.add(news);
 			}
 			event.setNewsList(newsList);

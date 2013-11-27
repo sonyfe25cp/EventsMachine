@@ -74,7 +74,7 @@ public class MaxClique {
 		System.out.println(Arrays.toString(bestx));
 	}
 
-	public static void main(String[] args) {
-		test();
-	}
+//	public static void main(String[] args) {
+//		test();
+//	}
 }

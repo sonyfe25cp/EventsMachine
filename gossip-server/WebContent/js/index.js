@@ -1,16 +1,29 @@
+//1
+
+var current;
+
 $(document).ready(function() {
-    var currentPageNum=0; 
-    $.ajax({
-    type: "GET",
-    contentType: "application/json; charset=utf-8",
-    url:"/events?pageNo=" + currentPageNum,
-    dataType: "json",
-    anysc: false,
-    success: function(result) {
-    	display(result);
-    	}
-    });
+    current = 0;
+    toPage(current);
 });//document
+//跳转页面
+function toPage(pageNo){
+	if(pageNo < 0){
+		return;
+	}
+	$('#primary .list').empty();
+	current = pageNo;
+	$.ajax({
+	    type: "GET",
+	    contentType: "application/json; charset=utf-8",
+	    url:"/events?pageNo=" + pageNo,
+	    dataType: "json",
+	    anysc: false,
+	    success: function(result) {
+	    	display(result);
+	    }
+	  });
+}//toPage
 
 function display(result){
 	$('#primary .list').empty();
@@ -26,7 +39,7 @@ function display(result){
 							'</div>'+
 							'<div class="info">'+
 								'<a class="label">北京</a>'+
-								'<span class="pull-right">'+event["createAt"]+'</span>'+
+								'<span class="pull-right">'+dateConvert(event["createAt"])+'</span>'+
 							'</div>'+
 						'</li>';
 		html += event_html;
@@ -34,60 +47,44 @@ function display(result){
 	$('#primary').html(html);
 	
 	//页码和翻页功能
-	pagination(result);
+//	pagination(result);
 }//display
 
 //页码和翻页功能实现
-function pagination(result){
-	$('#page ul').empty();
-	var pageNo = result.pageNo;
-	var totalPage = result.totalPage;
-	var beginNo = result.pageBegin;
-	var endNo = result.pageEnd;
-	var html = "";
-	//首页和上一页的设置
-	if(pageNo == 1){
-		html = '<li class="disabled"><a href="javascript:void(0)">首页</a></li>';
-		html += '<li id="pre_page" class="disabled"><a href="javascript:void(0)">'+'«</a></li>';
-	}
-	else{
-		html = '<li id="first_page"><a href="#" onclick="toPage(1)">首页</a></li>';
-        html += '<li id="pre_page"><a href="#" onclick="toPage(' + (pageNo - 1) +')">«</a></li>';
-	}
-	//中间页的设置
-	for(var i = beginNo; i<= endNo; i++){
-		if(i == pageNo)
-			html += '<li id="page' + i + '" class="disabled"><a href="javascript:void(0)">' + i + '</a></li>';
-		else 
-			html += '<li id="page' + i + '"><a href="#" onclick="toPage(' + i + ')">' + i + '</a></li>';
-	}
-	//末页和下一页的设置
-	if(pageNo == totalPage){
-		html += '<li id="next_page" class="disabled"><a href="javascript:void(0)">' + '»</a></li>';
-        html += '<li id="final_page" class="disabled"><a href="javascript:void(0)">' + '末页</a></li>';
-	}
-	else{
-		html += '<li id="next_page" class=""><a href="#" onclick="toPage(' + (pageNo+1) + ')">»</a></li>';
-        html += '<li id="final_page" class=""><a href="#" onclick="toPage(' + totalPage + ')">末页</a></li>';
-	}
-	$('#page ul').append(html);
-}//pagination
-
-//跳转页面
-function toPage(pageNo){
-	$('#primary .list').empty();
-	$.ajax({
-	    type: "GET",
-	    contentType: "application/json; charset=utf-8",
-	    url:"/events?pageNo=" + pageNo,
-	    dataType: "json",
-	    anysc: false,
-	    success: function(result) {
-	    	display(result);
-	    }
-	  });
-}//toPage
-
+//function pagination(result){
+//	$('#page ul').empty();
+//	var pageNo = result.pageNo;
+//	var totalPage = result.totalPage;
+//	var beginNo = result.pageBegin;
+//	var endNo = result.pageEnd;
+//	var html = "";
+//	//首页和上一页的设置
+//	if(pageNo == 1){
+//		html = '<li class="disabled"><a href="javascript:void(0)">首页</a></li>';
+//		html += '<li id="pre_page" class="disabled"><a href="javascript:void(0)">'+'«</a></li>';
+//	}
+//	else{
+//		html = '<li id="first_page"><a href="#" onclick="toPage(1)">首页</a></li>';
+//        html += '<li id="pre_page"><a href="#" onclick="toPage(' + (pageNo - 1) +')">«</a></li>';
+//	}
+//	//中间页的设置
+//	for(var i = beginNo; i<= endNo; i++){
+//		if(i == pageNo)
+//			html += '<li id="page' + i + '" class="disabled"><a href="javascript:void(0)">' + i + '</a></li>';
+//		else 
+//			html += '<li id="page' + i + '"><a href="#" onclick="toPage(' + i + ')">' + i + '</a></li>';
+//	}
+//	//末页和下一页的设置
+//	if(pageNo == totalPage){
+//		html += '<li id="next_page" class="disabled"><a href="javascript:void(0)">' + '»</a></li>';
+//        html += '<li id="final_page" class="disabled"><a href="javascript:void(0)">' + '末页</a></li>';
+//	}
+//	else{
+//		html += '<li id="next_page" class=""><a href="#" onclick="toPage(' + (pageNo+1) + ')">»</a></li>';
+//        html += '<li id="final_page" class=""><a href="#" onclick="toPage(' + totalPage + ')">末页</a></li>';
+//	}
+//	$('#page ul').append(html);
+//}//pagination
 
 //返回的keyWords是形如{奶粉:2.0;机构:2.0;已向:1.0;检出:1.0;果无:1.0;}的字符串，因此需要转换
 function splitKeywords(keyWords){

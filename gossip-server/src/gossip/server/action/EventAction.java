@@ -30,7 +30,7 @@ public class EventAction {
 	@ResponseBody
 	public List<Event> getEventList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit,
 			@RequestParam(value = "year", required = false, defaultValue = "0") int year,
 			@RequestParam(value = "month", required = false, defaultValue = "1") int month,
 			@RequestParam(value = "day", required = false, defaultValue = "1") int day) {

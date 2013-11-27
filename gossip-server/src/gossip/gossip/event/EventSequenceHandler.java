@@ -4,7 +4,13 @@ import gossip.model.Event;
 
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * 把网页id排序
+ * 关系到事件单页的新闻的排序
+ * @author ChenJie
+ *
+ * Nov 13, 2013
+ */
 public class EventSequenceHandler implements Handler{
 
 

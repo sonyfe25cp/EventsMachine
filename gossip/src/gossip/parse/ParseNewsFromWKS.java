@@ -18,11 +18,11 @@ import bit.crawl.store.PageStoreReader;
 import bit.crawl.store.StoredPage;
 import edu.bit.dlde.extractor.CombinedPreciseExtractor;
 import edu.bit.dlde.utils.DLDEConfiguration;
-import edu.bit.dlde.utils.DLDELogger;
 import gossip.dao.NewsDAO;
 import gossip.model.News;
 import gossip.utils.DatabaseUtils;
 import gossip.utils.DateException;
+import gossip.utils.TokenizerUtils;
 
 /**
  * 配置文件在 /data/gossip/site/qq/*.xml 定时将抓取的qq新闻移到指定目录
@@ -32,7 +32,7 @@ import gossip.utils.DateException;
  * 
  */
 public class ParseNewsFromWKS {
-	private DLDELogger logger = new DLDELogger();
+//	private DLDELogger logger = new DLDELogger();
 
 	/**
 	 * 
@@ -130,6 +130,8 @@ public class ParseNewsFromWKS {
 		news.setUrl(url);
 		news.setFromSite(from_site);
 		news.setCrawlAt(crawl_at);
+		news.setTitleWords(TokenizerUtils.arrayToString(TokenizerUtils.tokenizer(title)));
+		news.setBodyWords(TokenizerUtils.arrayToString(TokenizerUtils.tokenizer(content)));
 
 		return news;
 	}

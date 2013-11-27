@@ -22,12 +22,15 @@ public class TokenizerUtils {
 	}
 	
 	public static String[] tokenizer(String body){
+		if(body == null )
+			return null;
+		
 		List<Term> terms = ToAnalysis.parse(body);
 		String[] res = new String[terms.size()];
 		int i = 0;
 		for(Term term : terms){
 			String tmp = term.getName();
-			if(tmp.trim().length() == 0){
+			if(tmp == null || tmp.trim().length() == 0 || tmp.equals("null")){
 				continue;
 			}
 			if(stopwords.contains(tmp)){
@@ -54,8 +57,10 @@ public class TokenizerUtils {
 	}
 	public static String arrayToString(String[] array){
 		String str = "";
-		for(String tmp : array){
-			str +=(tmp+";");
+		if(array !=null && array.length != 0){
+			for(String tmp : array){
+				str +=(tmp+";");
+			}
 		}
 		return str;
 	}
@@ -73,8 +78,9 @@ public class TokenizerUtils {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			return set;
 		}
-		return set;
 	}
 
 	public static boolean hasInteger(String string){

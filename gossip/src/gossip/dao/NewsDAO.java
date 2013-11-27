@@ -279,6 +279,31 @@ public class NewsDAO{
 		}
 	}
 	/**
+	 * 更新新闻的分词
+	 */
+	final String SQL_UPDATE_WORDS_BATCH = "update news set titleWords = ?, bodyWords = ? where id = ?";
+	public void batchUpdateTokenizerWords(List<News> newsList, String status) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
+			for (News news : newsList) {
+				pstmt = conn.prepareStatement(SQL_UPDATE_STATUS_BATCH);
+				pstmt.setString(1, news.getTitleWords());
+				pstmt.setString(2, news.getBodyWords());
+				pstmt.setInt(3, news.getId());
+				pstmt.addBatch();
+			}
+			pstmt.executeBatch();
+			conn.commit();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * true is exist
 	 * false is not exist
 	 * @param title
@@ -320,7 +345,10 @@ public class NewsDAO{
 		return false;
 	}
 
-	final String SQL_INSERT_NEWS = "insert into news(title,body,url,author,description,date,fromsite,crawlat,status) values(?,?,?,?,?,?,?,?,?)";
+	final String SQL_INSERT_NEWS = "insert into news" +
+			"(title,body,url,author,description,date,fromsite,crawlat,status, titleWords, bodyWords) " +
+			"values " +
+			"(?,?,?,?,?,?,?,?,?,?,?)";
 	public void insertNews(List<News> newsList) {
 		if (newsList.isEmpty() || newsList == null) {
 			return;
@@ -347,6 +375,8 @@ public class NewsDAO{
 					pstmt.setString(7, news.getFromSite());
 					pstmt.setString(8, news.getCrawlAt());
 					pstmt.setString(9, news.getStatus());
+					pstmt.setString(10, news.getTitleWords());
+					pstmt.setString(11, news.getBodyWords());
 					pstmt.addBatch();
 //				}// if
 			}// for

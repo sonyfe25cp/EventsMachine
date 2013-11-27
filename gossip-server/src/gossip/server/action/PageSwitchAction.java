@@ -60,5 +60,12 @@ public class PageSwitchAction {
 		ModelAndView mav = new ModelAndView("wordtagging");
 		return mav;
 	}
-
+	
+	//跳转到后台
+	@RequestMapping("/admin")
+	public ModelAndView toAdmin(){
+		ModelAndView mav = new ModelAndView("/admin/login");
+		return mav;
+	}
+	
 }

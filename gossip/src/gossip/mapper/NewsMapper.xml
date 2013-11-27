@@ -23,7 +23,7 @@
 		select * from news where date = #{date}
 	</select>
 	
-	<select id="getNewsAfterDate" resultType="">
+	<select id="getNewsAfterDate" resultType="gossip.model.News">
 		select * from news where <![CDATA[ crawlat >= #{crawlAt} and eventStatus = #{eventStatus}]]>
 	</select>
 	

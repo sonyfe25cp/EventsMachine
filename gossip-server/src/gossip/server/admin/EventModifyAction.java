@@ -2,12 +2,19 @@ package gossip.server.admin;
 
 import gossip.gossip.dao.EventDAO;
 import gossip.gossip.dao.NewsDAO;
+import gossip.mapper.Page;
+import gossip.model.Event;
+import gossip.server.service.EventService;
+
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -15,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  */
 @Controller
-@RequestMapping("/eventModify")
+@RequestMapping("/admin/events")
 public class EventModifyAction {
 	private EventDAO eventDAO;
 	private NewsDAO newsDAO;
 	
+	private EventService eventService;
 
 	public EventDAO getEventDAO() {
 		return eventDAO;
@@ -27,6 +35,21 @@ public class EventModifyAction {
 	public void setEventDAO(EventDAO eventDAO) {
 		this.eventDAO = eventDAO;
 	}
+	
+	@RequestMapping("/list")
+	public ModelAndView list(
+			@RequestParam(value="pageNo", required=false, defaultValue="0") int pageNo,
+			@RequestParam(value="pageSize", required=false, defaultValue="15") int pageSize
+			){
+		List<Event> events = eventService.getEventRanking(new Page(pageNo, pageSize));
+		
+		return new ModelAndView("/admin/event_list").addObject("events", events);
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value = "/content", method = RequestMethod.GET)
 	public String updateEvent(
 			@RequestParam(value = "eventId", required = false) int eventId,
@@ -92,6 +115,12 @@ public class EventModifyAction {
 	}
 	public void setNewsDAO(NewsDAO newsDAO) {
 		this.newsDAO = newsDAO;
+	}
+	public EventService getEventService() {
+		return eventService;
+	}
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
 	}
 
 }
