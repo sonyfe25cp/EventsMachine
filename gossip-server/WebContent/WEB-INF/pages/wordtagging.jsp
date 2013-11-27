@@ -17,7 +17,7 @@
 <body>
   
   <div class="container">
-     <div class="page-header">
+     <div class="page-header" style="margin-top:70px;">
          <h1 style="line-height:50px;">这是一个中文词语标注网页，如果您觉得页面上显示的词语对分析数据有用，请选择“保留”，若您觉得没用请选择“放弃”，否则，请选择“跳过”。</h1>
      </div>
      <div id = "container-inner" style = "padding: 20px 0;border:2px solid #AAA;">
@@ -31,12 +31,12 @@
              <button id = "abort-word" class = "btn-large">放弃</button>
         </div>
      </div>
-     <div class="page-footer" style="margin-top:100px;">
+     <div class="page-footer" style="margin-top:60px;">
          <p style="font-size:40px;">说明：</p>
          <br>
-         <p style="font-size:25px;line-height:35px;">&nbsp &nbsp &nbsp 1）上述词语表述中，“|”前面为关键词，“|”后面为该词的词性标注，其中以“n”开头的为名词，以“v”开头的为动词，
+         <p style="font-size:20px;line-height:35px;">&nbsp &nbsp &nbsp 1）上述词语表述中，“|”前面为关键词，“|”后面为该词的词性标注，其中以“n”开头的为名词，以“v”开头的为动词，
          标注过程中，主要考虑这两种词性的词语。具体词性对照表见该页面最后的表格。</p>
-         <p style="font-size:25px;line-height:35px;">&nbsp &nbsp &nbsp 2）此标注系统标注的中文词语将用于中文<strong>新闻网页的聚类、自动摘要生成和新闻查询</strong>等功能模块，因此在进行标注时，可以从
+         <p style="font-size:20px;line-height:35px;">&nbsp &nbsp &nbsp 2）此标注系统标注的中文词语将用于中文<strong>新闻网页的聚类、自动摘要生成和新闻查询</strong>等功能模块，因此在进行标注时，可以从
          这三个方面考虑词语的适用性，例如，如果网页中显示的词语可能出现在新闻标题中或者词语可能作为某个新闻的关键词，如<strong>“食品安全”、“中标率”、
          “亚太经合组织”</strong>等，则需要“保留”该词，如果词语对新闻的区分度不大，如<strong>“头昏眼花”、“小数点”、“小毛头”</strong>等词，则可以考虑“放弃”该词。</p>
      </div>
