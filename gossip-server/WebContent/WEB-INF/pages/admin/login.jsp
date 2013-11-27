@@ -33,9 +33,6 @@
 	  	</div>
 	</div>
 </div>
-
-
-
 	<div id="container" class="container">
 		<div id="head">
 			<div id="logo">
@@ -61,9 +58,13 @@
   </div>
   <div class="modal-body">
     <div class="row-fluid">
-    	<form action="#" class="span6" style="border-right: 1px dashed #D1D1D1;" id="loginform">
-    		<label for="username">用户名：</label> <input type="text" name="loginusername" id="loginusername" onBlur="loginNameCheck()">
-    		<label for="password">密码：</label><input type="password" name="loginpassword" id="loginpassword" onBlur="loginPasswordCheck()">
+    	<form action="/admin/login" method="post" class="span6" style="border-right: 1px dashed #D1D1D1;" id="loginform">
+    		<label for="username">用户名：</label>
+    		<input type="text" name="email" id="loginusername" onBlur="loginNameCheck()">
+    		<label for="password">密码：</label>
+    		<input type="password" name="password" id="loginpassword" onBlur="loginPasswordCheck()">
+		    <p/>
+		    <input class="btn btn-primary" type="submit" value="登录"></input>
     	</form>
     	<div class="span6">
     		<!-- <p>
@@ -77,7 +78,6 @@
     </div>
   </div>
   <div class="" align="center">	    
-    <button  id="loginbutton" class="btn btn-primary "  disabled="disabled" onClick="loginSubmit()">登录</button>
     <!--    <button type="button" class="btn" data-dismiss="modal">取消</button> -->
   </div>
 </div>
