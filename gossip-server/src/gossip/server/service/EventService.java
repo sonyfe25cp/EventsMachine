@@ -3,7 +3,9 @@ package gossip.server.service;
 import gossip.mapper.EventMapper;
 import gossip.mapper.Page;
 import gossip.model.Event;
+import gossip.model.News;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,28 @@ public class EventService {
 	@Autowired
 	private EventMapper eventMapper;
 	
+	@Autowired
+	private NewsService newsService;
+	
 //	private DLDELogger logger = new DLDELogger();
 
+	
+	public void update(Event event){
+		eventMapper.update(event);
+	}
+	
+	
 	public Event getEventById(int id) {
 		Event event = eventMapper.getEventById(id);
-		System.out.println("create time: " + event.getCreateTime());
-		event.setCreateTime(event.getCreateAt().getTime());
+		
+		String pages = event.getPages();
+		String[] ids = pages.split(",");
+		List<News> newsList = new ArrayList<News>();
+		for(String tmp : ids){
+			News news = newsService.getNewsById(Integer.parseInt(tmp));
+			newsList.add(news);
+		}
+		event.setNewsList(newsList);
 		return event;
 	}
 

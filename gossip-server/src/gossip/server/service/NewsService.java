@@ -7,8 +7,6 @@ import gossip.model.News;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +26,9 @@ public class NewsService {
 	 * @param id
 	 * @return
 	 */
-	public JSONObject getNewsById(int id){
+	public News getNewsById(int id){
 		News news = newsMapper.getNewsById(id);
-		return JSONObject.fromObject(news);
+		return news;
 	}
 	/**
 	 * 根据事件的一组新闻id从数据库中读取新闻并返回

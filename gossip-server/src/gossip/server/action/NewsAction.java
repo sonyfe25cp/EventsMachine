@@ -2,8 +2,6 @@ package gossip.server.action;
 
 import java.util.List;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +39,7 @@ public class NewsAction {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONObject getNewsById(@PathVariable int id) {
+	public News getNewsById(@PathVariable int id) {
 		return newsService.getNewsById(id);
 	}
 
