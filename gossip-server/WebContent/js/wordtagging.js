@@ -12,7 +12,8 @@ $(document).ready(function() {
 	    dataType: "json",
 	    success: function(result) {
 	    	wordTags = result;
-	    	$('#keyword').text(wordTags[index].keywords);
+	    	content = wordTags[index].keywords + " | " +wordTags[index].property;
+	    	$('#keyword').text(content);
 	    	$('#keywordId').val(wordTags[index].id);
 	    	}
 	    });
@@ -32,7 +33,8 @@ $(document).ready(function() {
 		    		wordTags = getWordTags();
 		    		index = 0;
 		    	}
-		    	$('#keyword').text(wordTags[index].keywords);
+		    	content = wordTags[index].keywords + " | " +wordTags[index].property;
+		    	$('#keyword').text(content);
 		    	$('#keywordId').val(wordTags[index].id);
 		    	}
 		    });
@@ -44,7 +46,8 @@ $(document).ready(function() {
 			wordTags = getWordTags();
 			index = 0;
 		}
-		$('#keyword').text(wordTags[index].keywords);
+		content = wordTags[index].keywords + " | " +wordTags[index].property;
+    	$('#keyword').text(content);
 		$('#keywordId').val(wordTags[index].id);
 	});
 	
@@ -63,7 +66,8 @@ $(document).ready(function() {
 					wordTags = getWordTags();
 					index = 0;
 				}
-				$('#keyword').text(wordTags[index].keywords);
+				content = wordTags[index].keywords + " | " +wordTags[index].property;
+		    	$('#keyword').text(content);
 				$('#keywordId').val(wordTags[index].id);
 		    	}
 		    });
