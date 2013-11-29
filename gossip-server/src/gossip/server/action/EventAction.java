@@ -6,14 +6,13 @@ import gossip.server.service.EventService;
 
 import java.util.List;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 访问事件的action。
@@ -21,38 +20,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author lins
  */
 @Controller
-@RequestMapping("/events")
 public class EventAction {
 	@Autowired
 	private EventService eventService;
 	
-	@RequestMapping(value = "")
+	@RequestMapping(value = "/events.json")
 	@ResponseBody
 	public List<Event> getEventList(
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit,
-			@RequestParam(value = "year", required = false, defaultValue = "0") int year,
-			@RequestParam(value = "month", required = false, defaultValue = "1") int month,
-			@RequestParam(value = "day", required = false, defaultValue = "1") int day) {
-		System.out.println("into event");
-		return eventService.getEventList(new Page(pageNo, limit), year, month, day);
+			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit
+			){
+		return eventService.getEventListSimply(new Page(pageNo, limit));
+	}
+	@RequestMapping(value = "/events.html")
+	public ModelAndView eventList(
+			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit
+			){
+		List<Event> events = eventService.getEventListSimply(new Page(pageNo, limit));
+		return new ModelAndView("/event/event-list").addObject("events", events);
+	}
+	@RequestMapping(value = "/event/{id}.html")
+	public ModelAndView getEventById2(@PathVariable int id){
+		Event event =  eventService.getEventById(id);
+		return new ModelAndView("/event/event-show").addObject("event", event);
 	}
 	
-	@RequestMapping(value = "/{id}")
+	@RequestMapping(value = "/event/{id}.json")
 	@ResponseBody
 	public Event getEventById(@PathVariable int id){
-		return eventService.getEventJSONById(id);
+		return eventService.getEventById(id);
 	}
 	
-	@RequestMapping(value = "/test")
-	@ResponseBody
-	public JSONObject testAJAX(){
-		System.out.println("into test");
-		JSONObject json = new JSONObject();
-		json.put("test", "test");
-		return json;
-	}
-
 	public EventService getEventService() {
 		return eventService;
 	}
@@ -60,7 +59,4 @@ public class EventAction {
 	public void setEventService(EventService eventService) {
 		this.eventService = eventService;
 	}
-	
-	
-	
 }

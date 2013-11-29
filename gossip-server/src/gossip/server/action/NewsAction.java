@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.model.News;
@@ -37,12 +38,16 @@ public class NewsAction {
 	 *         “body”:””,“publish_at”:””,“source”:””,”started_location”:”””
 	 *         keywords”:”[“xx”,”yy”]”}
 	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}.json", method = RequestMethod.GET)
 	@ResponseBody
 	public News getNewsById(@PathVariable int id) {
 		return newsService.getNewsById(id);
 	}
-
+	@RequestMapping(value = "/{id}.html", method = RequestMethod.GET)
+	public ModelAndView getNewsHtmlById(@PathVariable int id) {
+		News news = newsService.getNewsById(id);
+		return new ModelAndView("/news/show").addObject("news", news);
+	}
 	/**
 	 * 读取组成某一事件的各个新闻
 	 * 

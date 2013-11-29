@@ -1,4 +1,6 @@
-    </div><!--/.fluid-container-->
-    <#include "/common/bootstrap-js.ftl">
+	 <!-- FOOTER -->
+      <footer>
+        <p>&copy; 2013 BIT DLDE</p>
+      </footer>
   </body>
 </html>

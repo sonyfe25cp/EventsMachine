@@ -7,15 +7,20 @@ import gossip.model.News;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 /**
  * 用于批量更新数据库中新闻的分词
  * @author ChenJie
  *
  * Oct 8, 2013
  */
-public class GossipBatchUpdateNews extends Service{
+@Service
+public class GossipBatchUpdateNews{
 
-	private NewsMapper newsMapper = session.getMapper(NewsMapper.class) ;
+	@Autowired
+	private NewsMapper newsMapper;
 	
 	public void testUpdate(){
 		News news= newsMapper.getNewsById(162651);
@@ -63,6 +68,16 @@ public class GossipBatchUpdateNews extends Service{
 		GossipBatchUpdateNews bun = new GossipBatchUpdateNews();
 		bun.batchUpdate();
 //		bun.testUpdate();
+	}
+
+
+	public NewsMapper getNewsMapper() {
+		return newsMapper;
+	}
+
+
+	public void setNewsMapper(NewsMapper newsMapper) {
+		this.newsMapper = newsMapper;
 	}
 
 }

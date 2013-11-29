@@ -17,9 +17,9 @@ public class AdminAuthAction {
 			flag = true;
 		}
 		if(flag)
-			return new ModelAndView("/admin/welcome");
+			return new ModelAndView("/admin/auth/welcome");
 		else
-			return new ModelAndView("/admin/login");
+			return new ModelAndView("/admin/auth/login");
 	}
 	
 }

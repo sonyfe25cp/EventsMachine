@@ -41,11 +41,6 @@ public class EventService {
 		return event;
 	}
 
-	public Event getEventJSONById(int id) {
-		Event event = getEventById(id);
-		return event;
-	}
-
 	public List<Event> getEventList(Page page, int year, int month,
 			int day) {
 		if (year != 0) {
@@ -59,7 +54,7 @@ public class EventService {
 		return null;
 	}
 
-	private List<Event> getEventListSimply(Page page) {
+	public List<Event> getEventListSimply(Page page) {
 		return getEventRanking(page);
 	}
 
