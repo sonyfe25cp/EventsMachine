@@ -3,8 +3,11 @@
 <mapper namespace="gossip.mapper.WordMapper">
 
 
-	<insert id="insertWords" parameterType="gossip.model.Word">
-		insert into tchen(name, count) values(#{word.name}, #{word.count})
+	<insert id="insertWord" parameterType="gossip.model.Word">
+		insert into words(name, count, idf) 
+			values(
+			#{word.name}, #{word.count}, #{word.idf}
+			)
 	</insert>
 	
 	<select id="getWordByValue" parameterType="String" resultType="gossip.model.Word">

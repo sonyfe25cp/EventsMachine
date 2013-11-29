@@ -2,8 +2,6 @@ package gossip.server.action;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -39,6 +37,25 @@ public class PageSwitchAction {
 	public ModelAndView toAdmin(){
 		ModelAndView mav = new ModelAndView("/admin/auth/login");
 		return mav;
+	}
+	
+	@RequestMapping("/about")
+	public String about(){
+		return "/common/about";
+	}
+	
+	@RequestMapping("/members")
+	public String member(){
+		return "/common/member";
+	}
+	
+	@RequestMapping("/readme")
+	public String readme(){
+		return "/common/readme";
+	}
+	@RequestMapping("/framework")
+	public String framework(){
+		return "/common/framework";
 	}
 	
 }

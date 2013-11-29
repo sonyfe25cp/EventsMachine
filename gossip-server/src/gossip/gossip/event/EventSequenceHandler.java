@@ -18,6 +18,7 @@ public class EventSequenceHandler implements Handler{
 	public void handle(Event event) {
 		List<Integer> ids = event.getPagesList();
 		Collections.sort(ids);
+		Collections.reverse(ids);
 		StringBuilder sb =  new StringBuilder();
 		int i = 1;
 		for(Integer tmp : ids){

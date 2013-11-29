@@ -11,7 +11,13 @@
 			<p>${event.desc}</p>
 			<small>
 				<#if event.keyWords??>
-					${event.keyWords}
+					<strong>关键词:</strong> ${event.keyWords}
+				</#if>
+			</small>
+			</p>
+			<small>
+				<#if event.startedLocation??>
+					<strong>发生地:</strong> ${event.startedLocation}
 				</#if>
 			</small>
 		</div>

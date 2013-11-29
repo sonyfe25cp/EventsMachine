@@ -46,7 +46,7 @@ public class DatabaseUtils {
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://10.1.0.127:3306/gossip", "root", "123iop");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gossip", "root", "");
 
 			// conn = dataSource.getConnection();
 		} catch (Exception e) {

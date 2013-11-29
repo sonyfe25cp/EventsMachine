@@ -1,7 +1,7 @@
-package gossip.gossip.utils;
+package gossip.gossip.service;
 
-import gossip.gossip.service.Service;
 import gossip.gossip.test.TestDB;
+import gossip.gossip.utils.TokenizerUtils;
 import gossip.mapper.WordMapper;
 import gossip.model.News;
 import gossip.model.Word;
@@ -10,9 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class WordStatistics extends Service{
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+@Service
+public class WordStatistics{
 
-	private WordMapper wordMapper = session.getMapper(WordMapper.class) ;
+	@Autowired
+	private WordMapper wordMapper ;
+	@Autowired
+	private BatchNewsReader batchNewsReader;
 	
 	private HashMap<String,Integer> wordsMap = null;//每个文档中的词计算多份
 	private HashMap<String,Integer> idfMap = null;//每个文档中的词只算一份
@@ -20,8 +26,7 @@ public class WordStatistics extends Service{
 	private int fileCount = 0 ;
 	
 	private void recordAllWords(){
-		BatchNewsReader bnr = new BatchNewsReader();
-		List<News> newsList = bnr.next();
+		List<News> newsList = batchNewsReader.next();
 		while(newsList!=null){
 			
 			for(News news : newsList){
@@ -38,7 +43,7 @@ public class WordStatistics extends Service{
 				
 				fileCount ++;
 			}
-			newsList = bnr.next();
+			newsList = batchNewsReader.next();
 		}
 	}
 	
@@ -110,7 +115,7 @@ public class WordStatistics extends Service{
 			double idf = countIDF(value);
 			word.setIdf(idf);
 			System.out.println(word);
-			wordMapper.insertWords(word);
+			wordMapper.insertWord(word);
 			tdb.insertWord(word);
 		}
 		tdb.close();
@@ -121,7 +126,7 @@ public class WordStatistics extends Service{
 		word.setName("a");
 		double idf = 0.1;
 		word.setIdf(idf);
-		wordMapper.insertWords(word);
+		wordMapper.insertWord(word);
 		
 //		TestDB tdb = new TestDB();
 //		tdb.insertWord(word);
@@ -172,10 +177,9 @@ public class WordStatistics extends Service{
 	public static void main(String[] args) {
 		WordStatistics wst = new WordStatistics();
 //		wst.batchComputeWords();
-		wst.testInsert();
+//		wst.testInsert();
 //		wst.testGetWords();
 		System.out.println(wst.getFileCount());
 		
 	}
-
 }

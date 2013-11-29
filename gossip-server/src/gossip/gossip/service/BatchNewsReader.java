@@ -1,15 +1,17 @@
-package gossip.gossip.utils;
+package gossip.gossip.service;
 
-import gossip.gossip.service.Service;
 import gossip.mapper.NewsMapper;
 import gossip.mapper.Page;
 import gossip.model.News;
 
 import java.util.List;
 
-public class BatchNewsReader extends Service{
+import org.springframework.stereotype.Service;
 
-	private NewsMapper newsMapper = session.getMapper(NewsMapper.class) ;
+@Service
+public class BatchNewsReader{
+
+	private NewsMapper newsMapper;
 	
 	int total = 90000;
 	int pageSize = 1000;
@@ -28,6 +30,18 @@ public class BatchNewsReader extends Service{
 		}
 		current++;
 		return newsList;
+	}
+
+
+
+	public NewsMapper getNewsMapper() {
+		return newsMapper;
+	}
+
+
+
+	public void setNewsMapper(NewsMapper newsMapper) {
+		this.newsMapper = newsMapper;
 	}
 	
 }

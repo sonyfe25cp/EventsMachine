@@ -11,10 +11,10 @@
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">项目介绍</a></li>
-                <li><a href="#about">项目成员</a></li>
-                <li><a href="#contact">技术框架</a></li>
-                <li><a href="#contact">其他说明</a></li>
+                <li class="active"><a href="/">项目介绍</a></li>
+               <li><a href="/members">项目成员</a></li>
+                <li><a href="/framework">技术框架</a></li>
+                <li><a href="/readme">其他说明</a></li>
                 <!--
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
