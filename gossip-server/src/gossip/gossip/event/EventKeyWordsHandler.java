@@ -30,14 +30,14 @@ public class EventKeyWordsHandler implements Handler{
 			String body = news.getBody();
 			Collection<Keyword> result = kwc.computeArticleTfidf(title, body);
 		    for(Keyword kw : result){
-		    	System.out.println(kw.toString() + "" + kw.getFreq());
+//		    	System.out.println(kw.toString() + "" + kw.getFreq());
 		    	set.add(kw.toString());
 		    }
 		}
 		StringBuilder sb = new StringBuilder();
-		for(String tmp : set){
-			sb.append(tmp+";");
-		}
+//		for(String tmp : set){
+//			sb.append(tmp+";");
+//		}
 		event.setKeyWords(sb.toString());
 	}
 
