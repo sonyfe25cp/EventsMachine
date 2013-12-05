@@ -8,6 +8,7 @@ import gossip.model.News;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class GossipEventService {
 	private GossipNewsService gossipNewsService;
 	@Autowired
 	private EventMapper eventMapper;
+	@Autowired
+	private GossipEventDetection gossipEventDetection;
+	@Autowired
+	private GossipSimilarityCacheService gossipSimilarityCacheService;
 	
 	/*
 	 * basic event service
@@ -29,14 +34,7 @@ public class GossipEventService {
 
 	public List<Event> computeEventFromNews(List<News> newsList){
 		List<Event> events = new ArrayList<Event>();
-		events = GossipEventDetection.simpleDetect(newsList);//得到事件列表
-		for(Event event : events){
-			List<Integer> newsIds = event.getPagesList();
-			for(int a : newsIds){
-				System.out.print(a+" ");
-			}
-			System.out.println();
-		}
+		events = gossipEventDetection.simpleDetect(newsList);//得到事件列表
 		//加载各种对事件处理的逻辑，题目，摘要等
 		for(Event event : events){
 			EventProcess ep = new EventProcess(event);
@@ -52,6 +50,7 @@ public class GossipEventService {
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();
 			gossipNewsService.batchUpdateNewsStatus(newsIds, News.Evented);
+			gossipSimilarityCacheService.batchDeleteNewsPartId(newsIds);
 		}
 		return events;
 	}
@@ -66,7 +65,7 @@ public class GossipEventService {
 			nextLoop: while(newComes.hasNext()){//若新事件找到可合并的旧事件，则合并，并继续下一个新事件；若都没有，则计为新事件
 				Event newEvent = newComes.next();
 				for(Event originEvent : originEvents){
-					double sim = compairEvents(newEvent, originEvent);
+					double sim = computeEventSimilarity(newEvent, originEvent);
 					if(sim > lambda ){
 						originEvent.mergeEvent(newEvent);
 						events.add(originEvent);
@@ -76,12 +75,19 @@ public class GossipEventService {
 				}
 				events.add(newEvent);
 			}
-			
-			
 			return events;
 		}
 	}
 
+	/**
+	 * 比较两个事件的相似度
+	 * 通过相似新闻的数目
+	 * 由于该计算方法没有理论支撑，废弃，由 computeEventSimilarity 代为实现
+	 * @param event1
+	 * @param event2
+	 * @return
+	 */
+	@Deprecated
 	public double compairEvents(Event event1, Event event2){
 		List<News> list1 = event1.getNewsList();
 		List<News> list2 = event2.getNewsList();
@@ -98,6 +104,74 @@ public class GossipEventService {
 		}
 		double sim = tmp/(size1+size2+0.0);
 		return sim;
+	}
+	/**
+	 * 计算两个事件的相似度
+	 * 通过对比其新闻的标题的相似度来进行计算
+	 * @param event1
+	 * @param event2
+	 * @return
+	 */
+	public double computeEventSimilarity(Event event1, Event event2){
+		HashSet<String> set = new HashSet<String>();
+		HashSet<String> set1 = new HashSet<String>();
+		HashSet<String> set2 = new HashSet<String>();
+		
+		List<News> newsList1 = event1.getNewsList();
+		for(News temp : newsList1){
+			String[] title = temp.getTitleWords().split(";");
+			for(String word : title){
+				set1.add(word);
+			}
+		}
+		List<News> newsList2 = event2.getNewsList();
+		for(News temp : newsList2){
+			String[] title = temp.getTitleWords().split(";");
+			for(String word : title){
+				set2.add(word);
+			}
+		}
+		set.addAll(set1);
+		set.addAll(set2);
+
+		int[] v1 = computeVector(set, set1);
+		int[] v2 = computeVector(set, set2);
+		
+		double sim = cos(v1, v2);
+		return sim;
+	}
+	private static double cos(int[] v1, int[] v2){
+		double mult = 0;
+		for(int i = 0 ; i < v1.length ; i++){
+			double tmp = v1[i] * v2[i];
+			mult+=tmp;
+		}
+		double lv1 = computeL1(v1);
+		double lv2 = computeL1(v2);
+		
+		double cos = mult / (lv1*lv2);
+		return cos;
+	}
+	private static double computeL1(int[] v1){
+		double squre = 0;
+		for(int v : v1){
+			double tmp = v*v;
+			squre += tmp;
+		}
+		return Math.sqrt(squre);
+	}
+	private static int[] computeVector(HashSet<String> set, HashSet<String> array){
+		int[] vector = new int[set.size()];
+		int i = 0;
+		for(String token : set){
+			if(array.contains(token)){
+				vector[i] = 1;
+			}else{
+				vector[i] = 0;
+			}
+			i++;
+		}
+		return vector;
 	}
 	
 	/*

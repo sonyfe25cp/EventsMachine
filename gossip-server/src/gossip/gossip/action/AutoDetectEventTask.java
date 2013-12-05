@@ -21,7 +21,10 @@ public class AutoDetectEventTask {
 	@Autowired
 	private GossipNewsService gossipNewsService;
 	
-	@Scheduled(cron="0 35 * * * ?")
+	/**
+	 * 每天5:00开始检测新事件
+	 */
+	@Scheduled(cron="0 0 5 * * ?")
 	public void run(){
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();

@@ -1,21 +1,34 @@
 package gossip.gossip.service;
 
 import gossip.model.News;
+import gossip.model.SimilarityCache;
 
 import java.util.HashSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class GossipSimCompute {
 	
-	static{
-		
-	}
+	@Autowired
+	private GossipSimilarityCacheService gossipSimilarityCacheService;
 	
-	public static double cosineSim(News n1, News n2){
+	/**
+	 * 计算新闻n1和n2的相似度
+	 * 需要保存结果到缓存
+	 * @param n1
+	 * @param n2
+	 * @return
+	 */
+	public double cosineSim(News n1, News n2){
+
+		int id1 = n1.getId();
+		int id2 = n2.getId();
 
 		if(n1.getTitleWords() == null || n1.getTitleWords().length() == 0 || n2.getTitleWords() == null || n2.getTitleWords().length() == 0){
 			return 0;
 		}
-		
 		String[] title1 = n1.getTitleWords().split(";");
 		String[] title2 = n2.getTitleWords().split(";");
 		
@@ -23,25 +36,30 @@ public class GossipSimCompute {
 		
 		String[] body1 = n1.getBodyWords().split(";");
 		String[] body2 = n2.getBodyWords().split(";");
-		
 		double bodySim = cosineArraySim(body1, body2);
-		
 		double rel = 0.7 * titleSim + 0.3 * bodySim;
-				
+		
+		SimilarityCache similarityCache = new SimilarityCache(id1, id2, rel, SimilarityCache.News);
+		gossipSimilarityCacheService.insert(similarityCache);
+		
 		return rel;
 	}
 	
 	private static double cosineArraySim(String[] tokens1, String[] tokens2){
 		HashSet<String> set = new HashSet<String>();
+		HashSet<String> set1 = new HashSet<String>();
+		HashSet<String> set2 = new HashSet<String>();
 		for(String token: tokens1){
-			set.add(token);
+			set1.add(token);
 		}
 		for(String token: tokens2){
-			set.add(token);
+			set2.add(token);
 		}
-
-		int[] v1 = computeVector(set, tokens1);
-		int[] v2 = computeVector(set, tokens2);
+		set.addAll(set1);
+		set.addAll(set2);
+		
+		int[] v1 = computeVector(set, set1);
+		int[] v2 = computeVector(set, set2);
 		
 		double rel = cos(v1, v2);
 		return rel;
@@ -68,11 +86,11 @@ public class GossipSimCompute {
 		return Math.sqrt(squre);
 	}
 
-	private static int[] computeVector(HashSet<String> set, String[] array){
+	private static int[] computeVector(HashSet<String> set, HashSet<String> array){
 		int[] vector = new int[set.size()];
 		int i = 0;
 		for(String token : set){
-			if(contains(array, token)){
+			if(array.contains(token)){
 				vector[i] = 1;
 			}else{
 				vector[i] = 0;
@@ -81,15 +99,6 @@ public class GossipSimCompute {
 		}
 		return vector;
 	}
-	private static boolean contains(String[] array, String word){
-		for(String token: array){
-			if(word != null && token !=null)
-				if(word.equals(token)){
-					return true;
-				}
-		}
-		return false;
-	}
 
 	
 	public static void main(String[] args){
@@ -97,9 +106,9 @@ public class GossipSimCompute {
 			n1.setBody("我爱北京天安门");
 			News n2 = new News();
 			n2.setBody("天安门上太阳生");
-			
-			cosineSim(n1,n2);
-			double sim = cosineSim(n1,n2);
+			GossipSimCompute gsc = new GossipSimCompute();
+			gsc.cosineSim(n1,n2);
+			double sim = gsc.cosineSim(n1,n2);
 			System.out.println(sim);
 	}
 }

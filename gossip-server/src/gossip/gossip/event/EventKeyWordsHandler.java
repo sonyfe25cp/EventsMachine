@@ -35,9 +35,9 @@ public class EventKeyWordsHandler implements Handler{
 		    }
 		}
 		StringBuilder sb = new StringBuilder();
-//		for(String tmp : set){
-//			sb.append(tmp+";");
-//		}
+		for(String tmp : set){
+			sb.append(tmp+";");
+		}
 		event.setKeyWords(sb.toString());
 	}
 
