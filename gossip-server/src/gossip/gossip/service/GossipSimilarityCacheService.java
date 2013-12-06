@@ -3,6 +3,7 @@ package gossip.gossip.service;
 import gossip.mapper.SimilarityCacheMapper;
 import gossip.model.SimilarityCache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,23 +51,19 @@ public class GossipSimilarityCacheService {
 	 * @param similarityCache
 	 */
 	public synchronized  void insert(SimilarityCache similarityCache){
-//		System.out.println(similarityCache.getPair());
 		if(cacheSet.size() > 5000){
-//			System.out.println("cache size : "+cacheSet.size());
-			HashSet<SimilarityCache> newList = cacheSet;
-			batchInsert(newList);
+//			HashSet<SimilarityCache> newList = cacheSet;
+			batchInsert(cacheSet);
 			cacheSet = new HashSet<SimilarityCache>();
-//			System.out.println("cache size2 : "+cacheSet.size());
 		}
-//		System.out.println("cache size3 : "+cacheSet.size());
 		cacheSet.add(similarityCache);
 	}
 	private void batchInsert(final HashSet<SimilarityCache> cacheList){
 		new Thread(){
 			public void run(){
-				for(SimilarityCache cache : cacheList){
-					similarityCacheMapper.insert(cache);
-				}
+				List<SimilarityCache> list = new ArrayList<SimilarityCache>();
+				list.addAll(cacheList);
+				similarityCacheMapper.batchInsert(list);
 			}
 		}.start();
 	}

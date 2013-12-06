@@ -9,6 +9,15 @@
 			#{pair}, #{similarity}, #{cacheType}
 		)
 	</insert>
+	<insert id="batchInsert" parameterType="List">
+		insert into similarityCache(pair, similarity, cacheType)
+		values		
+		<foreach collection="similarityCacheList" item="similarityCache" separator=",">
+		(
+			#{similarityCache.pair}, #{similarityCache.similarity}, #{similarityCache.cacheType}
+		)
+		</foreach>
+	</insert>
 	
 	<select id="getSimilarityCacheById" resultType="SimilarityCache" parameterType="int">
 		select * from similarityCache where id = #{id} 

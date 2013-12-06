@@ -10,6 +10,8 @@ public interface SimilarityCacheMapper {
 	
 	public void insert(SimilarityCache similarityCache);
 	
+	public void batchInsert(@Param("similarityCacheList")List<SimilarityCache> similarityCacheList);
+	
 	public SimilarityCache getSimilarityCacheById(int id);
 	
 	public SimilarityCache getSimilarityCacheByPairAndType(@Param("pair") String pair, @Param("cacheType") String cacheType);
