@@ -77,15 +77,15 @@ public class EventEntityRecognitionHandler implements Handler{
 			}else{
 				value = entity1.getName();
 			}
-		}
-		
-		int count1 = entity1.getCount();
-		int count2 = entity2.getCount();
-		
-		if(count2 >= 2 * count1){
-			value = entity2.getName();
 		}else{
-			value = entity1.getName();
+			int count1 = entity1.getCount();
+			int count2 = entity2.getCount();
+			
+			if(count2 >= 2 * count1){
+				value = entity2.getName();
+			}else{
+				value = entity1.getName();
+			}
 		}
 		if(value.length()>1){
 			return value;
