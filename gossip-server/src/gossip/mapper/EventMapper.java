@@ -5,6 +5,8 @@ import gossip.model.Event;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface EventMapper {
 	
 	public Event getEventById(int id);
@@ -12,6 +14,8 @@ public interface EventMapper {
 	public List<Event> getEventsAfterDate(Date createAt);
 	
 	public void insert(Event event);
+	
+	public void batchInsert(@Param("eventList") List<Event> eventList);
 	
 	public void update(Event event);
 	

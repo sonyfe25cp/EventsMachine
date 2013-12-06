@@ -73,8 +73,15 @@ public class EventSequenceHandler implements Handler{
 		String[] firstTimeTmp = stringDate.split("-");
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.parseInt(firstTimeTmp[0]));
-		cal.set(Calendar.MONTH, Integer.parseInt(firstTimeTmp[1]));
+		cal.set(Calendar.MONTH, Integer.parseInt(firstTimeTmp[1])-1);
 		cal.set(Calendar.DATE, Integer.parseInt(firstTimeTmp[2]));
 		return cal.getTime();
+	}
+	
+	public static void main(String[] args){
+		String d = "2013-12-30";
+		EventSequenceHandler esh = new EventSequenceHandler();
+		Date date = esh.transFromString(d);
+		System.out.println(date);
 	}
 }

@@ -3,10 +3,24 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gossip.mapper.EventMapper">
 	<select id="insert" parameterType="Event">
+		insert into event(
+			title, recommended, img, keywords, pages, create_time, updateAt
+			started_location, content_abstract, importantPeople
+		)
+		values(
+			#{title}, #{recommended}, #{img}, #{keyWords}, #{pages}, #{createAt}, #{updateAt},
+			#{startedLocation}, #{desc}, #{importantPeople}
+		)
+	</select>
+	<select id="batchInsert" parameterType="List">
 		insert into event(title, recommended, img, keywords, pages, create_time, started_location, content_abstract, importantPeople)
-			values(
-				#{title}, #{recommended}, #{img}, #{keyWords}, #{pages}, #{createAt}, #{startedLocation}, #{desc}, #{importantPeople}
+			values
+			<foreach collection="eventList" item="event" separator=",">
+			(
+				#{event.title}, #{event.recommended}, #{event.img}, #{event.keyWords}, #{event.pages},
+				#{event.createAt}, #{event.startedLocation}, #{event.desc}, #{event.importantPeople}
 			)
+			</foreach>
 	</select>
 	<update id="update" parameterType="Event">
 		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{pages}, importantPeople = #{importantPeople}

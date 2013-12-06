@@ -50,7 +50,7 @@ public class GossipEventService {
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();
 			gossipNewsService.batchUpdateNewsStatus(newsIds, News.Evented);
-			gossipSimilarityCacheService.batchDeleteNewsPartId(newsIds);
+//			gossipSimilarityCacheService.batchDeleteNewsPartId(newsIds);//已计算过的缓存不用删除
 		}
 		return events;
 	}
@@ -195,9 +195,28 @@ public class GossipEventService {
 	}
 
 	public void updateOrInsert(List<Event> events){
+		List<Event> newEvents = new ArrayList<Event>();
+		List<Event> updateEvents = new ArrayList<Event>();
 		for(Event e : events){
-			updateOrInsert(e);
+			int id = e.getId();
+			if(id == 0){
+				newEvents.add(e);
+			}else{
+				updateEvents.add(e);
+			}
 		}
+		batchInsert(newEvents);
+		batchUpdate(updateEvents);
+	}
+	public void batchInsert(List<Event> eventList){
+		if(eventList!=null && eventList.size()> 0)
+			eventMapper.batchInsert(eventList);
+	}
+	public void batchUpdate(List<Event> eventList){
+		if(eventList!=null && eventList.size()> 0)
+			for(Event e : eventList){
+				updateEvent(e);
+			}
 	}
 	
 	public Event getEventById(int id){
