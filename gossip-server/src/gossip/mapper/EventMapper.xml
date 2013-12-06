@@ -13,12 +13,15 @@
 		)
 	</select>
 	<select id="batchInsert" parameterType="List">
-		insert into event(title, recommended, img, keywords, pages, create_time, started_location, content_abstract, importantPeople)
-			values
+		insert into event(
+			title, recommended, img, keywords, pages, create_time, updateAt,
+			started_location, content_abstract, importantPeople
+		)
+		values
 			<foreach collection="eventList" item="event" separator=",">
 			(
-				#{event.title}, #{event.recommended}, #{event.img}, #{event.keyWords}, #{event.pages},
-				#{event.createAt}, #{event.startedLocation}, #{event.desc}, #{event.importantPeople}
+				#{event.title}, #{event.recommended}, #{event.img}, #{event.keyWords}, #{event.pages}, #{event.createAt}, #{event.updateAt}, 
+				#{event.startedLocation}, #{event.desc}, #{event.importantPeople}
 			)
 			</foreach>
 	</select>

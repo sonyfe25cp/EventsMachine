@@ -70,10 +70,10 @@ public class EventEntityRecognitionHandler implements Handler{
 	 * @return
 	 */
 	public String compare(Entity entity1, Entity entity2){
-		String value = "";
+		String value = null;
 		if(entity1 == null || entity2 == null){
 			if(entity1 == null){
-				value = entity2 == null ? "" : entity2.getName();
+				value = entity2 == null ? null : entity2.getName();
 			}else{
 				value = entity1.getName();
 			}
@@ -87,10 +87,10 @@ public class EventEntityRecognitionHandler implements Handler{
 				value = entity1.getName();
 			}
 		}
-		if(value.length()>1){
+		if(value!=null && value.length()>1){
 			return value;
 		}else{
-			return "";
+			return null;
 		}
 		
 	}
