@@ -65,7 +65,7 @@ public class GossipSimCompute {
 		return rel;
 	}
 	
-	private static double cos(int[] v1, int[] v2){
+	public static double cos(int[] v1, int[] v2){
 		double mult = 0;
 		for(int i = 0 ; i < v1.length ; i++){
 			double tmp = v1[i] * v2[i];
@@ -102,13 +102,17 @@ public class GossipSimCompute {
 
 	
 	public static void main(String[] args){
-			News n1 = new News();
-			n1.setBody("我爱北京天安门");
-			News n2 = new News();
-			n2.setBody("天安门上太阳生");
-			GossipSimCompute gsc = new GossipSimCompute();
-			gsc.cosineSim(n1,n2);
-			double sim = gsc.cosineSim(n1,n2);
-			System.out.println(sim);
+//			News n1 = new News();
+//			n1.setBody("我爱北京天安门");
+//			News n2 = new News();
+//			n2.setBody("天安门上太阳生");
+//			GossipSimCompute gsc = new GossipSimCompute();
+//			gsc.cosineSim(n1,n2);
+//			double sim = gsc.cosineSim(n1,n2);
+//			System.out.println(sim);
+			
+			int[] v1 = {1,0,0,1,0,0,0,0,0};
+			int[] v2 = {0,1,1,0,1,0,0,0,0};
+			System.out.println(cos(v1,v2));
 	}
 }
