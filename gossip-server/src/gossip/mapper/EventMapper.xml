@@ -61,9 +61,16 @@
    </select>
    <select id="getEventListSelectWhat" resultMap="eventResultMap">
    	 select * from event 
-   	 <if test="updateAt != null">
-   	 	where updateAt = #{updateAt}
+   	 	<where>
+	   		<if test="updateAt != null">
+	   	 		updateAt = #{updateAt}
+	   	 	</if>
+		   	<if test="keyword != null">
+		   		and keywords like "%"#{keyword}"%"
+		   	</if>
+   	 	</where>
+   	 <if test="page !=null">
+	   	 limit #{page.numBegin},#{page.pageSize}
    	 </if>
-   	 limit #{page.numBegin},#{page.pageSize}
    </select>
 </mapper>

@@ -19,8 +19,8 @@
 <legend></legend>
 <div>
 	<legend>关键字搜索</legend>
-	<form>
-		<input class="input span3"></input>
+	<form action="/q">
+		<input class="input span3" name="keyword"></input>
 		<input class="btn btn-primary" type="submit" value="搜索"></input>
 	</form>
 </div>

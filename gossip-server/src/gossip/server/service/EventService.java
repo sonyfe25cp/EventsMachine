@@ -43,8 +43,12 @@ public class EventService {
 
 	private List<Event> getEventListTimeConstrain(Page page, int year, int month, int day) {
 		String time = year+"-"+"-"+month+"-"+day;
-		List<Event> events = eventMapper.getEventListSelectWhat(page, time);
+		List<Event> events = getEventListSelectWhat(page, time, null);
 		return events;
+	}
+	
+	public List<Event> getEventListSelectWhat(Page page, String updateAt, String keyword){
+		return eventMapper.getEventListSelectWhat(page, updateAt, keyword);
 	}
 
 	public List<Event> getEventListSimply(Page page) {

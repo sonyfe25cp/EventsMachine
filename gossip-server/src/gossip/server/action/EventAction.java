@@ -49,6 +49,7 @@ public class EventAction {
 		}
 		return new ModelAndView("/event/event-list").addObject("events", events).addObject("sort", sort);
 	}
+	
 	@RequestMapping(value = "/event/{id}.html")
 	public ModelAndView getEventById2(@PathVariable int id){
 		Event event =  eventService.getEventById(id);
