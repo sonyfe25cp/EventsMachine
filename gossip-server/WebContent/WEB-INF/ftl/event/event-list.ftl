@@ -28,29 +28,11 @@
 					</span></a>
 				<p/>
 			</div>
-			<#list events as event>
-				<div class="jumbotron">
-					<h3>
-						<a href="/event/${event.id}.html">${event.title}</a>
-					</h3>
-					<#include "/event/event-meta.ftl">
-				</div>
-			</#list>
-			<ul class="pagination">
-			  <li><a href="#">&laquo;</a></li>
-			  <li><a href="#">1</a></li>
-			  <li><a href="#">2</a></li>
-			  <li><a href="#">3</a></li>
-			  <li><a href="#">&raquo;</a></li>
-			</ul>
+			<#include "/event/event-list-partial.ftl">
 		</div>
 		<div class="col-md-3">
-			<div>
-				<h3>今日热门词语</h3>
-			</div>
+			<#include "/event/event-list-right-partial.ftl">
 		</div>
 	</div>
 </div>
-	
-	
 <#include "/common/template-bottom.ftl">
