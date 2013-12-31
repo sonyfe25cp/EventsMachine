@@ -95,3 +95,5 @@ create table similarityCache(
 	similarity double,
 	cacheType varchar(200)
 )
+select id, createAt, updateAt from event;
+ alter table event change create_time createAt date;
