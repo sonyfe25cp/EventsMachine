@@ -14,8 +14,11 @@
 					<#if keyword??>
 						关键词包含 ${keyword}
 					</#if>
-					<#if time??>
-						发生在 ${time} 
+					<#if createAt??>
+						发生在 ${createAt} 
+					</#if>
+					<#if updateAt??>
+						在 ${updateAt} 更新 
 					</#if>
 					的事件
 				</legend>

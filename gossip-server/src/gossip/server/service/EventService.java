@@ -47,8 +47,8 @@ public class EventService {
 		return events;
 	}
 	
-	public List<Event> getEventListSelectWhat(Page page, String updateAt, String keyword){
-		return eventMapper.getEventListSelectWhat(page, updateAt, keyword);
+	public List<Event> getEventListSelectWhat(Page page, String createAt, String updateAt, String keyword){
+		return eventMapper.getEventListSelectWhat(page, createAt, updateAt, keyword);
 	}
 
 	public List<Event> getEventListSimply(Page page) {

@@ -62,8 +62,11 @@
    <select id="getEventListSelectWhat" resultMap="eventResultMap">
    	 select * from event 
    	 	<where>
+   	 		<if test="createAt != null">
+	   	 		createAt = #{createAt}
+	   	 	</if>
 	   		<if test="updateAt != null">
-	   	 		updateAt = #{updateAt}
+	   	 		and updateAt = #{updateAt}
 	   	 	</if>
 		   	<if test="keyword != null">
 		   		and keywords like "%"#{keyword}"%"

@@ -7,13 +7,13 @@
 </p>
 <small>
 	<#if event.startedLocation??>
-		<strong>发生地点:</strong> ${event.startedLocation}
+		<strong>发生地点:</strong> <a href="/q?keyword=${event.startedLocation}">${event.startedLocation}</a>
 	&nbsp;
 	</#if>
-	<strong>发生时间:</strong> ${event.createAt?date}
+	<strong>发生时间:</strong> <a href="/q?createAt=${event.createAt?date}">${event.createAt?date}</a>
 	&nbsp;
 	<#if event.updateAt??>
-		<strong>更新时间:</strong> ${event.updateAt?date}
+		<strong>更新时间:</strong> <a href="/q?updateAt=${event.updateAt?date}">${event.updateAt?date}</a>
 	&nbsp;
 	</#if>
 	<#if event.importantPeople??>
