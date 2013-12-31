@@ -27,7 +27,11 @@ public interface EventMapper {
 	
 	public void deleteEventById(int id);
 	
-	public List<Event> getEventRanking(Page page);
+//	public List<Event> getEventRanking(Page page);
 	
+	//importance || time
+	public List<Event> getEventListOrderByWhat(@Param("page")Page page, @Param("orderType") String orderType);
+	
+	public List<Event> getEventListSelectWhat(@Param("page") Page page, @Param("updateAt") String updateAt);
 
 }

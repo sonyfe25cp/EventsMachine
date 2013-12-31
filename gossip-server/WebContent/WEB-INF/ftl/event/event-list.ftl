@@ -8,11 +8,24 @@
 	<div class="row">
 		<div class="col-md-9">
 			<div>
-				<span class="label label-success">
-					重要程度排序
-				</span>
+				<a href="/events.html?sort=importance">
+					<#if (!sort??) || sort == 'importance'>
+						<span class="label label-success">
+					<#else>
+						<span class="label label-default">
+					</#if>
+						重要程度排序
+					</span>
+				</a>
 				&nbsp;
-				<span class="label label-default">时间降序</span>
+				<a href="/events.html?sort=time">
+					<#if sort?? && sort == 'time'>
+						<span class="label label-success">
+					<#else>
+						<span class="label label-default">
+					</#if>
+						时间降序
+					</span></a>
 				<p/>
 			</div>
 			<#list events as event>

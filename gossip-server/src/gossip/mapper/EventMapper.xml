@@ -49,7 +49,21 @@
 	  <result property="updateAt" column="updateAt"/>
 	  <result property="importantPeople" column="importantPeople"/>
 	</resultMap>
-	<select id = "getEventRanking" resultMap="eventResultMap">
-        select * from event order by recommended desc limit #{numBegin},#{pageSize}
+	<select id = "getEventListOrderByWhat" resultMap="eventResultMap">
+        select * from event 
+        <if test="orderType == 'importance'">
+        order by recommended	
+        </if>
+        <if test="orderType == 'time'">
+        order by updateAt
+        </if>
+        desc limit #{page.numBegin},#{page.pageSize}
+   </select>
+   <select id="getEventListSelectWhat" resultMap="eventResultMap">
+   	 select * from event 
+   	 <if test="updateAt != null">
+   	 	where updateAt = #{updateAt}
+   	 </if>
+   	 limit #{page.numBegin},#{page.pageSize}
    </select>
 </mapper>

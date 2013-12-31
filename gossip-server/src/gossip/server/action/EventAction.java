@@ -34,11 +34,20 @@ public class EventAction {
 	}
 	@RequestMapping(value = "/events.html")
 	public ModelAndView eventList(
+			@RequestParam(value="sort", required = false, defaultValue = "importance") String sort,
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
 			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit
 			){
-		List<Event> events = eventService.getEventListSimply(new Page(pageNo, limit));
-		return new ModelAndView("/event/event-list").addObject("events", events);
+		
+		List<Event> events = null;
+		if(sort.equals(Event.Importance)){
+			events = eventService.getEventListByRanking(new Page(pageNo, limit));
+		}else if(sort.equals(Event.Time)){
+			events = eventService.getEventListByTimeDesc(new Page(pageNo, limit));
+		}else{
+			events = eventService.getEventListSimply(new Page(pageNo, limit));
+		}
+		return new ModelAndView("/event/event-list").addObject("events", events).addObject("sort", sort);
 	}
 	@RequestMapping(value = "/event/{id}.html")
 	public ModelAndView getEventById2(@PathVariable int id){

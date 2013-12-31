@@ -1,12 +1,9 @@
 package gossip.server.action;
 
-import java.util.List;
-
-import gossip.mapper.Page;
 import gossip.model.Event;
 import gossip.server.service.EventService;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +26,9 @@ public class SearchAction {
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit
 			){
 		System.out.println("queryWords:  " + queryWords + "pageNo: " + pageNo );
-		return eventService.getEventList(new Page(pageNo, limit), 0, 1, 1);
+		
+		return null;
+		
 	}
 	
 

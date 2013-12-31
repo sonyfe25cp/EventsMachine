@@ -76,6 +76,9 @@ public class Event implements Serializable {
 	public String importantPeople;//重要人物
 	
 	
+	public static final String Importance = "importance";
+	public static final String Time = "time";
+	
 	/**
 	 * @return 返回新闻在索引的id的列表，该列表里面的新闻是已经排过序的
 	 */

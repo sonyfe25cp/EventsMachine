@@ -41,30 +41,29 @@ public class EventService {
 		return event;
 	}
 
-	public List<Event> getEventList(Page page, int year, int month,
-			int day) {
-		if (year != 0) {
-			return getEventListTimeConstrain(page, year, month, day);
-		} else {
-			return getEventListSimply(page);
-		}
-	}
-
-	private List<Event> getEventListTimeConstrain(Page page,	int year, int month, int day) {
-		return null;
+	private List<Event> getEventListTimeConstrain(Page page, int year, int month, int day) {
+		String time = year+"-"+"-"+month+"-"+day;
+		List<Event> events = eventMapper.getEventListSelectWhat(page, time);
+		return events;
 	}
 
 	public List<Event> getEventListSimply(Page page) {
-		return getEventRanking(page);
+		return getEventListByRanking(page);
 	}
+	
+	public List<Event> getEventListByTimeDesc(Page page){
+		List<Event> events = eventMapper.getEventListOrderByWhat(page, Event.Time);
+		return events;
+	}
+	
 
 	/**
 	 * 从数据库里面读出按照recommeded排序的event，并且将id和排序号放入jsonObj
 	 * 
 	 * @return <ranking, event-id>...
 	 */
-	public List<Event> getEventRanking(Page page) {
-		List<Event> events = eventMapper.getEventRanking(page);
+	public List<Event> getEventListByRanking(Page page) {
+		List<Event> events = eventMapper.getEventListOrderByWhat(page, Event.Importance);
 		return events;
 	}
 	
