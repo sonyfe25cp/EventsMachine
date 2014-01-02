@@ -43,7 +43,7 @@ public class EventService {
 
 	private List<Event> getEventListTimeConstrain(Page page, int year, int month, int day) {
 		String time = year+"-"+"-"+month+"-"+day;
-		List<Event> events = getEventListSelectWhat(page, time, null);
+		List<Event> events = getEventListSelectWhat(page, time,null, null);
 		return events;
 	}
 	
