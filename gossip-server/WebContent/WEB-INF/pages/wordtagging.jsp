@@ -31,15 +31,18 @@
              <button id = "abort-word" class = "btn-large">放弃</button>
         </div>
      </div>
-     <div class="page-footer" style="margin-top:60px;">
-         <p style="font-size:40px;">说明：</p>
+     <div style="margin-top:3px;"><p style="font-size:15px;">上述词语表述中，“|”前面为关键词，“|”后面为该词的词性标注，其中以“n”开头的为名词，以“v”开头的为动词，
+         标注过程中，主要考虑这两种词性的词语。具体词性对照表见该页面最后的表格。</p></div>
+     <div class="page-footer" style="margin-top:40px;">
+         <p style="font-size:40px;"><strong>举例说明：</strong></p>
          <br>
-         <p style="font-size:20px;line-height:35px;">&nbsp &nbsp &nbsp 1）上述词语表述中，“|”前面为关键词，“|”后面为该词的词性标注，其中以“n”开头的为名词，以“v”开头的为动词，
-         标注过程中，主要考虑这两种词性的词语。具体词性对照表见该页面最后的表格。</p>
-         <p style="font-size:20px;line-height:35px;">&nbsp &nbsp &nbsp 2）此标注系统标注的中文词语将用于中文<strong>新闻网页的聚类、自动摘要生成和新闻查询</strong>等功能模块，因此在进行标注时，可以从
-         这三个方面考虑词语的适用性，例如，如果网页中显示的词语可能出现在新闻标题中或者词语可能作为某个新闻的关键词，如<strong>“食品安全”、“中标率”、
-         “亚太经合组织”</strong>等，则需要“保留”该词，如果词语对新闻的区分度不大，如<strong>“头昏眼花”、“小数点”、“小毛头”</strong>等词，则可以考虑“放弃”该词。</p>
-     </div>
+         <p style="font-size:20px;line-height:35px;">1）诸如<strong>“食品安全”、“中标率”、
+         “亚太经合组织”</strong>等名词很可能是某条新闻的关键词，可以考虑<strong>保留</strong>。</p>
+         <p style="font-size:20px;line-height:35px;">2）诸如<strong>“吸毒”、“哄抢”、
+         “受贿”</strong>等区分性很强的动词，也可以选择<strong>保留</strong>。</p>
+         <p style="font-size:20px;line-height:35px;">3）对于像<strong>“小毛头”、“二招”、
+         “头昏眼花”、“该厂”、“十点”</strong>等没有区分性甚至不是词语的词组可以考虑<strong>放弃</strong>。</p>
+         <p style="font-size:20px;line-height:35px;">4）对于自己不能确定是否有用的词组，可以选择<strong>跳过</strong>。</p>
 		<div id="cingxing" style="margin-top:50px;border-top:2px solid #AAA;">
 		    <br>
 		    <p style="font-size:40px;">汉语词性对照表：</p>

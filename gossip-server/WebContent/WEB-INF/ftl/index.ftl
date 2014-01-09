@@ -32,6 +32,7 @@
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
       </ol>
       <div class="carousel-inner">
         <div class="item active">
@@ -41,6 +42,16 @@
               <h1>事件发现</h1>
               <p>本功能将近期发生的新闻进行事件归纳，按照不同的事件进行划分。</p>
               <p><a class="btn btn-lg btn-primary" href="/events.html" role="button">看看事件</a></p>
+            </div>
+          </div>
+        </div>
+         <div class="item">
+          <img src="/images/slide-02.jpg">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>新闻检索</h1>
+              <p>本模块实现了新闻检索功能，用户可以输入检索词对相关新闻进行搜索，同时该模块中加入了查询扩展功能提高查询准确度</p>
+              <p><a class="btn btn-lg btn-primary" href="/search" role="button">我要搜索</a></p>
             </div>
           </div>
         </div>

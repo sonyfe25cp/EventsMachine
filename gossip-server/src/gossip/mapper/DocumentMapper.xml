@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gossip.mapper.DocumentMapper">
+
+   <select id="getDocumentById" parameterType="int" resultType="Document">
+		select * from document where id = #{id}
+	</select>
+	
+	<select id="getAllDocuments" resultType="Document">
+		select * from document
+	</select>
+	
+	<select id="getDocumentsByIds" resultType="Document">
+		select * from document where id in
+		<foreach collection="idArray" item="id"  open="(" separator="," close=")">  
+	        #{id}  
+	    </foreach>
+	</select>
+	
+	<select id="getAllWordsCount" resultType="int">
+		select coalesce(sum(totalwordscount),0) from document
+	</select>
+	
+</mapper>

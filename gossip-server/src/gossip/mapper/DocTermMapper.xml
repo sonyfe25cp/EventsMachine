@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gossip.mapper.DocTermMapper">
+
+   <select id="getDocTermByName" parameterType="String" resultType="DocTerm">
+		select * from docterm where keyword = #{keyword}
+	</select>
+	
+	<select id="getAllTerms" resultType="DocTerm">
+		select * from docterm
+	</select>
+	
+	<select id="getDocTermsByName" resultType="DocTerm">
+		select * from docterm where keyword in
+		<foreach collection="keywordArray" item="keyword"  open="(" separator="," close=")">  
+	        #{keyword}  
+	    </foreach>
+	</select>
+	
+</mapper>

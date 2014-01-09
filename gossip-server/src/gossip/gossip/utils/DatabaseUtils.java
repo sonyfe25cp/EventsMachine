@@ -22,7 +22,7 @@ public class DatabaseUtils {
 
 	static String driver = "com.mysql.jdbc.Driver";
 	static String dbUser = "root";
-	static String dbPassword = "";
+	static String dbPassword = "123iop";
 	static String dbUrl = "jdbc:mysql://localhost:3306/gossip";
 
 	public static DataSource getInstance() {

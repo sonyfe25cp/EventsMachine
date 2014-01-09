@@ -51,6 +51,61 @@ public class TokenizerUtils {
 		}
 		
 	}
+	
+	public static boolean  wordFilter(String word) {
+		// 去掉空格
+		word = word.replaceAll("\\s{1,}", "");
+		//去掉数字和特殊字符
+		if ((!isChinese(word)) && (!isEnglish(word))) {
+			return false;
+		}
+		// 去掉停用词
+		if (stopwords.contains(word)) {
+			return false;
+		}
+		//去掉单字和特殊字符
+		if(word.trim().length() == 1){
+			return false;
+		}
+		return true;
+	}
+	
+	/* 以下两个函数都是判断字符串类型的函数，在扩展词的过滤中用到 */
+
+	private static final boolean isChinese(char c) {
+		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+		if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+				|| ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+				|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+				|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+				|| ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+				|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+			return true;
+		}
+		return false;
+	}
+
+	/* 准确判断字符串是否为中文 */
+	public static final boolean isChinese(String strName) {
+		strName = strName.replaceAll("\\s{1,}", "");
+		char[] ch = strName.toCharArray();
+		for (int i = 0; i < ch.length; i++) {
+			char c = ch[i];
+			if (!isChinese(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean isEnglish(String str) {
+		return str.replaceAll("\\s{1,}", "").matches("[a-zA-Z]");
+	}
+
+	// 判断字符串为数字
+	public static boolean isNum(String str) {
+		return str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$");
+	}
 
 	public static String[] tokenizerUnique(String[] terms){
 		HashSet<String> set = new HashSet<String>();
@@ -76,7 +131,7 @@ public class TokenizerUtils {
 	public static HashSet<String> getStopWords(){
 		HashSet<String> set = new HashSet<String>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File("/Users/omar/workspace/mavenworkspace/EventsMachine/gossip-server/conf/stopwords")));
+			BufferedReader br = new BufferedReader(new FileReader(new File("conf/stopwords")));
 			String line = null;
 			while(( line = br.readLine())!=null){
 				set.add(line);

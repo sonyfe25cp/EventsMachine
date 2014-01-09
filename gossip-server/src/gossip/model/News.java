@@ -51,17 +51,17 @@ public class News {
 		return sb.toString();
 	}
 	
-//	public static News fromDocument(Document doc){
-//		News news = new News();
-//		
-//		String title = doc.get("title");
-//		news.setTitle(title);
-//		
-//		String crawlat = doc.get("crawlat");
-//		news.setCrawlAt(crawlat);
-//		
-//		return news;
-//	}
+	public static News fromDocument(Document doc){
+		News news = new News();
+		
+		String title = doc.get("title");
+		news.setTitle(title);
+		
+		String crawlat = doc.get("crawlat");
+		news.setCrawlAt(crawlat);
+		
+		return news;
+	}
 	
 	public String toString(){
 		return "title:"+title+"\n"+"crawlat:"+crawlAt+"\n";
