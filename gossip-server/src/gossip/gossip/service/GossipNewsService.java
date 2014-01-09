@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class GossipNewsService {
 	@Autowired
 	private NewsMapper newsMapper;
+	@Autowired
+	private GossipSimCompute gossipSimCompute;
 	
 	public News getNewsById(int id){
 		return newsMapper.getNewsById(id);
@@ -24,17 +26,16 @@ public class GossipNewsService {
 	private double lambda = 0.5;
 
 	public double compairNews(News n1, News n2){
-		return GossipSimCompute.cosineSim(n1, n2);
+		return gossipSimCompute.cosineSim(n1, n2);
 	}
 	
 	public boolean isSimilar(News n1, News n2){
-		double sim = GossipSimCompute.cosineSim(n1, n2);
+		double sim = gossipSimCompute.cosineSim(n1, n2);
 		if(sim > lambda){
 			return true;
 		}else
 			return false;
 	}
-	
 	
 	public List<News> getNewsLast7Days(Date date){
 		

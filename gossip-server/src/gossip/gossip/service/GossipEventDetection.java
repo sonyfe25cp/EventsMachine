@@ -2,6 +2,7 @@ package gossip.gossip.service;
 
 import gossip.model.Event;
 import gossip.model.News;
+import gossip.model.SimilarityCache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class GossipEventDetection {
 	private static final double lambda = 0.5;//yuzhi
+	
+	@Autowired
+	private GossipSimCompute gossipSimCompute;
+	
+	@Autowired
+	private GossipSimilarityCacheService gossipSimilarityCacheService;
 	
 	/**
 	 * if a sim b > lambda , a b belong to same event
@@ -19,19 +30,36 @@ public class GossipEventDetection {
 	 * @param newsList
 	 * @return
 	 */
-	public static List<Event> simpleDetect(List<News> newsList){
+	public List<Event> simpleDetect(List<News> newsList){
 		Map<Integer, Integer> mark = new HashMap<Integer, Integer>();//新闻所在的事件号，news.id : event.id
 		Map<Integer, Event> eventStore = new HashMap<Integer, Event>();//事件的序号，1-n 与新闻号无关
 		int storeCount = 0;
 		
 		for(int i = 0; i < newsList.size(); i++){
 			News n1 = newsList.get(i);
-			if(n1.getId() == 199782){
-				System.out.println("a");
-			}
+			int id1 = n1.getId();
+			Map<String, SimilarityCache> newsSimilarityCache = gossipSimilarityCacheService.getSimilarityCacheMapByPartIdAndCacheType(id1, SimilarityCache.News);
+			System.out.println("computing the news : "+n1.getId());
 			for(int j = i+1; j < newsList.size(); j++){
 				News n2 = newsList.get(j);
-				double sim = GossipSimCompute.cosineSim(n1, n2);
+				int id2 = n2.getId();
+				
+				double sim = 0;
+				/**
+				 * 缓存n1计算过的所有结果
+				 */
+				String pair = SimilarityCache.generatePair(id1, id2);
+				if(newsSimilarityCache != null){
+					SimilarityCache cache = newsSimilarityCache.get(pair);
+					if(cache != null){
+						sim = cache.getSimilarity();
+					}else{
+						sim = gossipSimCompute.cosineSim(n1, n2);
+					}
+				}else{
+					sim = gossipSimCompute.cosineSim(n1, n2);
+				}
+				
 				if(sim > lambda){
 					//n1与n2相似
 					//step1 找出n1所在的事件
@@ -57,7 +85,6 @@ public class GossipEventDetection {
 					}
 				}
 			}
-			System.out.println("computing the news : "+n1.getId());
 		}
 		List<Event> events = new ArrayList<Event>();
 		for(Entry<Integer, Event> entry : eventStore.entrySet()){

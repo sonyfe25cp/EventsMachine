@@ -16,10 +16,12 @@ import org.ansj.splitWord.analysis.ToAnalysis;
  * step2. 判断地点词的可能性,数量最多的就是
  * @author ChenJie
  *
+ * 功能过于单一，由{EventEntityRecognitionHandler}代为实现
+ *
  * Nov 13, 2013
  */
+@Deprecated
 public class EventLocationHandler implements Handler{
-
 
 	@Override
 	public void handle(Event event) {
@@ -61,9 +63,6 @@ public class EventLocationHandler implements Handler{
         System.out.println(terms);
         for(Term term : terms){
         	if(term.getNatrue().natureStr.equalsIgnoreCase("ns")){
-        		if(locations == null){
-        			
-        		}
         		String name = term.getName();
         		Integer count = locations.get(name);
         		if(count == null){

@@ -28,7 +28,7 @@ public class EventModifyAction {
 			@RequestParam(value="pageNo", required=false, defaultValue="0") int pageNo,
 			@RequestParam(value="pageSize", required=false, defaultValue="15") int pageSize
 			){
-		List<Event> events = eventService.getEventRanking(new Page(pageNo, pageSize));
+		List<Event> events = eventService.getEventListSimply(new Page(pageNo, pageSize));
 		
 		return new ModelAndView("/admin/event-list").addObject("events", events).addObject("pageNo", pageNo);
 	}

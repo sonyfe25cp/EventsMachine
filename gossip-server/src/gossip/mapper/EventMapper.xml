@@ -3,13 +3,30 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gossip.mapper.EventMapper">
 	<select id="insert" parameterType="Event">
-		insert into event(title, recommended, img, keywords, pages, create_time, started_location, content_abstract)
-			values(
-				#{title}, #{recommended}, #{img}, #{keyWords}, #{pages}, #{createAt}, #{startedLocation}, #{desc}
+		insert into event(
+			title, recommended, img, keywords, pages, create_time, updateAt
+			started_location, content_abstract, importantPeople
+		)
+		values(
+			#{title}, #{recommended}, #{img}, #{keyWords}, #{pages}, #{createAt}, #{updateAt},
+			#{startedLocation}, #{desc}, #{importantPeople}
+		)
+	</select>
+	<select id="batchInsert" parameterType="List">
+		insert into event(
+			title, recommended, img, keywords, pages, create_time, updateAt,
+			started_location, content_abstract, importantPeople
+		)
+		values
+			<foreach collection="eventList" item="event" separator=",">
+			(
+				#{event.title}, #{event.recommended}, #{event.img}, #{event.keyWords}, #{event.pages}, #{event.createAt}, #{event.updateAt}, 
+				#{event.startedLocation}, #{event.desc}, #{event.importantPeople}
 			)
+			</foreach>
 	</select>
 	<update id="update" parameterType="Event">
-		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{pages},
+		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{pages}, importantPeople = #{importantPeople}
 		started_location = #{startedLocation}, content_abstract = #{desc}, updateAt = #{updateAt} where id = #{id}
 	</update>
 	<select id="getEventsAfterDate" parameterType="String" resultMap="eventResultMap">
@@ -30,8 +47,33 @@
 	  <result property="desc" column="content_abstract"/>
 	  <result property="createAt" column="create_time"/>
 	  <result property="updateAt" column="updateAt"/>
+	  <result property="importantPeople" column="importantPeople"/>
 	</resultMap>
-	<select id = "getEventRanking" resultMap="eventResultMap">
-        select * from event order by recommended desc limit #{numBegin},#{pageSize}
+	<select id = "getEventListOrderByWhat" resultMap="eventResultMap">
+        select * from event 
+        <if test="orderType == 'importance'">
+        order by recommended	
+        </if>
+        <if test="orderType == 'time'">
+        order by updateAt
+        </if>
+        desc limit #{page.numBegin},#{page.pageSize}
+   </select>
+   <select id="getEventListSelectWhat" resultMap="eventResultMap">
+   	 select * from event 
+   	 	<where>
+   	 		<if test="createAt != null">
+	   	 		createAt = #{createAt}
+	   	 	</if>
+	   		<if test="updateAt != null">
+	   	 		and updateAt = #{updateAt}
+	   	 	</if>
+		   	<if test="keyword != null">
+		   		and keywords like "%"#{keyword}"%"
+		   	</if>
+   	 	</where>
+   	 <if test="page !=null">
+	   	 limit #{page.numBegin},#{page.pageSize}
+   	 </if>
    </select>
 </mapper>

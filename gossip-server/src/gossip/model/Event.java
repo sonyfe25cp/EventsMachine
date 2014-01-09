@@ -52,6 +52,7 @@ public class Event implements Serializable {
 		for(News news : nList){
 			this.getNewsList().add(news);
 		}
+		this.updateAt = event.getUpdateAt();
 	}
 	
 	
@@ -72,7 +73,11 @@ public class Event implements Serializable {
 	public String startedLocation;
 	public Date createAt;//创建时间 20131101
 	public Date updateAt;
+	public String importantPeople;//重要人物
 	
+	
+	public static final String Importance = "importance";
+	public static final String Time = "time";
 	
 	/**
 	 * @return 返回新闻在索引的id的列表，该列表里面的新闻是已经排过序的
@@ -363,6 +368,14 @@ public class Event implements Serializable {
 		// JSONObject jsonObj = JSONObject.fromObject(e);
 		// System.out.println(jsonObj);
 		// System.out.println(Event.fromJSONObject(jsonObj));
+	}
+
+	public String getImportantPeople() {
+		return importantPeople;
+	}
+
+	public void setImportantPeople(String importantPeople) {
+		this.importantPeople = importantPeople;
 	}
 
 }

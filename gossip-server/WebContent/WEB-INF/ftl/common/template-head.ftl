@@ -7,6 +7,7 @@
 		<!-- basic styles -->
 		<link href="/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="/css/font-awesome.min.css" />
+		<script src="/js/jquery-1.8.2.js"></script>
 		<!--[if IE 7]>
 		  <link rel="stylesheet" href="/css/font-awesome-ie7.min.css" />
 		<![endif]-->

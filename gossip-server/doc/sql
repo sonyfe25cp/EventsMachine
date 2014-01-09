@@ -88,4 +88,12 @@ create table gossip.hotKeywords(
 	termName varchar(50) primary key,
 	hotValue double DEFAULT 0
 	);	
-	
+
+create table similarityCache(
+	id int auto_increment primary key,
+	pair varchar(200),
+	similarity double,
+	cacheType varchar(200)
+)
+select id, createAt, updateAt from event;
+ alter table event change create_time createAt date;
