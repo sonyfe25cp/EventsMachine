@@ -51,7 +51,7 @@
             <div class="carousel-caption">
               <h1>新闻检索</h1>
               <p>本模块实现了新闻检索功能，用户可以输入检索词对相关新闻进行搜索，同时该模块中加入了查询扩展功能提高查询准确度</p>
-              <p><a class="btn btn-lg btn-primary" href="/search" role="button">我要搜索</a></p>
+              <p><a class="btn btn-lg btn-primary" href="/news-search" role="button">我要搜索</a></p>
             </div>
           </div>
         </div>

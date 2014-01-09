@@ -40,7 +40,7 @@ public class UserAction {
 	 * 注册成功：{"status":"true"}
 	 * 注册失败：{"status":"false"}
 	 */
-	@RequestMapping(value="/register", method=RequestMethod.POST)
+	@RequestMapping(value="/register", method=RequestMethod.GET)
 	@ResponseBody
 	public JSONObject register(
 			@RequestParam("username") String username,
@@ -67,7 +67,7 @@ public class UserAction {
 	 * 登陆成功：{"status":"true","info":{"name":"","role":"","last_login_time":"","last_login_ip":""}}
 	 * 登录失败：{"status":"false","info":"错误信息"}
 	 */
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.GET)
 	@ResponseBody
 	public JSONObject login(
 			@RequestParam("username") String username,
@@ -115,7 +115,7 @@ public class UserAction {
 	 * 用户注销
 	 * @param session
 	 */
-	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	@ResponseBody
 	public void logout(HttpSession session) {
 		if(session.getAttribute("currentUser") != null) {
@@ -130,7 +130,7 @@ public class UserAction {
 	 * 用户存在：{"status":"false","info":"用户已存在"}
 	 * 用户不存在：{"status":"true"}
 	 */
-	@RequestMapping(value="/verifyUsername", method=RequestMethod.POST)
+	@RequestMapping(value="/verifyUsername", method=RequestMethod.GET)
 	@ResponseBody
 	public JSONObject verifyUsername(
 			@RequestParam("username") String username) {
@@ -152,7 +152,7 @@ public class UserAction {
 	 * email存在：{"status":"false","info":"email已存在"}
 	 * email不存在：{"status":"true"}
 	 */
-	@RequestMapping(value="/verifyEmail", method=RequestMethod.POST)
+	@RequestMapping(value="/verifyEmail", method=RequestMethod.GET)
 	@ResponseBody
 	public JSONObject verifyEmail(
 			@RequestParam("email") String email) {

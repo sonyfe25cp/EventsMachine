@@ -1,4 +1,4 @@
-package gossip.gossip.action;
+package gossip.server.action;
 
 import gossip.gossip.service.UserSearchService;
 import gossip.model.News;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class SearchAction {
+public class NewsSearchAction {
 	
 	@Autowired
 	private NewsService newsService;
@@ -24,13 +24,13 @@ public class SearchAction {
 	
 	
 	//跳转到搜索界面
-	@RequestMapping(value = "/search")
+	@RequestMapping(value = "/news-search")
 	public ModelAndView toSearch(){
 		ModelAndView mav = new ModelAndView("/search/search");
 		return mav;
 	}
 	
-	@RequestMapping(value= "/q")
+	@RequestMapping(value= "/news-q")
 	public ModelAndView search(
 			@RequestParam(value = "queryWords", required = true) String queryWords
 			){

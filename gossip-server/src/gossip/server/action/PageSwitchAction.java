@@ -43,6 +43,16 @@ public class PageSwitchAction {
 		return "/common/member";
 	}
 	
+	@RequestMapping("/user-login")
+	public String login(){
+		return "/common/login";
+	}
+	
+	@RequestMapping("/user-register")
+	public String register(){
+		return "/common/register";
+	}
+	
 	@RequestMapping("/readme")
 	public String readme(){
 		return "/common/readme";

@@ -18,7 +18,7 @@ function toPage(pageNo){
 	    contentType: "application/json; charset=utf-8",
 	    url:"/events?pageNo=" + pageNo,
 	    dataType: "json",
-	    anysc: false,
+	    async: false,
 	    success: function(result) {
 	    	display(result);
 	    }

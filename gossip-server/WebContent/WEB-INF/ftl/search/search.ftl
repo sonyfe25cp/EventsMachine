@@ -6,7 +6,7 @@
 		  <li class="active">新闻搜索</li>
 		</ol>
 		<div class ="jumbotron" style="text-align:center">
-		   <form action = "/q">
+		   <form action = "/news-q">
 		     <div style="text-align:center">
 		       <span style="display: inline-block;vertical-align: top;">
 		          <input type = "text" name = "queryWords" id = "kw" maxlength = "100" autocomplete = "off" style="font-size:18px;height:35px;width:397px;margin-top:2px;">

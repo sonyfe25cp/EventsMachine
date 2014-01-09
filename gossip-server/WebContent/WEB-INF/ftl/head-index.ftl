@@ -15,6 +15,7 @@
                <li><a href="/members">项目成员</a></li>
                 <li><a href="/framework">技术框架</a></li>
                 <li><a href="/readme">其他说明</a></li>
+                <li><a href="/user-login">用户登录</a></li>
                 <!--
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
