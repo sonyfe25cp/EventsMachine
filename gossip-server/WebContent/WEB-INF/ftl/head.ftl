@@ -11,10 +11,12 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="/">项目介绍</a></li>
-        <li><a href="/members">项目成员</a></li>
-        <li><a href="/framework">技术框架</a></li>
-        <li><a href="/readme">其他说明</a></li>
+        <li><a href="/events.html">事件发现</a></li>
+        <li><a href="/abstract">文本摘要</a></li>
+        <li><a href="/news-search">新闻检索</a></li>
+        <li><a href="/wordtagging">词语标注</a></li>
+        <li><a href="/admin">后台管理</a></li>
+        <li><a href="/user-login">用户登录</a></li>
       </ul>
     </div>
   </div>

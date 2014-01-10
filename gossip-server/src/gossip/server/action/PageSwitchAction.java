@@ -22,7 +22,7 @@ public class PageSwitchAction {
 	//跳转到搜索界面
 	@RequestMapping(value = "/wordtagging")
 	public ModelAndView toWordTagging(){
-		ModelAndView mav = new ModelAndView("wordtagging");
+		ModelAndView mav = new ModelAndView("/wordtag/wordtag");
 		return mav;
 	}
 	

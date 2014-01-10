@@ -5,17 +5,17 @@ $(document).ready(function() {
 		checkEmail();
 	});
 	
-	//检查邮箱
+	//检查用户名
 	$('#username').blur(function(){
 		checkUsername();
 	});
 	
-	//检查邮箱
+	//检查密码
 	$('#password').blur(function(){
 		checkPassword();
 	});
 	
-	//检查邮箱
+	//检查repassword
 	$('#repassword').blur(function(){
 		checkRepassword();
 	});
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			       dataType: "json",
 			       success: function(result) {
 
-			    	   if(result.status == "false") {
+			    	   if(result.status == "true") {
 			    		 alert("注册成功！");
 			    	   }
 			       }
