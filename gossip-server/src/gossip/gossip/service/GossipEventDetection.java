@@ -93,4 +93,13 @@ public class GossipEventDetection {
 		return events;
 	}
 	
+	public List<Event> KMeansDetect(List<News> newsList){//基本的kmeans方法
+		return null;
+	}
+	public List<Event> DBScanDetect(List<News> newsList){//基本的dbscan方法
+		return null;
+	}
+	public List<Event> HDPDetect(List<News> newsList){//HDP方法
+		return null;
+	}
 }
