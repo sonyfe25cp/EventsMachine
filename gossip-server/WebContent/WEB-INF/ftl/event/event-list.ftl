@@ -2,7 +2,7 @@
 <div class="container">
 	<#include "/head.ftl">
 	<ol class="breadcrumb">
-	  <li><a href="/">新闻系统</a></li>
+	  <li><a href="/events.html">新闻系统</a></li>
 	  <li class="active">事件列表</li>
 	</ol>
 	<div class="row">

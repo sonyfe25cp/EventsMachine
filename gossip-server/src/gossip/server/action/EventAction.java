@@ -34,7 +34,7 @@ public class EventAction {
 	}
 	@RequestMapping(value = "/events.html")
 	public ModelAndView eventList(
-			@RequestParam(value="sort", required = false, defaultValue = "importance") String sort,
+			@RequestParam(value="sort", required = false, defaultValue = "time") String sort,
 			@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
 			@RequestParam(value = "limit", required = false, defaultValue = "30") int limit
 			){
