@@ -21,12 +21,17 @@ import org.ansj.domain.Term;
 import org.ansj.recognition.NatureRecognition;
 import org.ansj.splitWord.analysis.ToAnalysis;
 
+/**
+ * 模拟用户查询的过程，得到用户查询词后，先进行分词，然后进行第一次查询，根据BM25得到前20篇文档，然后从这20篇文档中查找扩展词
+ * @author yulong
+ *
+ */
 public class UserSearch {
 	private DataSource dataSource = DatabaseUtils.getInstance();
 	
 	
 	/**
-	 * 
+	 * 检索的过程，先分词，然后使用BM25评分选择前20篇文档，然后进行扩展，再进行第二次检索
 	 * @param query
 	 * @return
 	 */
@@ -62,8 +67,8 @@ public class UserSearch {
 		List<Document> relatedDocs = new ArrayList<Document>();
 		//计算文档的BM25值并排序，返回得分最高的10篇文档
 		relatedDocs = getRelatedDocs(queryTerms, documents);
-		if(relatedDocs.size()>10){
-			relatedDocs = relatedDocs.subList(0, 10);
+		if(relatedDocs.size()>20){
+			relatedDocs = relatedDocs.subList(0, 20);
 		}
 //		System.out.println("第一次检索返回的相关文档集为： ");
 //		for(Document doc : relatedDocs){
@@ -78,7 +83,7 @@ public class UserSearch {
 	
 	
 	/**
-	 * 
+	 * 根据BM25评分得到相关文档
 	 * @param queryTerms
 	 * @param documents
 	 * @return
@@ -128,7 +133,7 @@ public class UserSearch {
 	}
 	
 	/**
-	 * 
+	 * BM25计算公式
 	 * @param tf
 	 * @param dl
 	 * @param avgdl
@@ -233,6 +238,11 @@ public class UserSearch {
 		return docs;
 	}
 	
+	/**
+	 * 得到扩展词以后将包含扩展词的所有文档读出，以便对这些文档进行第二次检索，防止对所有文档检索浪费时间
+	 * @param queryTerms
+	 * @return
+	 */
 	public List<Document> getDocumentsByExpansion(List<DocTerm> queryTerms){
 		System.out.println("开始读取包含查询词的文档");
 		if(queryTerms==null){
@@ -339,7 +349,7 @@ public class UserSearch {
 	}
 	
 	/**
-	 * 
+	 * 第二次检索的过程，检索条件包含初始查询词和扩展词
 	 * @param queryTerm
 	 * @param expansionTerms
 	 * @return
@@ -363,6 +373,11 @@ public class UserSearch {
 		return relatedDocs;
 	}
 
+	/**
+	 * 根据新闻的id读取新闻内容，每次可以读取一系列新闻
+	 * @param newsId
+	 * @return
+	 */
 	public List<News> getNewsFromDB(List<Integer> newsId){
 		System.out.println("从数据库中读取新闻信息");
 		List<News> newsList = new ArrayList<News>();

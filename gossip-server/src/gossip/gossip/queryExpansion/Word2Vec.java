@@ -35,11 +35,26 @@ import org.ansj.domain.Term;
 import org.ansj.recognition.NatureRecognition;
 import org.ansj.splitWord.analysis.ToAnalysis;
 
+/**
+ * 该类主要功能是调用google word2vec工具得到关键词之间的相关性信息，首先需要对文档集分词，将分完的词放到一个txt文档中，词与词之间空格隔开，
+ * 然后将txt文档放到word2vec根目录下，运行 ./word2vec -train resultbig.txt -output vectors.bin -cbow 0 -size 200 -window 5 -negative 0 -hs 1 -sample 1e-3 -threads 12 -binary 1
+ * 命令，具体可参考 博客  http://blog.csdn.net/memray/article/details/12560815的内容
+ * 
+ * @author yulong
+ *
+ */
 public class Word2Vec {
 	
 	private DataSource dataSource;
 	
 	private static HashSet<String> stopwords = TokenizerUtils.getStopWords();
+	
+	private HashMap<String, float[]> wordMap = new HashMap<String, float[]>();  
+	//words和size都表示文档集中分完词后，不重复的词语个数，在loadModel（）方法中用到  
+    private int words;  
+    private int size;  
+    private int topNSize = 40;//返回topNSize个最相关的词  
+    private static final int MAX_SIZE = 50;//读取分词时的最大长度  
 	
 	public static void main(String[] args) throws IOException{
 		Word2Vec w2v = new Word2Vec();
@@ -53,7 +68,7 @@ public class Word2Vec {
 		//System.out.println(w2v.getDistance("北大","北京大学"));
 		System.out.println("One word analysis");  
         Set<WordEntry> result = new TreeSet<WordEntry>();  
-        result = w2v.distance("病死猪");  
+        result = w2v.distance("北京大学");  
         Iterator iter = result.iterator();  
         while (iter.hasNext()) {  
             WordEntry word = (WordEntry) iter.next();  
@@ -71,6 +86,12 @@ public class Word2Vec {
 
 	}
 	
+	/**
+	 * 将从搜狗实验室中下载的两个数据集合并，从搜狗实验室下载的数据集中包含搜狐新闻和搜狗新闻两部分
+	 * @param sougouPath
+	 * @param souhuPath
+	 * @param targetPath
+	 */
 	public void mergeNews(String sougouPath, String souhuPath, String targetPath){
 		BufferedInputStream bis = null;
 		BufferedReader br = null;
@@ -207,7 +228,7 @@ public class Word2Vec {
 	}
 
 	/**
-	 * 将数据库中所有新闻分词并存在文件中
+	 * 将数据库中所有新闻分词并存在文件中，该方法是对gossip中的所有新闻进行分词并存储
 	 */
 	public void getChineseTrain(){
 		String sql = "select body from news";
@@ -274,11 +295,7 @@ public class Word2Vec {
 		}
 	}
 	
-	private HashMap<String, float[]> wordMap = new HashMap<String, float[]>();  
-	  
-    private int words;  
-    private int size;  
-    private int topNSize = 40;  
+
   
     /** 
      * 加载模型 
@@ -326,7 +343,6 @@ public class Word2Vec {
         }  
     }  
   
-    private static final int MAX_SIZE = 50;  
   
     /** 
      * 得到近义词 
