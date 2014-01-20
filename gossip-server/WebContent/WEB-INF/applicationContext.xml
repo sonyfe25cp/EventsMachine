@@ -28,7 +28,7 @@
 		</property>
 		<!-- 确定连接数据库的url -->
 		<property name="url">
-			<value>jdbc:mysql://localhost:3306/gossip</value>
+			<value>jdbc:mysql://localhost:3306/gossip_test</value>
 		</property>
 		<!--确定连接数据库的用户名 -->
 		<property name="username">
