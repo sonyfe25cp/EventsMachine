@@ -29,9 +29,6 @@ public class FeatureCompute {
 			stat = conn.createStatement();
 
 			
-			
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

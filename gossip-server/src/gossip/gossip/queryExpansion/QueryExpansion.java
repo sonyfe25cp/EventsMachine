@@ -26,7 +26,7 @@ public class QueryExpansion {
 	private DataSource dataSource;
 	private int termTotalCountC = 0;//语料集中的词组数
 	private int termTotalCountR = 0;//相关文档集中的词组数
-	private int newsCount = 95786;
+	private int newsCount = 0;
 	private List<Document> relatedDocuments = new ArrayList<Document>();
 	private List<DocTerm> queryTerms = new ArrayList<DocTerm>();//考虑要不要改成map？？？？
 	private List<String> queryWords = new ArrayList<String>();
@@ -71,25 +71,27 @@ public class QueryExpansion {
 			double kld = computeKLD(frequenceInR, frequenceInC, termTotalCountR, termTotalCountC);
 			candidateTerms.get(i).setKld(kld);
 			//实验时先将权值设为kld值
-			candidateTerms.get(i).setWeight(kld);
+			//candidateTerms.get(i).setWeight(kld);
 		}
 		System.out.println("计算kld值结束，按照kld排序并筛选");
 		//对候选扩展词candidateTerms按照kld排序，选出前50个词
 		filterTermByKLD();
 		System.out.println("kld筛选完毕");
 		
-		for(DocTerm exTerm : candidateTerms){
-			System.out.println(exTerm.getWords()+": " + exTerm.getKld());
-		}
-		
 		//对candidateTerms中的候选扩展词计算剩余的特征
 		computerFeatures(queryTerms, candidateTerms);
-		//按照权值排序，并返回前10个词
-		orderByWeight(candidateTerms);
+		//按照权值排序，并返回前20个词
+		orderByWeight();
+		for(DocTerm exTerm : candidateTerms){
+			System.out.println(exTerm.getWords()+": " + exTerm.getWeight());
+		}
 		return candidateTerms;
 	}
 	
-	public void orderByWeight(List<DocTerm> candidateTerms){
+	/**
+	 * 按照权值的大小进行排序
+	 */
+	public void orderByWeight(){
 		Collections.sort(candidateTerms, new Comparator<DocTerm>(){
 			public int compare(DocTerm term1, DocTerm term2){
 				if(term1.getWeight() < term2.getWeight())
@@ -100,10 +102,9 @@ public class QueryExpansion {
 					return 0;
 			}
 		});
-		if(candidateTerms.size()>10){
-			candidateTerms = candidateTerms.subList(0, 9);
+		if(candidateTerms.size()>20){
+			candidateTerms = candidateTerms.subList(0, 20);
 		}
-		//对weight进行归一化
 	}
 	
 	/**
@@ -274,7 +275,23 @@ public class QueryExpansion {
 			}
 		});
 		if(candidateTerms.size()>50){
-			candidateTerms = candidateTerms.subList(0, 49);
+			candidateTerms = candidateTerms.subList(0, 50);
+		}
+		//归一化
+		double min = 0, max = 0;
+		for(DocTerm term : candidateTerms){
+			if(term.getKld()>max){
+				max = term.getKld();
+			}
+			if(term.getKld()<min){
+				min = term.getKld();
+			}
+		}
+		for(DocTerm term : candidateTerms){
+			double kld = 0.0;
+			kld = (term.getKld() - min)/(max - min);
+			term.setKld(kld);
+			term.setWeight(kld);
 		}
 	}
 	
@@ -374,22 +391,27 @@ public class QueryExpansion {
 		Statement stat = null;
 		ResultSet rs = null;
 			
-			//初始化整个文档集的词语数量
-			String termCountC = "select sum(totalwordscount) as totalcount from document";
-			try{
-				conn = dataSource.getConnection();
-				stat = conn.createStatement();
-				rs = stat.executeQuery(termCountC);
-				if(rs.next()){
-					termTotalCountC = rs.getInt("totalcount");
-				}
-				
-				conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			System.out.println("初始化完毕");
+		//初始化整个文档集的词语数量和新闻的数量
+		String termCountC = "select sum(totalwordscount) as totalcount from document";
+		String newsCountString = "select count(*) as newscount from news";
+		try{
+			conn = dataSource.getConnection();
+			stat = conn.createStatement();
+			rs = stat.executeQuery(termCountC);
+			if(rs.next()){
+				termTotalCountC = rs.getInt("totalcount");
+			}
+			
+			rs = stat.executeQuery(newsCountString);
+			if(rs.next()){
+				newsCount = rs.getInt("newscount");
+			}
+			conn.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		System.out.println("初始化完毕");
 	}
 
 	public DataSource getDataSource() {

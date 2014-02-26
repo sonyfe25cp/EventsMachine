@@ -21,7 +21,8 @@ public class Preprocess {
 	}
 	
 	/**
-	 * 对数据库中的新闻文档进行预处理，去除重复的文档
+	 * 对数据库中的新闻文档进行预处理，去除重复的文档，该方法是根据新闻的标题去重，
+	 * 因为在抓取的新闻原始数据中存在很多标题相同的新闻
 	 */
 	public void removeDuplicateNews(){
 		List<String> titles = new ArrayList<String>();
