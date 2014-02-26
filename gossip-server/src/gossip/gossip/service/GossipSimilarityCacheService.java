@@ -27,25 +27,34 @@ public class GossipSimilarityCacheService {
 	
 	public double getNewsSimilarity(int id1, int id2){
 		
-		String pair = SimilarityCache.generatePair(id1, id2);
+//		String pair = SimilarityCache.generatePair(id1, id2);
 		String type = SimilarityCache.News;
 		
-		return getSimilarityCache(pair, type);
+		return getSimilarityCacheByFSAndType(id1, id2, type);
 	}
 	public double getEventSimilarity(int id1, int id2){
-		String pair = SimilarityCache.generatePair(id1, id2);
-		String type = SimilarityCache.News;
-		return getSimilarityCache(pair, type);
+//		String pair = SimilarityCache.generatePair(id1, id2);
+		String type = SimilarityCache.Event;
+		return getSimilarityCacheByFSAndType(id1, id2, type);
 	}
 	
-	private double getSimilarityCache(String pair, String type){
-		SimilarityCache cache = similarityCacheMapper.getSimilarityCacheByPairAndType(pair, type);
+	private double getSimilarityCacheByFSAndType(int first, int second, String type){
+		SimilarityCache cache = similarityCacheMapper.getSimilarityCacheByFSAndType(first, second, type);
 		if(cache != null){
 			return cache.getSimilarity();
 		}else{
 			return 0;
 		}
 	}
+	
+//	private double getSimilarityCache(String pair, String type){
+//		SimilarityCache cache = similarityCacheMapper.getSimilarityCacheByPairAndType(pair, type);
+//		if(cache != null){
+//			return cache.getSimilarity();
+//		}else{
+//			return 0;
+//		}
+//	}
 	/**
 	 * 有可能造成内存泄漏，待测
 	 * @param similarityCache
@@ -69,14 +78,13 @@ public class GossipSimilarityCacheService {
 	}
 	
 	public Map<String, SimilarityCache> getSimilarityCacheMapByPartIdAndCacheType(int id, String cacheType){
-		String partId = id +"-";
-		List<SimilarityCache> similarityCacheList = similarityCacheMapper.getSimilarityCacheByPartIdAndType(partId, cacheType);
+		List<SimilarityCache> similarityCacheList = similarityCacheMapper.getSimilarityCacheByFirstAndType(id, cacheType);
 		Map<String, SimilarityCache>  map = null;
 		if(similarityCacheList != null && similarityCacheList.size() > 0){
 			map = new HashMap<String, SimilarityCache>();
 			for(SimilarityCache cache : similarityCacheList){
-				String pair = cache.getPair();
-				map.put(pair, cache);
+				int second = cache.getSecond();
+				map.put(id+"-"+second, cache);
 			}
 		}
 		return map;

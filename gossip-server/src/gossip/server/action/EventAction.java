@@ -47,7 +47,9 @@ public class EventAction {
 		}else{
 			events = eventService.getEventListSimply(new Page(pageNo, limit));
 		}
-		return new ModelAndView("/event/event-list").addObject("events", events).addObject("sort", sort);
+		return new ModelAndView("/event/event-list").addObject("events", events)
+				.addObject("sort", sort)
+				.addObject("pageNo", pageNo);
 	}
 	
 	@RequestMapping(value = "/event/{id}.html")

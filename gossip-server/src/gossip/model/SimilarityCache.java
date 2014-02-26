@@ -3,6 +3,8 @@ package gossip.model;
 public class SimilarityCache {
 	
 	private int id;//自增
+	private int first;
+	private int second;
 	private String pair;//10835-10936
 	private double similarity;
 	private String cacheType;// News or Event
@@ -17,14 +19,16 @@ public class SimilarityCache {
 		this.pair = generatePair(id1, id2);
 		this.similarity = similarity;
 		this.cacheType = cacheType;
+		this.first = id1;
+		this.second = id2;
 	}
 	
-	public SimilarityCache(String pair, double similarity, String cacheType) {
-		super();
-		this.pair = pair;
-		this.similarity = similarity;
-		this.cacheType = cacheType;
-	}
+//	public SimilarityCache(String pair, double similarity, String cacheType) {
+//		super();
+//		this.pair = pair;
+//		this.similarity = similarity;
+//		this.cacheType = cacheType;
+//	}
 	public static String generatePair(int id1, int id2){
 		String pair = "";
 		if(id1 < id2){
@@ -60,6 +64,22 @@ public class SimilarityCache {
 	}
 	public void setSimilarity(double similarity) {
 		this.similarity = similarity;
+	}
+
+	public int getFirst() {
+		return first;
+	}
+
+	public void setFirst(int first) {
+		this.first = first;
+	}
+
+	public int getSecond() {
+		return second;
+	}
+
+	public void setSecond(int second) {
+		this.second = second;
 	}
 	
 	

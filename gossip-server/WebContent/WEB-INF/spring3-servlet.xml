@@ -21,6 +21,7 @@
     <mvc:resources mapping="/js/**" location="/js/" />
     <mvc:resources mapping="/js/admin/**" location="/js/admin/" />
     <mvc:resources mapping="/eventImg/**" location="/eventImg/" />
+    <mvc:resources mapping="/favicon.ico" location="/img/favicon.ico" />
 
 	<!-- scan for controllers -->
 	<context:component-scan base-package="gossip.*.action" />

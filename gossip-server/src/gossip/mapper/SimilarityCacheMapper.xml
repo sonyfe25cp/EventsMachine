@@ -4,17 +4,17 @@
 <mapper namespace="gossip.mapper.SimilarityCacheMapper">
 
 	<insert id="insert" parameterType="SimilarityCache">
-		insert into similarityCache(pair, similarity, cacheType)
+		insert into similarityCache(first, second, pair, similarity, cacheType)
 		values(
-			#{pair}, #{similarity}, #{cacheType}
+			#{first}, #{second}, #{pair}, #{similarity}, #{cacheType}
 		)
 	</insert>
 	<insert id="batchInsert" parameterType="List">
-		insert into similarityCache(pair, similarity, cacheType)
+		insert into similarityCache(first, second, pair, similarity, cacheType)
 		values		
 		<foreach collection="similarityCacheList" item="similarityCache" separator=",">
 		(
-			#{similarityCache.pair}, #{similarityCache.similarity}, #{similarityCache.cacheType}
+			#{similarityCache.first}, #{similarityCache.second}, #{similarityCache.pair}, #{similarityCache.similarity}, #{similarityCache.cacheType}
 		)
 		</foreach>
 	</insert>
@@ -26,6 +26,9 @@
 	<select id="getSimilarityCacheByPairAndType" resultType="SimilarityCache">
 		select * from similarityCache where pair = #{pair} and cacheType = #{cacheType} 
 	</select>
+	<select id="getSimilarityCacheByFSAndType" resultType="SimilarityCache">
+		select * from similarityCache where first = #{first} and second = #{second} and cacheType = #{cacheType} 
+	</select>
 
 	<delete id = "deletebyPartIdAndCacheType">
 		delete from similarityCache where pair like "%"#{partId}"%" and cacheType = #{cacheType}
@@ -33,5 +36,8 @@
 	
 	<select id = "getSimilarityCacheByPartIdAndType" resultType = "SimilarityCache">
 		select * from similarityCache where pair like "%"#{partId}"%" and cacheType = #{cacheType}
+	</select>
+	<select id = "getSimilarityCacheByFirstAndType" resultType = "SimilarityCache">
+		select * from similarityCache where first = #{first} and cacheType = #{cacheType}
 	</select>
 </mapper>
