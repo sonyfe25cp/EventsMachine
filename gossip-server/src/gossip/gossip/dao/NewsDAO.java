@@ -11,7 +11,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import net.sf.json.JSONObject;
-import edu.bit.dlde.utils.DLDEConfiguration;
 import edu.bit.dlde.utils.DLDELogger;
 import gossip.gossip.index.GossipMessager;
 import gossip.gossip.utils.DatabaseUtils;
@@ -23,8 +22,6 @@ import gossip.model.News;
  *         该类实现对新闻的读取和存储功能，并可以根据不同的条件对数据库进行操作
  */
 public class NewsDAO{
-	String indexPath = DLDEConfiguration.getInstance("gossip.gossip.properties")
-			.getValue("IndexPath");
 	private DataSource dataSource;
 	private DLDELogger logger;
 	final String SQL_SELECT_NEWS_ALL = "select * from news";

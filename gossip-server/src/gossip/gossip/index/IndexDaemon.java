@@ -108,52 +108,54 @@
 //					int docId = jsonObj.getInt("id");
 //					Document document = indexReader.document(docId);
 //					JSONObject repJsonObj = new JSONObject();
-//					
+//
 //					repJsonObj.put("id", docId);
-//					
+//
 //					repJsonObj.put("title", document.getFieldable("title")
 //							.stringValue());
-//					
+//
 //					Fieldable antiNullPointer = document.getFieldable("desc");
-//					if (antiNullPointer == null){
-//						GenerateSummary gs=new GenerateSummary();
-//						String desc=gs.summary(docId);
+//					if (antiNullPointer == null) {
+//						GenerateSummary gs = new GenerateSummary();
+//						String desc = gs.summary(docId);
 //						repJsonObj.put("desc", desc);
 //					}
-//						
+//
 //					else
 //						repJsonObj.put("desc", antiNullPointer.stringValue());
 //					antiNullPointer = null;
-//					
+//
 //					antiNullPointer = document.getFieldable("author");
 //					if (antiNullPointer == null)
 //						repJsonObj.put("author", "");
 //					else
 //						repJsonObj.put("author", antiNullPointer.stringValue());
 //					antiNullPointer = null;
-//					
+//
 //					repJsonObj.put("body", document.getFieldable("body")
 //							.stringValue());
-//					
+//
 //					repJsonObj.put("publish_at", document.getFieldable("date")
 //							.stringValue());
-//					
+//
 //					repJsonObj.put("source", document.getFieldable("url")
 //							.stringValue());
-//					
+//
 //					antiNullPointer = document.getFieldable("started_location");
 //					if (antiNullPointer == null)
 //						repJsonObj.put("started_location", "");
 //					else
-//						repJsonObj.put("started_location", antiNullPointer.stringValue());
+//						repJsonObj.put("started_location",
+//								antiNullPointer.stringValue());
 //					antiNullPointer = null;
-//					
+//
 //					antiNullPointer = document.getFieldable("keywords");
 //					if (antiNullPointer == null)
 //						repJsonObj.put("keywords", "");
 //					else
-//						repJsonObj.put("keywords", antiNullPointer.stringValue());
-//					
+//						repJsonObj.put("keywords",
+//								antiNullPointer.stringValue());
+//
 //					response.send(repJsonObj.toString().getBytes());
 //				} catch (CorruptIndexException e) {
 //					e.printStackTrace();
