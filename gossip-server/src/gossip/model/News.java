@@ -24,6 +24,7 @@ public class News {
 	private String titleWords;
 	private String bodyWords;
 	private String eventStatus;// 跟事件的关系，已属于事件和不属于事件，默认为0，标志没有被某事件包含，若为1，则已经被包含在某事件
+	private float emotion;//情感得分
 
 	public final static int Evented = 1;
 	public final static int UnEvented = 0;
@@ -231,6 +232,14 @@ public class News {
 
 	public void setEventStatus(String eventStatus) {
 		this.eventStatus = eventStatus;
+	}
+
+	public float getEmotion() {
+		return emotion;
+	}
+
+	public void setEmotion(float emotion) {
+		this.emotion = emotion;
 	}
 
 }

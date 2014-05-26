@@ -74,6 +74,7 @@ public class Event implements Serializable {
 	public Date createAt;//创建时间 20131101
 	public Date updateAt;
 	public String importantPeople;//重要人物
+	public float emotion;//情感得分
 	
 	
 	public static final String Importance = "importance";
@@ -353,29 +354,20 @@ public class Event implements Serializable {
 		this.pages = pages;
 	}
 
-	public static void main(String args[]) {
-		// Event e = new Event();
-		// e.setId(0);
-		// e.addPage(1, 4);
-		// e.addPage(2, 0);
-		// e.addPage(3);
-		// e.setTitle("test");
-		// e.setCreateTime(0);
-		// e.setRecommended(1.01);
-		// e.addKeyWord("123", 1.0);
-		// e.addKeyWord("123", 1.5);
-		// System.out.println(e.toString());
-		// JSONObject jsonObj = JSONObject.fromObject(e);
-		// System.out.println(jsonObj);
-		// System.out.println(Event.fromJSONObject(jsonObj));
-	}
-
 	public String getImportantPeople() {
 		return importantPeople;
 	}
 
 	public void setImportantPeople(String importantPeople) {
 		this.importantPeople = importantPeople;
+	}
+
+	public float getEmotion() {
+		return emotion;
+	}
+
+	public void setEmotion(float emotion) {
+		this.emotion = emotion;
 	}
 
 }

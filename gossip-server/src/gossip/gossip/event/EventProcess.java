@@ -16,16 +16,13 @@ public class EventProcess extends Boot{
 		this.addHandler(new EventRecommendHandler());
 		this.addHandler(new EventEntityRecognitionHandler());
 		this.addHandler(new EventKeyWordsHandler());
+		this.addHandler(new EmotionHandler());
 	}
 	
-
 	@Override
 	public void process() {
 		for(Handler handler:handlers){
 			handler.handle(event);
 		}
 	}
-	
-	
-
 }
