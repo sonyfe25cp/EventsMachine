@@ -7,7 +7,11 @@
 		  <li class="active">事件详情</li>
 		</ol>
 		<legend>${event.title}</legend>
-		<div class="jumbotron">
+		<#if event.emotion gt 0 >
+			<div class="jumbotron" style="border:10px dashed green">
+		<#else>
+			<div class="jumbotron" style="border:10px dashed red">
+		</#if>
 			<#include "/event/event-meta.ftl">
 		</div>
 		<legend>新闻列表</legend>

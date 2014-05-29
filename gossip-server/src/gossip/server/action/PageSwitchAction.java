@@ -18,6 +18,12 @@ public class PageSwitchAction {
 		return mav;
 	}
 	
+	//跳转到搜索界面
+		@RequestMapping(value = "/talks")
+		public ModelAndView toTalks(){
+			ModelAndView mav = new ModelAndView("/talks/index");
+			return mav;
+		}
 	
 	//跳转到搜索界面
 	@RequestMapping(value = "/wordtagging")

@@ -32,8 +32,10 @@
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
+        <!--
         <li data-target="#myCarousel" data-slide-to="3"></li>
         <li data-target="#myCarousel" data-slide-to="4"></li>
+        -->
       </ol>
       <div class="carousel-inner">
         <div class="item active">
@@ -52,7 +54,7 @@
             <div class="carousel-caption">
               <h1>文本摘要</h1>
               <p>本模块实现了新闻文本的自动生成摘要的功能，用户可以仅仅通过摘要了解一篇新闻的主要内容，而不必查看新闻的全部内容</p>
-              <p><a class="btn btn-lg btn-primary" href="/abstract" role="button">文本摘要</a></p>
+              <p><a class="btn btn-lg btn-primary" href="/events.html" role="button">文本摘要</a></p>
             </div>
           </div>
         </div>
@@ -66,6 +68,7 @@
             </div>
           </div>
         </div>
+        <!--
         <div class="item">
           <img src="/images/slide-02.jpg">
           <div class="container">
@@ -76,6 +79,7 @@
             </div>
           </div>
         </div>
+        
         <div class="item">
          <img src="/images/slide-03.jpg">
           <div class="container">
@@ -86,6 +90,7 @@
             </div>
           </div>
         </div>
+      -->
       </div>
       <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
       <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>

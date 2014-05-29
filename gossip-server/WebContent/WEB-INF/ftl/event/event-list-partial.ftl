@@ -1,5 +1,9 @@
 <#list events as event>
-	<div class="jumbotron">
+	<#if event.emotion gt 0 >
+		<div class="jumbotron" style="border:10px dashed green">
+	<#else>
+		<div class="jumbotron" style="border:10px dashed red">
+	</#if>
 		<h3>
 			<a href="/event/${event.id}.html">${event.title}</a>
 		</h3>

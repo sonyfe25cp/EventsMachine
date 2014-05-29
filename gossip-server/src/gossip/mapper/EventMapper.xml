@@ -15,19 +15,19 @@
 	<select id="batchInsert" parameterType="List">
 		insert into event(
 			title, recommended, img, keywords, pages, createAt, updateAt,
-			started_location, content_abstract, importantPeople
+			started_location, content_abstract, importantPeople, emotion
 		)
 		values
 			<foreach collection="eventList" item="event" separator=",">
 			(
 				#{event.title}, #{event.recommended}, #{event.img}, #{event.keyWords}, #{event.pages}, #{event.createAt}, #{event.updateAt}, 
-				#{event.startedLocation}, #{event.desc}, #{event.importantPeople}
+				#{event.startedLocation}, #{event.desc}, #{event.importantPeople}, #{event.emotion}
 			)
 			</foreach>
 	</select>
 	<update id="update" parameterType="Event">
 		update event set title = #{title}, recommended = #{recommended}, img = #{img}, keywords =#{keyWords}, pages = #{pages}, importantPeople = #{importantPeople}
-		started_location = #{startedLocation}, content_abstract = #{desc}, updateAt = #{updateAt} where id = #{id}
+		started_location = #{startedLocation}, content_abstract = #{desc}, updateAt = #{updateAt}, emotion = #{emotion} where id = #{id}
 	</update>
 	<select id="getEventsAfterDate" parameterType="String" resultMap="eventResultMap">
 		select * from event where <![CDATA[ createAt > #{creatAt} ]]>
@@ -48,6 +48,7 @@
 	  <result property="createAt" column="createAt"/>
 	  <result property="updateAt" column="updateAt"/>
 	  <result property="importantPeople" column="importantPeople"/>
+	  <result property="emotion" column="emotion"/>
 	</resultMap>
 	<select id = "getEventListOrderByWhat" resultMap="eventResultMap">
         select * from event 

@@ -12,11 +12,11 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="/events.html">事件发现</a></li>
-        <li><a href="/abstract">文本摘要</a></li>
+        <li><a href="/talks">人物言论</a></li>
         <li><a href="/news-search">新闻检索</a></li>
-        <li><a href="/wordtagging">词语标注</a></li>
+<!--        <li><a href="/wordtagging">词语标注</a></li>
         <li><a href="/admin">后台管理</a></li>
-        <li><a href="/user-login">用户登录</a></li>
+        <li><a href="/user-login">用户登录</a></li> -->
       </ul>
     </div>
   </div>

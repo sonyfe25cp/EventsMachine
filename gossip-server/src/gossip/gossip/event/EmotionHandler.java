@@ -50,14 +50,16 @@ public class EmotionHandler implements Handler {
 		try {
 			List<String> posArray = IOUtils.readLines(posInputStream);
 			List<String> negArray = IOUtils.readLines(negInputStream);
-			for(String str : posArray){
+			for (String str : posArray) {
 				String word = str.substring(0, str.indexOf(":"));
-				float weight = Float.parseFloat(str.substring(str.indexOf(":")+1, str.length()));
+				float weight = Float.parseFloat(str.substring(
+						str.indexOf(":") + 1, str.length()));
 				posWords.put(word, weight);
 			}
-			for(String str : negArray){
+			for (String str : negArray) {
 				String word = str.substring(0, str.indexOf(":"));
-				float weight = Float.parseFloat(str.substring(str.indexOf(":")+1, str.length()));
+				float weight = Float.parseFloat(str.substring(
+						str.indexOf(":") + 1, str.length()));
 				negWords.put(word, weight);
 			}
 		} catch (IOException e) {
@@ -68,17 +70,14 @@ public class EmotionHandler implements Handler {
 	private static float compute(String text) {
 		List<Term> terms = ToAnalysis.parse(text);
 		float score = 0;
-		for(Term term : terms){
+		for (Term term : terms) {
 			String word = term.getName();
-			System.out.println(word+"\t");
-			if(posWords.containsKey(word)){
+			if (posWords.containsKey(word)) {
 				float weight = posWords.get(word);
-				System.out.println(word+"\t" + weight);
 				score += weight;
 			}
-			if(negWords.containsKey(word)){
+			if (negWords.containsKey(word)) {
 				float weight = negWords.get(word);
-				System.out.println(word+"\t" + weight);
 				score -= weight;
 			}
 		}
@@ -86,7 +85,7 @@ public class EmotionHandler implements Handler {
 	}
 
 	public static void main(String[] args) {
-		String content = "包养了一个情妇";
+		String content = "包养了一个情妇牺牲了";
 		float a = compute(content);
 		System.out.println(a);
 	}

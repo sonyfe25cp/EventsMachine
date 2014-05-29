@@ -59,11 +59,11 @@
            <div class="form-signin">
                <h2 class="form-signin-heading">用户登录：</h2>
                <div id = "uname-block">
-                  <input type="text" class="input-block-level" placeholder="Email address" id = "username">
+                  <input type="text" class="input-block-level" placeholder="用户名" id = "username">
                </div>
                
                <div id = "pwd-block">
-                  <input type="password" class="input-block-level" placeholder="Password" id = "password">
+                  <input type="password" class="input-block-level" placeholder="密码" id = "password">
                </div>
                <div id = "tips" style = "margin-top:-6px;">
                   <span id = "login-tip" style= "display:none;color:red"></span>

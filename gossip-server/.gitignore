@@ -5,3 +5,4 @@
 .settings/
 WebContent/WEB-INF/classes/
 .classpath
+deploy.sh

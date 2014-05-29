@@ -60,7 +60,7 @@ public class GossipEventDetection {
 					sim = gossipSimCompute.cosineSim(n1, n2);
 				}
 				
-				if(sim > lambda){
+				if(sim > lambda && sim != 1.0){
 					//n1与n2相似
 					//step1 找出n1所在的事件
 					//	若不存在，则新建一个事件，并记录n1在该事件中

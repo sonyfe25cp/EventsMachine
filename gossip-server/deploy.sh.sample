@@ -1,0 +1,20 @@
+
+tomcat_home=/Users/omar/software/gossip
+
+project_home=/Users/omar/workspace/EventsMachine/gossip-server/
+
+cd $tomcat_home
+
+bin/shutdown.sh
+
+rm -rf webapps/ROOT*
+
+rm -rf work/localhost/
+
+cp -r project_home/WebContent webapps/
+
+mv webapps/WebContent webapps/ROOT
+
+bin/startup.sh
+
+
