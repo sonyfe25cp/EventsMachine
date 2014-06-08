@@ -12,9 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.ToAnalysis;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EmotionHandler implements Handler {
-
+	static Logger logger = LoggerFactory.getLogger(EmotionHandler.class);
 	@Override
 	public void handle(Event event) {
 		List<News> newsList = event.getNewsList();
@@ -25,6 +27,7 @@ public class EmotionHandler implements Handler {
 			total += score;
 		}
 		event.setEmotion(total);
+		logger.info("event emotion score : {}", total);
 	}
 
 	private float computeEmotion(News news) {
@@ -62,6 +65,8 @@ public class EmotionHandler implements Handler {
 						str.indexOf(":") + 1, str.length()));
 				negWords.put(word, weight);
 			}
+			logger.info("posWords.size : {}", posWords.size());
+			logger.info("negWords.size : {}", negWords.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

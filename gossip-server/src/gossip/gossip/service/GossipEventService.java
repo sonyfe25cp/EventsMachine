@@ -50,7 +50,6 @@ public class GossipEventService {
 		for(Event event : events){
 			List<Integer> newsIds = event.getPagesList();
 			gossipNewsService.batchUpdateNewsStatus(newsIds, News.Evented);
-//			gossipSimilarityCacheService.batchDeleteNewsPartId(newsIds);//已计算过的缓存不用删除
 		}
 		return events;
 	}

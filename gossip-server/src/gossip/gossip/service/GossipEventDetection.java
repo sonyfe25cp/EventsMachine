@@ -39,7 +39,7 @@ public class GossipEventDetection {
 			News n1 = newsList.get(i);
 			int id1 = n1.getId();
 			Map<String, SimilarityCache> newsSimilarityCache = gossipSimilarityCacheService.getSimilarityCacheMapByPartIdAndCacheType(id1, SimilarityCache.News);
-			System.out.println("computing the news : "+n1.getId());
+//			System.out.println("computing the news : "+n1.getId());
 			for(int j = i+1; j < newsList.size(); j++){
 				News n2 = newsList.get(j);
 				int id2 = n2.getId();
