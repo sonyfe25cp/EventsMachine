@@ -1,4 +1,4 @@
-package cn.omartech.gossip.dict;
+package com.omartech.gossip.dict;
 
 
 import java.util.ArrayList;

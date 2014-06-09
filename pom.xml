@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>cn.omartech.gossip</groupId>
+	<groupId>com.omartech.gossip</groupId>
 	<artifactId>gossip-parent</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -11,6 +11,7 @@
 
 	<modules>
 	    	<module>gossip-model</module>
+	    	<module>gossip-utils</module>
 	    	<module>gossip-batch</module>
   	</modules>
 

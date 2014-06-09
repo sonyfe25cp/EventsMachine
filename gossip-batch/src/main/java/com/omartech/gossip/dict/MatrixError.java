@@ -1,4 +1,4 @@
-package cn.omartech.gossip.dict;
+package com.omartech.gossip.dict;
 
 
 public class MatrixError extends RuntimeException {

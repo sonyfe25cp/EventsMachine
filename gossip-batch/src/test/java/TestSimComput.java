@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import cn.omartech.gossip.dict.MatrixItem;
-import cn.omartech.gossip.dict.VectorPrepare;
+import com.omartech.gossip.dict.MatrixItem;
+import com.omartech.gossip.dict.VectorPrepare;
 
 
 public class TestSimComput extends TestCase{
